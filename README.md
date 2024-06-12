@@ -78,7 +78,7 @@ Parameter descriptions are as follows:
 
 --wf_intensity: Intensity weight factor parameter. Default = 1.
 
---LET_threshold: Low-entropy transformation threshold parameter. Spectra with Shannon entropy H less than LET_threshold are transformed according to $\textt{hello_world}$ $hello\_world$ $\text{intensitiesNew}=\text{intensitiesOriginal}^{\frac{1+S}{1+\text{LET\_threshold}}}$ Default = 0.
+--LET_threshold: Low-entropy transformation threshold parameter. Spectra with Shannon entropy H less than LET_threshold are transformed according to $\text{intensitiesNew}=\text{intensitiesOriginal}^{\frac{1+S}{1+\text{LETthreshold}}}$. Default = 0.
 
 --entropy_dimension: Entropy dimension parameter. Must have positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similarity measure cosine or shannon is chosen. Default = 1.1.
 
@@ -93,13 +93,69 @@ Parameter descriptions are as follows:
 
 
 ## Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
+To plot a query spectrum vs a reference spectrum before and after preprocessing transformations, run:
 ```
 python plot_spectra_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
-  ___
+  --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
+  --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
+  --similarity_measure cosine \
+  --spectrum_preprocessing_order CMWL \
+  --window_size 0.5 \
+  --noise_threshold 0 \
+  --wf_mz 0 \
+  --wf_intensity 1 \
+  --LET_threshold 0 \
+  --entropy_dimension 1.1 \
+  --normalization_method standard \
+  --save_plots path_to_output_PDF_file
 
-
+python plot_spectra_gcms.py \
+  --query_data path_to_query_gcms_CSV_file \
+  --reference_data path_to_reference_gcms_CSV_file \
+  --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
+  --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
+  --similarity_measure cosine \
+  --wf_mz 0 \
+  --wf_intensity 1 \
+  --LET_threshold 0 \
+  --entropy_dimension 1.1 \
+  --normalization_method standard \
+  --save_plots path_to_output_PDF_file
 ```
+
+Parameter descriptions are as follows:
+
+--query_data: 
+  * LCMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LCMS GNPS library.
+  * GCMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GCMS NIST WebBook library
+
+--reference_data: same format CSV file as query_data except of reference library spectra.
+
+--query_spectrum_ID: The identifier of the query spectrum to be plotted. Default: first query spectrum in query_data.
+
+--reference_spectrum_ID: The identifier of the reference spectrum to be plotted. Default: first reference spectrum in reference_data.
+
+--similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
+
+--spectrum_preprocessing_order (LCMS only): The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: CMWL.
+
+--window_size (LCMS only): Window size parameter used in (i) centroiding and (ii) matching a query spectrum and a reference library spectrum. Default = 0.5.
+
+--noise_threshold (LCMS only): Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
+
+--wf_mz: Mass/charge weight factor parameter. Default = 0.
+
+--wf_intensity: Intensity weight factor parameter. Default = 1.
+
+--LET_threshold: Low-entropy transformation threshold parameter. Spectra with Shannon entropy H less than LET_threshold are transformed according to $\text{intensitiesNew}=\text{intensitiesOriginal}^{\frac{1+S}{1+\text{LETthreshold}}}$. Default = 0.
+
+--entropy_dimension: Entropy dimension parameter. Must have positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similarity measure cosine or shannon is chosen. Default = 1.1.
+
+--normalization_method: Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: 'standard' and 'softmax'. Default = standard.
+
+--save_plots: Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.
+
 
 
