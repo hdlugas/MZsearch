@@ -1,0 +1,3 @@
+python spec_lib_matching_gcms.py --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library_tmp.csv --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv --similarity_measure tsallis --wf_mz 2 --wf_intensity 0.5 --normalization_method softmax --entropy_dimension 2 --n_top_matches_to_save 4 --output_identification /home/hunter/mass_spec/entropies/JOSS/output_identification.csv --output_similarity_scores /home/hunter/mass_spec/entropies/JOSS/output_all_similarity_scores.csv
+
+
