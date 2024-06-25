@@ -46,7 +46,7 @@ In a GC-MS experiment that uses a single instrument, the resulting data have a f
 ## Spectrum Preprocessing Transformations
 Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
 
-* Filtering: Given user-defined parameters (mz_min,mz_max), (int_min,int_max) and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$ consists of the points from $I$ such that $\texttt{mz\_min}\leq m_{i}\leq\texttt{mz\_max}$ and $\texttt{int\_min}\leq x_{i}\leq\texttt{int\_max}$.
+* Filtering: Given user-defined parameters (mz_min,mz_max), (int_min,int_max) and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$ consists of the points from $I$ such that mz_min$\leq m_{i}\leq$mz_max and int_min$\leq x_{i}\leq$int_max.
 
 * Weight Factor Transformation: Given a pair of user-defined weight factor parameters $(\text{a,b})$ and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$ has the same mass/charge values as $I$ and has intensities given by $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}})$.
 
