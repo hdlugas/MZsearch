@@ -75,14 +75,15 @@ scientific explorations of forthcoming data releases from the *Gaia* mission
 
 
 # Spectrum Preprocessing Transformations
-# Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
-# * Weight Factor Transformation: Given a pair of user-defined weight factor parameters $(\text{a,b})$ and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ has the same mass/charge values as $I$ and has intensities given by $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}}$.
-# * Low-Entropy Transformation: Given a user-defined low-entropy threshold parameter $T$ and spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, then the transformed spectrum intensities $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such that $x_{i}^{\star}=x_{i}$ for all $i\in\{1,2,...,n\}$ if $H_{Shannon}\geq T$ and $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ for all $i\in\{1,2,...,n\}$ if $H_{Shannon}\textless T$.
-# * Cleaning: Given a user-defined window-size parameter $w$, a user-defined noise removal parameter $r$, and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ 
+Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
+* Weight Factor Transformation: Given a pair of user-defined weight factor parameters $(\text{a,b})$ and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ has the same mass/charge values as $I$ and has intensities given by $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}}$.
+* Low-Entropy Transformation: Given a user-defined low-entropy threshold parameter $T$ and spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, then the transformed spectrum intensities $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such that $x_{i}^{\star}=x_{i}$ for all $i\in\{1,2,...,n\}$ if $H_{Shannon}\geq T$ and $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ for all $i\in\{1,2,...,n\}$ if $H_{Shannon}\textless T$.
+* Cleaning: Given a user-defined window-size parameter $w$, a user-defined noise removal parameter $r$, and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$
+* Matching:
 
 
 # Similarity Measures
-Given a pair of processed spectra intensities $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$, with $a_{i},b_{i}\in\[0,1]$ for all $i\in\{1,2,...,n\}$ and $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, (insert package name) provides functionality for computing the following similarity measures:
+Given a pair of processed spectra intensities $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$, with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, (insert package name) provides functionality for computing the following similarity measures:
 
 * Cosine Similarity Measure:
 \begin{equation*}
