@@ -1,41 +1,34 @@
 ---
-title: 'Gala: A Python package for galactic dynamics'
+title: 'hello'
 tags:
   - Python
-  - astronomy
-  - dynamics
-  - galactic dynamics
-  - milky way
+  - metabolomics
+  - similarity measure
+  - spectral library matching
+  - compound identification
+  - Cosine correlation
+  - Shannon entropy
+  - Renyi entropy
+  - Tsallis entropy
 authors:
-  - name: Adrian M. Price-Whelan
-    orcid: 0000-0000-0000-0000
+  - name: Hunter Dlugas
+    orcid: 0000-0002-6819-0045
     equal-contrib: true
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
-  - name: Author Without ORCID
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: 2
-  - name: Author with no affiliation
-    corresponding: true # (This is how to denote the corresponding author)
-    affiliation: 3
-  - given-names: Ludwig
-    dropping-particle: van
-    surname: Beethoven
-    affiliation: 3
+    affiliation: "1, 2"
+  - name: Seongho Kim
+    equal-contrib: true 
+    affiliation: "1, 3"
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Wayne State University School of Medicine, USA
    index: 1
- - name: Institution Name, Country
+ - name: Biostatistics and Bioinformatics Core, Karmanos Cancer Institute
    index: 2
- - name: Independent Researcher, Country
+ - name: Biostatistics and Bioinformatics Core, Karmanos Cancer Institute/Department of Oncology
    index: 3
-date: 13 August 2017
+date: 25 June 2024
 bibliography: paper.bib
-
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
+
 
 # Summary
 
@@ -48,6 +41,7 @@ is now well-established, commonly taught, and frequently used in astronomy.
 Aside from toy problems and demonstrations, the majority of problems require
 efficient numerical tools, many of which require the same base code (e.g., for
 performing numerical orbit integration).
+
 
 # Statement of need
 
