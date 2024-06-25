@@ -32,19 +32,8 @@ bibliography: paper.bib
 
 # Summary
 
-A primary goal of the field of Metabolomics - i.e. the qualitative and quantitative study of metabolites - is to identify chemical compounds comprising a given sample, oftentimes with the motivation of identifying/quantifying biomarkers for use in diagnosing, treating, and/or stratifying the risk of some disease. A central tool for compound identification in Metabolomics is mass spectrometry
+A primary goal of the field of Metabolomics - i.e. the qualitative and quantitative study of metabolites - is to identify chemical compounds in a given sample, oftentimes with the motivation of identifying/quantifying biomarkers for use in diagnosing, treating, and/or stratifying the risk of some disease. A central tool for compound identification in Metabolomics is mass spectrometry which produces a finite set of points - termed the mass spectrum - in the plane $\mathbb{R}^{2}$ for a given chemical compound with each point representing an ion fragment, one axis representing mass/charge, and the other axis representing intensity. The primary method used to identify a given unknown chemical compound based off of its mass spectrum is termed 'spectral library matching' and involves computing a measure of similarity between the mass spectrum of the unknown chemical compound and each mass spectra of chemical compounds in a predetermined reference library. The unknown chemical compound is then identified as the chemical compound from the reference library whose mass spectrum is most similar to the mass spectrum of the unknown chemical compound. We present (insert package name), a command-line tool written in Python implementing spectral library matching with a host of spectrum preprocessing transformations and similarity measures available in addition to being able to analyze both of the two main types of mass spectrometry data: gas chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass spectrometry (LC-MS) data.
 
-In order to assess metabolites (i.e. by-products of metabolism) for their potential in diagnosing, treating, or stratifying the risk of disease
-
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
 
 # Statement of need
 
