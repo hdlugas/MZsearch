@@ -3,12 +3,16 @@
 title: 'Gala: A Python package for galactic dynamics'
 tags:
   - Python
-  - astronomy
-  - dynamics
-  - galactic dynamics
-  - milky way
+  - metabolomics
+  - similarity measure
+  - spectral library matching
+  - compound identification
+  - Cosine correlation
+  - Shannon entropy
+  - Renyi entropy
+  - Tsallis entropy
 authors:
-  - name: Adrian M. Price-Whelan
+  - name: Hunter Dlugas
     orcid: 0000-0000-0000-0000
     equal-contrib: true
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
@@ -39,6 +43,10 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
+
+A primary goal of the field of Metabolomics - i.e. the qualitative and quantitative study of metabolites - is to identify chemical compounds comprising a given sample, oftentimes with the motivation of identifying/quantifying biomarkers for use in diagnosing, treating, and/or stratifying the risk of some disease. A central tool for compound identification in Metabolomics is mass spectrometry
+
+In order to assess metabolites (i.e. by-products of metabolism) for their potential in diagnosing, treating, or stratifying the risk of disease
 
 The forces on stars, galaxies, and dark matter under external gravitational
 fields lead to the dynamical evolution of structures in the universe. The orbits
@@ -77,6 +85,30 @@ scientific explorations of forthcoming data releases from the *Gaia* mission
 Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
 
 Double dollars make self-standing equations:
+
+$$\begin{equation*}
+    S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
+\end{equation*}$$
+
+$$\begin{equation*}
+    S_{Shannon}(I,J) = 1-\frac{2\cdot H_{S}\left(\frac{I+J}{2}\right) - H_{S}(I)-H_{S}(J)}{ln(4)}
+\end{equation*}$$
+
+$$\begin{equation*}
+    S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N},\
+    N:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\
+    H_{T}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q},\
+    q\neq 1, \ q\textgreater 0
+\end{equation*}$$
+
+$$\begin{equation*}
+    S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N},\ 
+    N:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\
+    H(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q}),\ 
+    q\neq 1, \ q\textgreater 0
+\end{equation*}$$
+
+
 
 $$\Theta(x) = \left\{\begin{array}{l}
 0\textrm{ if } x < 0\cr
