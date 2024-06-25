@@ -58,7 +58,7 @@ design, and support for Astropy functionality in `Gala` will enable exciting
 scientific explorations of forthcoming data releases from the *Gaia* mission by students and experts alike.
 
 
-<!--
+
 # Spectrum Preprocessing Transformations
 Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
 
@@ -148,6 +148,4 @@ Oh, and support from Kathryn Johnston during the genesis of this project.
 
 
 # References
--->
-
 
