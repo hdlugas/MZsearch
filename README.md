@@ -8,7 +8,7 @@ This repository has two main capabilities:
 1. running spectral library matching to identify compounds based off of their mass spectrometry data
 2. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GCMS and (ii) LCMS data due to the different spectrum preprocessing transformations and mass:charge ratios in GCMS vs LCMS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
+These tasks are implemented separately for the cases of (i) GCMS and (ii) LCMS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GCMS vs LCMS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 ```
 python spec_lib_matching_lcms.py -h
 python spec_lib_matching_lcms.py -h
