@@ -94,6 +94,49 @@ where multiplication in the numerator refers to the dot product $I\circ J=a_{1}b
     q\neq 1, \ q\textgreater 0
 \end{gather*}
 
+# Usage
+This repository has two main capabilities:
+1. running spectral library matching to identify compounds based off of their mass spectrometry data
+2. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
+
+These tasks are implemented separately for the cases of (i) GCMS and (ii) LCMS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GCMS vs LCMS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
+```
+python spec_lib_matching_lcms.py -h
+python spec_lib_matching_lcms.py -h
+python plot_spectra_lcms.py -h
+python plot_spectra_gcms.py -h
+```
+## Run spectral library matching
+To run spectral library matching on LCMS/GCMS data, one can use:
+```
+python spec_lib_matching_lcms.py \
+  --query_data path_to_query_lcms_CSV_file \
+  --reference_data path_to_reference_lcms_CSV_file \
+  --similarity_measure cosine \
+  --spectrum_preprocessing_order CMWL \
+  --window_size 0.5 \
+  --noise_threshold 0 \
+  --wf_mz 0 \
+  --wf_intensity 1 \
+  --LET_threshold 0 \
+  --entropy_dimension 1.1 \
+  --normalization_method standard \
+  --n_top_matches_to_save 1 \
+  --output_identification path_to_lcms_identification_results_CSV \
+  --output_similarity_scores path_to_CSV_of_all_lcms_similarity_scores
+
+python spec_lib_matching_gcms.py \
+  --query_data path_to_query_gcms_CSV_file \
+  --reference_data path_to_reference_gcms_CSV_file \
+  --similarity_measure cosine \
+  --wf_mz 0 \
+  --wf_intensity 1 \
+  --entropy_dimension 1.1 \
+  --normalization_method standard \
+  --n_top_matches_to_save 1 \
+  --output_identification path_to_gcms_identification_results_CSV \
+  --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
+```
 
 # Citations
 
