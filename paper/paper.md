@@ -85,10 +85,10 @@ Given a pair of processed spectra $I=<a_{1},a_{2},...,a_{n}>, J=<b_{1},b_{2},...
 where multiplication in the numerator refers to the dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$ and $J$ and multiplication in the denominator refers to multiplication of the $L^{2}$-norm of $I$ and $J$, $|I|_{2}=\sqrt{a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2}}, |J|_{2}=\sqrt{b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}}$.
 
 * Shannon Entropy Similarity Measure:
-\begin{equation*}
+\begin{multline*}
     S_{Shannon}(I,J) = 1-\frac{2\cdot H_{S}\left(\frac{I+J}{2}\right) - H_{S}(I)-H_{S}(J)}{ln(4)}\\
     H_{S}(I)=-\sum_{i=1}^{n}p_{i}\cdot ln(p_{i})
-\end{equation*}
+\end{multline*}
 
 * Tsallis Entropy Similarity Measure:
 \begin{equation*}
