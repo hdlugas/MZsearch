@@ -59,6 +59,7 @@ design, and support for Astropy functionality in `Gala` will enable exciting
 scientific explorations of forthcoming data releases from the *Gaia* mission by students and experts alike.
 
 
+<!--
 # Spectrum Preprocessing Transformations
 Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
 
@@ -114,7 +115,7 @@ You can also use plain \LaTeX for equations
 \hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
 \end{equation}
 and refer to \autoref{eq:fourier} from text.
-
+-->
 
 # Citations
 
