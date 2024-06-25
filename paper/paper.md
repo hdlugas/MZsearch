@@ -29,11 +29,6 @@ affiliations:
 date: 25 June 2024
 bibliography: paper.bib
 
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
----
 
 # Summary
 
@@ -81,9 +76,9 @@ Functionality implementing the following spectrum preprocessing transformations 
 
 * Low-Entropy Transformation: Given a user-defined low-entropy threshold parameter $T$ and spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, then the transformed spectrum intensities $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such that $x_{i}^{\star}=x_{i}$ for all $i\in\{1,2,...,n\}$ if $H_{Shannon}\geq T$ and $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ for all $i\in\{1,2,...,n\}$ if $H_{Shannon}\textless T$.
 
-* Cleaning: Given a user-defined window-size parameter $w$, a user-defined noise removal parameter $r$, and a spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ merges adjacent points $(m_{i},x_{i}),(m_{i+1},x_{i+1})$, $i\in\{1,2,...,n-1\}$ if $|m_{i}-m_{i+1}|\textless w$ into the point 
+* Cleaning: Given a user-defined window-size parameter $w_{centroiding}$, a user-defined noise removal parameter $r$, and a spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ merges adjacent points $(m_{i},x_{i}),(m_{i+1},x_{i+1})$, $i\in\{1,2,...,n-1\}$ if $|m_{i}-m_{i+1}|\textless w_{centroiding}$ into the point $(\frac{m_{i}\cdot x_{i}+m_{i+1}\cdot x_{i+1}}{x_{i}+x_{i+1}},x_{i}+x_{i+1})$. This centroiding procedure generalizes to more than two points whose mass/charge values are within distance $w_{centroiding}$ of each other. If we denote the intensities of $I^{\star}$ as $(y_{1},y_{2},...,y_{m}), noise removal then removes points from $I^{\star}$ with $y_{j}\textless \text{max}(\{y_{1},y_{2},...,y_{m}\})$ for all $j\in\{1,2,...,m\}$.
 
-* Matching:
+* Matching (only for LCMS data): Given a user-defined window-size parameter $w_{matching}$ and two spectra $I$, $J$ with mass/charge ratios $(a_{1},a_{2},...,a_{n}), (b_{1},b_{2},...,b_{m})$ and intensities $(x_{1},x_{2},...,x_{n}), (y_{1},y_{2},...,y_{m}$, respectively, of which we would like to measure the similarity between, the matching procedure outputs two spectra $I^{\star},J^{\star}$ containing the same number of points with $I^{\star}$ and $J^{\star}$ having identical mass/charge ratios and transformed intensities. Specifically,for a given point $(a_{i},x_{i})$ of $I$, if there are no points $(b_{j},y_{j}$ in $J$ with $|a_{i}-b_{j}|\textless w_{matching}$, then the point $({a_{i},x_{i})$ remains in $I^{\star} and the point $(a_{i},0)$ is included in $J^{\star}$. If there is at least one point $(b_{j},y_{j})$ with $|a_{i}-b_{j}|\textless w_{matching}$, then the point $({a_{i},x_{i})$ remains in $I^{\star} and the point $(a_{i},\sum_{j}b_{j})$ is included in $J^{\star}$. This procedure is applied when transposing the roles of $I$ and $J$ as well.
 
 
 # Similarity Measures
