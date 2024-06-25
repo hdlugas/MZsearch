@@ -1,6 +1,6 @@
 
 ---
-title: 'insert title'
+title: 'hello'
 tags:
   - Python
   - metabolomics
@@ -115,7 +115,7 @@ You can also use plain \LaTeX for equations
 \hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
 \end{equation}
 and refer to \autoref{eq:fourier} from text.
--->
+
 
 # Citations
 
@@ -149,5 +149,7 @@ Oh, and support from Kathryn Johnston during the genesis of this project.
 
 
 # References
+-->
+
 
 
