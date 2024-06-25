@@ -73,14 +73,16 @@ design, and support for Astropy functionality in `Gala` will enable exciting
 scientific explorations of forthcoming data releases from the *Gaia* mission
 [@gaia] by students and experts alike.
 
+
 # Spectrum Preprocessing Transformations
 Functionality implementing the following spectrum preprocessing transformations is offered in ___:
-* Weight Factor Transformation: Given a pair of user-defined weight factor parameters $(\text{wf_mz,wf_int})$ and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(a_{1},a_{2},...,a_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ has the same mass/charge values as $I$ and has intensities given by $I^{\star}:=(m_{1}^{\text{wf_mz}}\cdot a_{1}^{\text{wf_int}},m_{2}^{\text{wf_mz}}\cdot a_{2}^{\text{wf_int}},...,m_{n}^{\text{wf_mz}}\cdot a_{n}^{\text{wf_int}}$.
-* Low-Entropy Transformation: Given a user-defined low-entropy threshold parameter $T$ and spectrum $I$ with intensities $(a_{1},a_{2},...,a_{n})\in\mathbb{R}^{n}$, then the transformed spectrum intensities $I^{\star}=(c_{1},c_{2},...,c_{n})$ are given by:
-   $c_{i}$ = \begin{cases} c_i, & H_{Shannon}(I) \geq T \\
-                           c_i^{\frac{1+H_{Shannon}(I)}{1+T}}, &  H_{Shannon}(I) < 3
+* Weight Factor Transformation: Given a pair of user-defined weight factor parameters $(\text{a,b})$ and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ has the same mass/charge values as $I$ and has intensities given by $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}}$.
+* Low-Entropy Transformation: Given a user-defined low-entropy threshold parameter $T$ and spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, then the transformed spectrum intensities $I^{\star}=(x_{1},x_{2},...,x_{n})$ are given by:
+   $c_{i}$ = \begin{cases} x_i, & H_{Shannon}(I) \geq T \\
+                           x_i^{\frac{1+H_{Shannon}(I)}{1+T}}, &  H_{Shannon}(I) < 3
              \end{cases}.
-* Cleaning: Given a user-defined window-size parameter $w$, a user-defined noise removal parameter $r$, and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(a_{1},a_{2},...,a_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ 
+* Cleaning: Given a user-defined window-size parameter $w$, a user-defined noise removal parameter $r$, and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ 
+
 
 # Similarity Measures
 Given a pair of processed spectra intensities $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$, with $a_{i},b_{i}\in\[0,1]$ for all $i\in\{1,2,...,n\}$ and $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, ___ provides functionality for computing the following similarity measures:
@@ -120,6 +122,7 @@ You can also use plain \LaTeX for equations
 \end{equation}
 and refer to \autoref{eq:fourier} from text.
 
+
 # Citations
 
 Citations to entries in paper.bib should be in
@@ -134,6 +137,7 @@ For a quick reference, the following citation commands can be used:
 - `[@author:2001]` -> "(Author et al., 2001)"
 - `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
 
+
 # Figures
 
 Figures can be included like this:
@@ -143,10 +147,12 @@ and referenced from text using \autoref{fig:example}.
 Figure sizes can be customized by adding an optional second parameter:
 ![Caption for example figure.](figure.png){ width=20% }
 
+
 # Acknowledgements
 
 We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
 Oh, and support from Kathryn Johnston during the genesis of this project.
+
 
 # References
 
