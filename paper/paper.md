@@ -75,6 +75,10 @@ scientific explorations of forthcoming data releases from the *Gaia* mission
 
 # Mathematics
 
+\begin{equation*}
+    S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
+\end{equation*}
+
 Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
 
 Double dollars make self-standing equations:
