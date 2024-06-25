@@ -93,12 +93,12 @@ where multiplication in the numerator refers to the dot product $I\circ J=a_{1}b
 \end{centering}
 
 * Tsallis Entropy Similarity Measure:
-\begin{equation*}
+\begin{gather*}
     S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N}\\
     N:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q}\\
     H_{T}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q}\\
     q\neq 1, \ q\textgreater 0
-\end{equation*}
+\end{gather*}
 
 * R\'enyi Entropy Similarity Measure:
 \begin{equation*}
