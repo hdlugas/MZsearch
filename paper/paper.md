@@ -36,27 +36,14 @@ A primary goal of the field of Metabolomics - i.e. the qualitative and quantitat
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+There exist several open-source software tools for working with mass spectrometry data. The Python package 'matchms' allows one to perform spectral library matching and provides an API for users to define their own spectrum preprocessing transformations and similarity measures [@Huber2020]. The C++ library 'OpenMS' and its Python wrapper 'pyOpenMS' are for analyzing LC-MS data and provide common spectrum preprocessing transformations such as filtering based on mass/charge and intensity values [@Rost2014; @Rost2016]. The Python package 'spectrum_utils' provides functionality for preprocessing and visualizing mass spectrometry data [@Bittremieux2020]. The R package 'metID' is a tool for LC-MS-based compound identification with a focus on allowing users to combine their in-house database(s) with public databases [@Shen2022]. The R Shiny package 'ShinyMetID' provides users six similarity measures (Cosine, Weighted Cosine, Stein & Scott, Discrete Fourier Transformation, Discrete Wavelet Transformation, and Semi-Partial Correlation) and a graphical user interface to perform spectral library matching to identify chemical compounds based off of GC-MS data [@Jeong2023]. 
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
+In a GC-MS experiment that uses a single instrument, the resulting data have a fixed number of mass/charge values for all chemical compounds, whereas in an LC-MS experiment, the mass spectrum of one chemical compound often has a different number of mass/charge values than another mass spectrum corresponding to a different chemical compound. This results in several spectrum preprocessing steps unique to LC-MS data analysis compared to GC-MS data analysis, namely centroiding (i.e. merging peaks that are 'close' with respect to their mass/charge values) and matching (i.e. aligning the mass/charge values in such a way that we obtain a list of intensities \emph{of the same length} from each spectrum). In addition to these canonical spectrum preprocessing transformations, weight factor transformations and low-entropy transformations have been proposed to improve the performance of compound identification [@Kim2012, @Li2021]. Additionally, the Shannon Entropy Similarity measure has recently been proposed to outperform the Cosine Similarity Measure with respect to LC-MS-based compound identification [@Li2021]. In (insert package name), we provide a Python-based command-line tool allowing the user to perform spectral library matching on either GC-MS or LC-MS data with options to construct their own spectrum preprocessing pipeline from the spectrum preprocessing transformations we found in the literature. Additionally, (insert package name) allows the user to choose among four similarity measures: the commonly-used Cosine Similarity Measure [@Stein1994], the recently-proposed Shannon Entropy Similarity Measure [@Li2021], the recently-proposed Tsallis Entropy Similarity Measure (add citation for our recent submission to Analytical Chemistry?), and the novel Rényi Entropy Similarity Measure. 
 
-# Spectrum Preprocessing Transformations
+
+
+# Functionality
+## Spectrum Preprocessing Transformations
 Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
 
 * Weight Factor Transformation: Given a pair of user-defined weight factor parameters $(\text{a,b})$ and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})\in\mathbb{R}^{n}$ and intensities $(x_{1},x_{2},...,x_{n})\in\mathbb{R}^{n}$, the transformed spectrum $I^{\star}$ has the same mass/charge values as $I$ and has intensities given by $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}})$.
@@ -69,12 +56,12 @@ Functionality implementing the following spectrum preprocessing transformations 
 
 * Normalization: Prior to computing entropy - regardless of whether in the context of performing the low-entropy transformation or computing an entropy-based similarity score - the intensities of each spectrum must be normalized to sum to 1 in order to represent a probability distribution. To normalize a given spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})$ into spectrum $I^{\star}$ with intensities $(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ such that $\sum_{i=1}^{n}x_{i}^{\star}=1$, two methods are offered:
 
-  ** Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$
+  ** Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
   
   ** Softmax: $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where $e\approx 2.72$ is Euler's constant.
 
 
-# Similarity Measures
+## Similarity Measures
 Given a pair of processed spectra intensities $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$ with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, (insert package name) provides functionality for computing the following similarity measures:
 
 * Cosine Similarity Measure:
