@@ -1,6 +1,6 @@
 
 ---
-title: 'Gala: A Python package for galactic dynamics'
+title: 'insert title'
 tags:
   - Python
   - metabolomics
