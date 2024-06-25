@@ -73,28 +73,36 @@ design, and support for Astropy functionality in `Gala` will enable exciting
 scientific explorations of forthcoming data releases from the *Gaia* mission
 [@gaia] by students and experts alike.
 
-# Mathematics
+# Spectrum Preprocessing Transformations
 
+# Similarity Measures
+Given a pair of processed spectra $I=<a_{1},a_{2},...,a_{n}>, J=<b_{1},b_{2},...,b_{n}>\in\mathbb{R}^{n}$, ___ provides functionality for computing the following similarity measures:
+
+* Cosine Similarity Measure:
 \begin{equation*}
     S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
 \end{equation*}
+where multiplication in the numerator refers to the dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$ and $J$ and multiplication in the denominator refers to multiplication of the $L^{2}$-norm of $I$ and $J$, $|I|_{2}=\sqrt{a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2}}, |J|_{2}=\sqrt{b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}}$.
 
+* Shannon Entropy Similarity Measure:
 \begin{equation*}
-    S_{Shannon}(I,J) = 1-\frac{2\cdot H_{S}\left(\frac{I+J}{2}\right) - H_{S}(I)-H_{S}(J)}{ln(4)}
+    S_{Shannon}(I,J) = 1-\frac{2\cdot H_{S}\left(\frac{I+J}{2}\right) - H_{S}(I)-H_{S}(J)}{ln(4)}\
     H_{S}(I)=-\sum_{i=1}^{n}p_{i}\cdot ln(p_{i})
 \end{equation*}
 
+* Tsallis Entropy Similarity Measure:
 \begin{equation*}
-    S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N}
-    N:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q}
-    H_{T}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q}
+    S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N}\
+    N:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q}\
+    H_{T}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q}\
     q\neq 1, \ q\textgreater 0
 \end{equation*}
 
+* R\'enyi Entropy Similarity Measure:
 \begin{equation*}
-    S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N}
-    N:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right)
-    H(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q})
+    S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H(I_{Q}/2+I_{L}/2,q)-H(I_{Q},q)-H(I_{L},q)}{N}\
+    N:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right)\
+    H(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q})\
     q\neq 1, \ q\textgreater 0
 \end{equation*}
 
