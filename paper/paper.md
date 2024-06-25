@@ -13,27 +13,20 @@ tags:
   - Tsallis entropy
 authors:
   - name: Hunter Dlugas
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0002-6819-0045
     equal-contrib: true
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
-  - name: Author Without ORCID
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: 2
-  - name: Author with no affiliation
-    corresponding: true # (This is how to denote the corresponding author)
-    affiliation: 3
-  - given-names: Ludwig
-    dropping-particle: van
-    surname: Beethoven
-    affiliation: 3
+    affiliation: "1, 2"
+  - name: Seongho Kim
+    equal-contrib: true 
+    affiliation: "1, 3"
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Wayne State University School of Medicine, USA
    index: 1
- - name: Institution Name, Country
+ - name: Biostatistics and Bioinformatics Core, Karmanos Cancer Institute
    index: 2
- - name: Independent Researcher, Country
+ - name: Biostatistics and Bioinformatics Core, Karmanos Cancer Institute/Department of Oncology
    index: 3
-date: 13 August 2017
+date: 25 June 2024
 bibliography: paper.bib
 
 # Optional fields if submitting to a AAS journal too, see this blog post:
