@@ -86,7 +86,7 @@ where multiplication in the numerator refers to the dot product $I\circ J=a_{1}b
 
 * Shannon Entropy Similarity Measure:
 \begin{equation*}
-    S_{Shannon}(I,J) = 1-\frac{2\cdot H_{S}\left(\frac{I+J}{2}\right) - H_{S}(I)-H_{S}(J)}{ln(4)}
+    S_{Shannon}(I,J) = 1-\frac{2\cdot H_{S}\left(\frac{I+J}{2}\right) - H_{S}(I)-H_{S}(J)}{ln(4)}\newline
     H_{S}(I)=-\sum_{i=1}^{n}p_{i}\cdot ln(p_{i})
 \end{equation*}
 
