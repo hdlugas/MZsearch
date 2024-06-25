@@ -81,7 +81,9 @@ Functionality implementing the following spectrum preprocessing transformations 
 * Matching (only for LCMS data): Given a user-defined window-size parameter $w_{matching}$ and two spectra $I$, $J$ with mass/charge ratios $(a_{1},a_{2},...,a_{n}), (b_{1},b_{2},...,b_{m})$ and intensities $(x_{1},x_{2},...,x_{n}), (y_{1},y_{2},...,y_{m}$, respectively, of which we would like to measure the similarity between, the matching procedure outputs two spectra $I^{\star},J^{\star}$ containing the same number of points with $I^{\star}$ and $J^{\star}$ having identical mass/charge ratios and transformed intensities. Specifically,for a given point $(a_{i},x_{i})$ of $I$, if there are no points $(b_{j},y_{j})$ in $J$ with $|a_{i}-b_{j}|\textless w_{matching}$, then the point $(a_{i},x_{i})$ remains in $I^{\star}$ and the point $(a_{i},0)$ is included in $J^{\star}$. If there is at least one point $(b_{j},y_{j})$ with $|a_{i}-b_{j}|\textless w_{matching}$, then the point $(a_{i},x_{i})$ remains in $I^{\star}$ and the point $(a_{i},\sum_{j}b_{j})$ is included in $J^{\star}$. This procedure is applied when transposing the roles of $I$ and $J$ as well.
 
 * Normalization: Prior to computing entropy - regardless of whether in the context of performing the low-entropy transformation or computing similarity score - the intensities of each spectrum must be normalized to sum to 1 in order to represent a probability distribution. To normalize a given spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})$ into spectrum $I^{\star}$ with intensities $(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ such that $\sum_{i=1}^{n}x_{i}^{\star}=1$, two methods are offered:
+
   ** Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$
+  
   ** Softmax: $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where $e\approx 2.72$ is Euler's constant.
 
 
