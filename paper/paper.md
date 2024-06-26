@@ -90,9 +90,9 @@ where multiplication in the numerator refers to the dot product $I\circ J=a_{1}b
 
 * Rényi Entropy Similarity Measure:
 \begin{gather*}\label{eq:renyi}
-    S_{R{é}nyi}(I_{Q}, I_{L})=1-\frac{2\times H_{Rényi}(I_{Q}/2+I_{L}/2,q)-H_{Rényi}(I_{Q},q)-H_{Rényi}(I_{L},q)}{N_{Rényi}},\\
-    N_{Rényi}:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
-    H_{Rényi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q}),\\
+    S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H_{Renyi}(I_{Q}/2+I_{L}/2,q)-H_{Renyi}(I_{Q},q)-H_{Renyi}(I_{L},q)}{N_{Renyi}},\\
+    N_{Renyi}:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
+    H_{Renyi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q}),\\
     q\neq 1, \ q\textgreater 0
 \end{gather*}
 
