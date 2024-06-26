@@ -115,8 +115,13 @@ python spec_lib_matching_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
   --similarity_measure cosine \
-  --spectrum_preprocessing_order CMWL \
-  --window_size 0.5 \
+  --spectrum_preprocessing_order FCNMWL \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
+  --window_size_centroiding 0.5 \
+  --window_size_matching 0.5 \
   --noise_threshold 0 \
   --wf_mz 0 \
   --wf_intensity 1 \
@@ -131,6 +136,11 @@ python spec_lib_matching_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
   --reference_data path_to_reference_gcms_CSV_file \
   --similarity_measure cosine \
+  --spectrum_preprocessing_order FNLW \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
   --wf_mz 0 \
   --wf_intensity 1 \
   --entropy_dimension 1.1 \
@@ -138,6 +148,50 @@ python spec_lib_matching_gcms.py \
   --n_top_matches_to_save 1 \
   --output_identification path_to_gcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
+```
+
+
+## Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
+To plot a query spectrum vs a reference spectrum before and after preprocessing transformations, run:
+```
+python plot_spectra_lcms.py \
+  --query_data path_to_query_lcms_CSV_file \
+  --reference_data path_to_reference_lcms_CSV_file \
+  --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
+  --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
+  --similarity_measure cosine \
+  --spectrum_preprocessing_order FCNMWL \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
+  --window_size_centroiding 0.5 \
+  --window_size_matching 0.5 \
+  --noise_threshold 0 \
+  --wf_mz 0 \
+  --wf_intensity 1 \
+  --LET_threshold 0 \
+  --entropy_dimension 1.1 \
+  --normalization_method standard \
+  --save_plots path_to_output_PDF_file
+
+python plot_spectra_gcms.py \
+  --query_data path_to_query_gcms_CSV_file \
+  --reference_data path_to_reference_gcms_CSV_file \
+  --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
+  --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
+  --similarity_measure cosine \
+  --spectrum_preprocessing_order FNLW \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
+  --wf_mz 0 \
+  --wf_intensity 1 \
+  --LET_threshold 0 \
+  --entropy_dimension 1.1 \
+  --normalization_method standard \
+  --save_plots path_to_output_PDF_file
 ```
 
 
