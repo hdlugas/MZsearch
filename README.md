@@ -60,6 +60,7 @@ python spec_lib_matching_lcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_lcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_lcms_similarity_scores
 
@@ -77,6 +78,7 @@ python spec_lib_matching_gcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_gcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
 ```
@@ -119,6 +121,7 @@ Parameter descriptions are as follows:
 
 --n_top_matches_to_save: The number of top matches to report. For example, if n_top_matches_to_save=5, then for each query spectrum, the five reference spectra with the largest similarity with the given query spectrum will be reported. Default = 1.
 
+--print_id_results: Flag indicating whether to print the identification results interactively. Regardless of this flag, the results are saved according to the parameter 'output_identification'. Default = False.
 --output_identification: Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save identification output in current working directory (i.e. same directory this script is contained in) with filename 'output_lcms_identification.csv'.
 
 --output_similarity_scores: Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename 'output_lcms_all_similarity_scores'.csv.
