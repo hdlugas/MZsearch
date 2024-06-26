@@ -33,8 +33,13 @@ python spec_lib_matching_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
   --similarity_measure cosine \
-  --spectrum_preprocessing_order CMWL \
-  --window_size 0.5 \
+  --spectrum_preprocessing_order FCNMWL \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
+  --window_size_centroiding 0.5 \
+  --window_size_matching 0.5 \
   --noise_threshold 0 \
   --wf_mz 0 \
   --wf_intensity 1 \
@@ -49,6 +54,11 @@ python spec_lib_matching_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
   --reference_data path_to_reference_gcms_CSV_file \
   --similarity_measure cosine \
+  --spectrum_preprocessing_order FNLW \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
   --wf_mz 0 \
   --wf_intensity 1 \
   --entropy_dimension 1.1 \
@@ -68,9 +78,19 @@ Parameter descriptions are as follows:
 
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order (LCMS only): The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: CMWL.
+--spectrum_preprocessing_order: The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LCMS and FNLW for GCMS.
 
---window_size (LCMS only): Window size parameter used in (i) centroiding and (ii) matching a query spectrum and a reference library spectrum. Default = 0.5.
+--mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
+
+--mz_max: Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999.
+
+--int_min: Remove all peaks with intensity less than int_min in each spectrum. Default = 0.
+
+--int_max: Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999.
+
+--window_size_centroiding (LCMS only): Window size parameter used in centroiding a given spectrum. Default = 0.5.
+
+--window_size_matching (LCMS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
 
 --noise_threshold (LCMS only): Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
@@ -101,8 +121,13 @@ python plot_spectra_lcms.py \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
-  --spectrum_preprocessing_order CMWL \
-  --window_size 0.5 \
+  --spectrum_preprocessing_order FCNMWL \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
+  --window_size_centroiding 0.5 \
+  --window_size_matching 0.5 \
   --noise_threshold 0 \
   --wf_mz 0 \
   --wf_intensity 1 \
@@ -117,6 +142,11 @@ python plot_spectra_gcms.py \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
+  --spectrum_preprocessing_order FNLW \
+  --mz_min 0\
+  --mz_max 999999999999\
+  --int_min 0\
+  --int_max 999999999999\
   --wf_mz 0 \
   --wf_intensity 1 \
   --LET_threshold 0 \
@@ -131,17 +161,27 @@ Parameter descriptions are as follows:
   * LCMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LCMS GNPS library.
   * GCMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GCMS NIST WebBook library
 
---reference_data: same format CSV file as query_data except of reference library spectra.
+--reference_data: Same format CSV file as query_data except of reference library spectra.
 
 --query_spectrum_ID: The identifier of the query spectrum to be plotted. Default: first query spectrum in query_data.
 
 --reference_spectrum_ID: The identifier of the reference spectrum to be plotted. Default: first reference spectrum in reference_data.
 
---similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
+--similarity_measure: Options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order (LCMS only): The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: CMWL.
+--spectrum_preprocessing_order: The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LCMS and FNLW for GCMS .
 
---window_size (LCMS only): Window size parameter used in (i) centroiding and (ii) matching a query spectrum and a reference library spectrum. Default = 0.5.
+--mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
+
+--mz_max: Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999.
+
+--int_min: Remove all peaks with intensity less than int_min in each spectrum. Default = 0.
+
+--int_max: Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999.
+
+--window_size_centroiding (LCMS only): Window size parameter used in centroiding a given spectrum. Default = 0.5.
+
+--window_size_matching (LCMS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
 
 --noise_threshold (LCMS only): Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
