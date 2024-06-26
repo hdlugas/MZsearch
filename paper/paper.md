@@ -1,5 +1,5 @@
 ---
-title: 'insert title'
+title: 'EZsearch: Compound Identification Tool for LC-MS and GC-MS-based Metabolomics Using Python'
 tags:
   - Python
   - metabolomics
@@ -32,19 +32,19 @@ bibliography: paper.bib
 
 # Summary
 
-A primary goal of the field of Metabolomics - i.e. the qualitative and quantitative study of metabolites - is to identify chemical compounds in a given sample, oftentimes with the motivation of identifying/quantifying biomarkers for use in diagnosing, treating, and/or stratifying the risk of some disease. A central tool for compound identification in Metabolomics is mass spectrometry which produces a finite set of points - termed the mass spectrum - in the plane $\mathbb{R}^{2}$ for a given chemical compound with each point representing an ion fragment, one axis representing mass/charge, and the other axis representing intensity. The primary method used to identify a given unknown chemical compound based off of its mass spectrum is termed 'spectral library matching' and involves computing a measure of similarity between the mass spectrum of the unknown chemical compound and each mass spectrum of chemical compounds in a predetermined reference library. The unknown chemical compound is then identified as the chemical compound from the reference library whose mass spectrum is most similar to the mass spectrum of the unknown chemical compound. We present (insert package name), a command-line tool written in Python implementing spectral library matching with a host of spectrum preprocessing transformations and similarity measures available in addition to being able to analyze both of the two main types of mass spectrometry data: gas chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass spectrometry (LC-MS) data.
+A primary goal of the field of Metabolomics - i.e. the qualitative and quantitative study of metabolites - is to identify chemical compounds in a given sample, oftentimes with the motivation of identifying/quantifying biomarkers for use in diagnosing, treating, and/or stratifying the risk of some disease. A central tool for compound identification in Metabolomics is mass spectrometry which produces a finite set of points - termed the mass spectrum - in the plane $\mathbb{R}^{2}$ for a given chemical compound with each point representing an ion fragment, one axis representing mass/charge, and the other axis representing intensity. The primary method used to identify a given unknown chemical compound based off of its mass spectrum is termed 'spectral library matching' and involves computing a measure of similarity between the mass spectrum of the unknown chemical compound and each mass spectrum of chemical compounds in a predetermined reference library. The unknown chemical compound is then identified as the chemical compound from the reference library whose mass spectrum is most similar to the mass spectrum of the unknown chemical compound. We present EZsearch, a command-line tool written in Python implementing spectral library matching with a host of spectrum preprocessing transformations and similarity measures available in addition to being able to analyze both of the two main types of mass spectrometry data: gas chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass spectrometry (LC-MS) data.
 
 # Statement of need
 
 There exist several open-source software tools for working with mass spectrometry data. The Python package 'matchms' allows one to perform spectral library matching and provides an API for users to define their own spectrum preprocessing transformations and similarity measures [@Huber2020]. The C++ library 'OpenMS' and its Python wrapper 'pyOpenMS' are for analyzing LC-MS data and provide common spectrum preprocessing transformations such as filtering based on mass/charge and intensity values [@Rost2014; @Rost2016]. The Python package 'spectrum_utils' provides functionality for preprocessing and visualizing mass spectrometry data [@Bittremieux2020]. The R package 'metID' is a tool for LC-MS-based compound identification with a focus on allowing users to combine their in-house database(s) with public databases [@Shen2022]. The R Shiny package 'ShinyMetID' provides users six similarity measures (Cosine, Weighted Cosine, Stein & Scott, Discrete Fourier Transformation, Discrete Wavelet Transformation, and Semi-Partial Correlation) and a graphical user interface to perform spectral library matching to identify chemical compounds based off of GC-MS data [@Jeong2023]. 
 
-In a GC-MS experiment that uses a single instrument, the resulting data have a fixed number of mass/charge values for all chemical compounds, whereas in an LC-MS experiment, the mass spectrum of one chemical compound often has a different number of mass/charge values than another mass spectrum corresponding to a different chemical compound. This results in several spectrum preprocessing steps unique to LC-MS data analysis compared to GC-MS data analysis, namely centroiding (i.e. merging peaks that are 'close' with respect to their mass/charge values) and matching (i.e. aligning the mass/charge values in such a way that we obtain a list of intensities \emph{of the same length} from each spectrum). In addition to these canonical spectrum preprocessing transformations, weight factor transformations and low-entropy transformations have been proposed to improve the performance of compound identification [@Kim2012; @Li2021]. Additionally, the Shannon Entropy Similarity measure has recently been proposed to outperform the Cosine Similarity Measure with respect to LC-MS-based compound identification [@Li2021]. In (insert package name), we provide a Python-based command-line tool allowing the user to perform spectral library matching on either GC-MS or LC-MS data with options to construct their own spectrum preprocessing pipeline from the spectrum preprocessing transformations we found in the literature. Additionally, (insert package name) allows the user to choose among four similarity measures: the commonly-used Cosine Similarity Measure [@Stein1994], the recently-proposed Shannon Entropy Similarity Measure [@Li2021], the recently-proposed Tsallis Entropy Similarity Measure (add citation for our recent submission to Analytical Chemistry?), and the novel Rényi Entropy Similarity Measure. 
+In a GC-MS experiment that uses a single instrument, the resulting data have a fixed number of mass/charge values for all chemical compounds, whereas in an LC-MS experiment, the mass spectrum of one chemical compound often has a different number of mass/charge values than another mass spectrum corresponding to a different chemical compound. This results in several spectrum preprocessing steps unique to LC-MS data analysis compared to GC-MS data analysis, namely centroiding (i.e. merging peaks that are 'close' with respect to their mass/charge values) and matching (i.e. aligning the mass/charge values in such a way that we obtain a list of intensities \emph{of the same length} from each spectrum). In addition to these canonical spectrum preprocessing transformations, weight factor transformations and low-entropy transformations have been proposed to improve the performance of compound identification [@Kim2012; @Li2021]. Additionally, the Shannon Entropy Similarity measure has recently been proposed to outperform the Cosine Similarity Measure with respect to LC-MS-based compound identification [@Li2021]. In EZsearch, we provide a Python-based command-line tool allowing the user to perform spectral library matching on either GC-MS or LC-MS data with options to construct their own spectrum preprocessing pipeline from the spectrum preprocessing transformations we found in the literature. Additionally, EZsearch allows the user to choose among four similarity measures: the commonly-used Cosine Similarity Measure [@Stein1994], the recently-proposed Shannon Entropy Similarity Measure [@Li2021], the recently-proposed Tsallis Entropy Similarity Measure (add citation for our recent submission to Analytical Chemistry?), and the novel Rényi Entropy Similarity Measure. 
 
 
 
 # Functionality
 ## Spectrum Preprocessing Transformations
-Functionality implementing the following spectrum preprocessing transformations is offered in (insert package name):
+Functionality implementing the following spectrum preprocessing transformations is offered in EZsearch:
 
 * Filtering: Given user-defined parameters (mz_min,mz_max), (int_min,int_max) and spectrum $I$ with mass/charge values $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$ consists of the points $(m_{i},x_{i})$ in $I$ such that mz_min $\leq m_{i}\leq$ mz_max and int_min $\leq x_{i}\leq$ int_max.
 
@@ -66,7 +66,7 @@ Functionality implementing the following spectrum preprocessing transformations 
 
 
 ## Similarity Measures
-Given a pair of processed spectra intensities $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$ with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, (insert package name) provides functionality for computing the following similarity measures:
+Given a pair of processed spectra intensities $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$ with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, EZsearch provides functionality for computing the following similarity measures:
 
 * Cosine Similarity Measure:
 \begin{equation*}
@@ -129,6 +129,7 @@ python spec_lib_matching_lcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_lcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_lcms_similarity_scores
 
@@ -146,6 +147,7 @@ python spec_lib_matching_gcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_gcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
 ```
