@@ -19,12 +19,13 @@ def ent_tsallis(ints, q):
     #Computes the Tsallis entropy of a probability distribution for a given positive entropy dimension q
     return (sum(np.power(ints,q))-1) / (1-q)
 
+
 def S_shannon(ints_a, ints_b):
     #Shannon Entropy Similarity Measure
     #This similarity function was presented by: 
     #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
     #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
-    #Since scipy.stats.entropy normalizes the input vector to sum to 1, vec1 and vec1 need not be normalized
+    #Note that since scipy.stats.entropy normalizes the input vector to sum to 1, vec1 and vec1 need not be normalized when computing ent_ab
     ent_a = scipy.stats.entropy(ints_a)
     ent_b = scipy.stats.entropy(ints_b)
     ent_ab = scipy.stats.entropy(ints_a + ints_b)

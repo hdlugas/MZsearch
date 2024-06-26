@@ -18,8 +18,15 @@ parser.add_argument('--reference_data', metavar='\b', help='CSV file of the refe
 parser.add_argument('--query_spectrum_ID', metavar='\b', help='The identifier of the query spectrum to be plotted. Default: first query spectrum in query_data.')
 parser.add_argument('--reference_spectrum_ID', metavar='\b', help='The identifier of the reference spectrum to be plotted. Default: first reference spectrum in reference_data.')
 parser.add_argument('--similarity_measure', metavar='\b', help='Similarity measure: options are \'cosine\', \'shannon\', \'renyi\', and \'tsallis\'. Default = cosine.')
+parser.add_argument('--spectrum_preprocessing_order', metavar='\b', help='The GCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from F, N, L, W representing filtering based on mass/charge and intensity values, noise removal, low-entropy trannsformation, and weight-factor-transformation, respectively. For example, if \'LW\' is passed, then each spectrum will undergo a low-entropy transformation and then a weight factor transformation. Default: FNLW')
+parser.add_argument('--mz_min', metavar='\b', help='Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0')
+parser.add_argument('--mz_max', metavar='\b', help='Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999')
+parser.add_argument('--int_min', metavar='\b', help='Remove all peaks with intensity less than int_min in each spectrum. Default = 0')
+parser.add_argument('--int_max', metavar='\b', help='Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999')
+parser.add_argument('--noise_threshold', metavar='\b', help='Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0')
 parser.add_argument('--wf_mz', metavar='\b', help='Mass/charge weight factor parameter. Default = 0.')
 parser.add_argument('--wf_intensity', metavar='\b', help='Intensity weight factor parameter. Default = 1.')
+parser.add_argument('--LET_threshold', metavar='\b', help='Low-entropy transformation threshold parameter. Spectra with Shannon entropy less than LET_threshold are transformed according to intensitiesNew=intensitiesOriginal^{(1+S)/(1+LET_threshold)}. Default = 0')
 parser.add_argument('--normalization_method', metavar='\b', help='Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: \'standard\' and \'softmax\'. Default = standard.')
 parser.add_argument('--entropy_dimension', metavar='\b', help='Entropy dimension parameter. Note that this only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similairty measure cosine or shannon is chosen. Default = 1.1.')
 parser.add_argument('--save_plots', metavar='\b', help='Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.')
@@ -33,7 +40,7 @@ args = parser.parse_args()
 if args.query_data is not None:
     df_query = pd.read_csv(args.query_data)
 else:
-    df_query = pd.read_csv(f'{Path.cwd()}/../data/gcms_query_library_tmp.csv')
+    df_query = pd.read_csv(f'{Path.cwd()}/../data_all/gcms_query_library_tmp.csv')
     print('No argument passed to query_data; using default GCMS NIST WebBook library')
 
 
@@ -68,8 +75,40 @@ else:
     path_output = f'{Path.cwd()}/query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf'
 
 
+# get the spectrum preprocessing order
+if args.spectrum_preprocessing_order is not None:
+    spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
+else:
+    spectrum_preprocessing_order = ['F', 'N', 'L', 'W']
 
 
+# load the filtering parameters
+if args.mz_min is not None:
+    mz_min = float(args.mz_min)
+else: 
+    mz_min = 0
+
+if args.mz_max is not None:
+    mz_max = float(args.mz_max)
+else: 
+    mz_max = 999999999999
+
+if args.int_min is not None:
+    int_min = float(args.int_min)
+else: 
+    int_min = 0
+
+if args.int_max is not None:
+    int_max = float(args.int_max)
+else: 
+    int_max = 999999999999
+
+
+# load the noise removal parameter
+if args.noise_threshold is not None:
+    noise_threshold = float(args.noise_threshold)
+else:
+    noise_threshold = 0
 
 
 # load the weight factor parameters
@@ -82,6 +121,14 @@ if args.wf_intensity is not None:
     wf_intensity = float(args.wf_intensity)
 else:
     wf_intensity = 1
+
+
+# load the low-entropy transformation threshold
+if args.LET_threshold is not None: 
+    LET_threshold = float(args.LET_threshold)
+else:
+    LET_threshold = 0
+
 
 
 # load the entropy dimension parameter (if applicable)
@@ -108,22 +155,25 @@ else:
 
 df_query.iloc[:,0] = list(map(str,df_query.iloc[:,0].tolist()))
 df_reference.iloc[:,0] = list(map(str,df_reference.iloc[:,0].tolist()))
-query_idx = np.where(df_query.iloc[:,0] == query_spectrum_ID)[0][0]
-reference_idx = np.where(df_reference.iloc[:,0] == reference_spectrum_ID)[0][0]
-query_spec = df_query.iloc[query_idx,1:df_query.shape[1]].to_numpy()
-reference_spec = df_reference.iloc[reference_idx,1:df_reference.shape[1]].to_numpy()
+q_idx = np.where(df_query.iloc[:,0] == query_spectrum_ID)[0][0]
+r_idx = np.where(df_reference.iloc[:,0] == reference_spectrum_ID)[0][0]
+q_ints = df_query.iloc[q_idx,1:df_query.shape[1]].to_numpy()
+r_ints = df_reference.iloc[r_idx,1:df_reference.shape[1]].to_numpy()
 
-max_mz = max([np.max(np.nonzero(query_spec)), np.max(np.nonzero(reference_spec))])
-mzs = list(map(int,np.linspace(1,max_mz,max_mz).tolist()))
-query_spec = query_spec[mzs]
-reference_spec = reference_spec[mzs]
+max_mz_tmp = max([np.max(np.nonzero(q_ints)), np.max(np.nonzero(r_ints))])
+mzs = list(map(int,np.linspace(1,max_mz_tmp,max_mz_tmp).tolist()))
+q_ints = q_ints[mzs]
+r_ints = r_ints[mzs]
+
+q_spec = np.transpose(np.array([mzs, q_ints]))
+r_spec = np.transpose(np.array([mzs, r_ints]))
 
 fig, axes = plt.subplots(nrows=2, ncols=1)
 #fig.tight_layout()
 
 plt.subplot(2,1,1)
-plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=query_spec, linewidth=2, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
-plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=reference_spec, linewidth=2, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
+plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=2, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
+plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=r_spec[:,1]/np.max(r_spec[:,1]), linewidth=2, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
 plt.legend(loc='upper right', fontsize=8)
 plt.xlabel('Mass:Charge Ratio',fontsize=8)
 plt.ylabel('Intensity', fontsize=8)
@@ -131,27 +181,42 @@ plt.xticks(fontsize=8)
 plt.yticks(fontsize=8)
 plt.title('Untransformed Query and Reference Spectra', fontsize=12)
 
-query_spec = np.power(mzs, wf_mz) * np.power(query_spec, wf_intensity)
-reference_spec = np.power(mzs, wf_mz) * np.power(reference_spec, wf_intensity)
+
+for transformation in spectrum_preprocessing_order:
+    if transformation == 'W':
+        q_spec[:,1] = wf_transform(q_spec[:,0], q_spec[:,1], wf_mz, wf_intensity)
+        r_spec[:,1] = wf_transform(r_spec[:,0], r_spec[:,1], wf_mz, wf_intensity)
+    if transformation == 'L':
+        q_spec[:,1] = LE_transform(q_spec[:,1], LET_threshold, normalization_method)
+        r_spec[:,1] = LE_transform(r_spec[:,1], LET_threshold, normalization_method)
+    if transformation == 'N':
+        q_spec = remove_noise(q_spec, nr = noise_threshold)
+        r_spec = remove_noise(r_spec, nr = noise_threshold)
+    if transformation == 'F':
+        q_spec = filter_spec(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+        r_spec = filter_spec(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
 
 
-if similarity_measure == 'cosine':
-    similarity_score = S_cos(query_spec, reference_spec)
+if q_spec.shape[0] > 1:
+    if similarity_measure == 'cosine':
+        similarity_score = S_cos(q_spec[:,1], r_spec[:,1])
+    else:
+        q_spec[:,1] = normalize(q_spec[:,1], method = normalization_method)
+        r_spec[:,1] = normalize(r_spec[:,1], method = normalization_method)
+
+        if similarity_measure == 'shannon':
+            similarity_score = S_shannon(q_spec[:,1].astype('float'), r_spec[:,1].astype('float'))
+        elif similarity_measure == 'renyi':
+            similarity_score = S_renyi(q_spec[:,1], r_spec[:,1], q)
+        elif similarity_measure == 'tsallis':
+            similarity_score = S_tsallis(q_spec[:,1], r_spec[:,1], q)
 else:
-    query_spec = normalize(query_spec, method = normalization_method)
-    reference_spec = normalize(reference_spec, method = normalization_method)
-
-if similarity_measure == 'shannon':
-    similarity_score = S_shannon(query_spec.to_numpy(), reference_spec.to_numpy())
-elif similarity_measure == 'renyi':
-    similarity_score = S_renyi(query_spec.to_numpy(), reference_spec.to_numpy(), q)
-elif similarity_measure == 'tsallis':
-    similarity_score = S_tsallis(query_spec.to_numpy(), reference_spec.to_numpy(), q)
+    similarity_score = 0
 
 
 plt.subplot(2,1,2)
-plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=query_spec, linewidth=2, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
-plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=reference_spec, linewidth=2, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
+plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=2, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
+plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=r_spec[:,1]/np.max(r_spec[:,1]), linewidth=2, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
 plt.legend(loc='upper right', fontsize=8)
 plt.xlabel('Mass:Charge Ratio', fontsize=8)
 plt.ylabel('Intensity', fontsize=8)
@@ -160,6 +225,7 @@ plt.yticks(fontsize=8)
 plt.title(f'Transformed Query and Reference Spectra\n Similarity Score: {round(similarity_score,4)}', fontsize=12)
 #plt.show()
 
+print(similarity_score)
 plt.subplots_adjust(hspace=0.7)
 plt.savefig(path_output, format='pdf')
 

@@ -18,8 +18,13 @@ parser.add_argument('--reference_data', metavar='\b', help='CSV file of the refe
 parser.add_argument('--query_spectrum_ID', metavar='\b', help='The identifier of the query spectrum to be plotted. Default: first query spectrum in query_data.')
 parser.add_argument('--reference_spectrum_ID', metavar='\b', help='The identifier of the reference spectrum to be plotted. Default: first reference spectrum in reference_data.')
 parser.add_argument('--similarity_measure', metavar='\b', help='Similarity measure: options are \'cosine\', \'shannon\', \'renyi\', and \'tsallis\'. Default = cosine.')
-parser.add_argument('--spectrum_preprocessing_order', metavar='\b', help='The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: CMWL')
-parser.add_argument('--window_size', metavar='\b', help='Window size parameter used in (i) centroiding and (ii) matching a query spectrum and a reference library spectrum. Default = 0.5')
+parser.add_argument('--spectrum_preprocessing_order', metavar='\b', help='The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-6 characters chosen from C, F, M, N, L, W representing centroiding, filtering based on mass/charge and intensity values, matching, noise removal, low-entropy trannsformation, and weight-factor-transformation, respectively. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then centroiding, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL')
+parser.add_argument('--mz_min', metavar='\b', help='Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0')
+parser.add_argument('--mz_max', metavar='\b', help='Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999')
+parser.add_argument('--int_min', metavar='\b', help='Remove all peaks with intensity less than int_min in each spectrum. Default = 0')
+parser.add_argument('--int_max', metavar='\b', help='Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999')
+parser.add_argument('--window_size_centroiding', metavar='\b', help='Window size parameter used in centroiding a given spectrum. Default = 0.5')
+parser.add_argument('--window_size_matching', metavar='\b', help='Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5')
 parser.add_argument('--noise_threshold', metavar='\b', help='Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0')
 parser.add_argument('--wf_mz', metavar='\b', help='Mass/charge weight factor parameter. Default = 0.')
 parser.add_argument('--wf_intensity', metavar='\b', help='Intensity weight factor parameter. Default = 1.')
@@ -37,8 +42,8 @@ args = parser.parse_args()
 if args.query_data is not None:
     df_query = pd.read_csv(args.query_data)
 else:
-    df_query = pd.read_csv(f'{Path.cwd()}/../data/lcms_query_library_tmp.csv')
-    print('No argument passed to query_data; using default LCMS library')
+    df_query = pd.read_csv(f'{Path.cwd()}/../data/lcms_query_library.csv')
+    print('No argument passed to query_data; using default LCMS library\n')
 
 
 # load the reference library
@@ -54,7 +59,7 @@ if args.query_spectrum_ID is not None:
     query_spectrum_ID = str(args.query_spectrum_ID)
 else:
     query_spectrum_ID = str(df_query.iloc[0,0])
-    print('No argument passed to query_spectrum_ID; using the first spectrum in query_data')
+    print('No argument passed to query_spectrum_ID; using the first spectrum in query_data\n')
 
 
 # import the identifier of the reference spectrum to be plotted
@@ -62,7 +67,7 @@ if args.reference_spectrum_ID is not None:
     reference_spectrum_ID = str(args.reference_spectrum_ID)
 else:
     reference_spectrum_ID = str(df_reference.iloc[0,0])
-    print('No argument passed to reference_spectrum_ID; using the first spectrum in reference_data')
+    print('No argument passed to reference_spectrum_ID; using the first spectrum in reference_data\n')
 
 
 # import the identifier of the reference spectrum to be plotted
@@ -73,12 +78,33 @@ else:
 
 
 
-
 # get the spectrum preprocessing order
 if args.spectrum_preprocessing_order is not None:
     spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
 else:
-    spectrum_preprocessing_order = ['C', 'M', 'W', 'L']
+    spectrum_preprocessing_order = ['F', 'C', 'N', 'M', 'W', 'L']
+
+
+# load the filtering parameters
+if args.mz_min is not None:
+    mz_min = float(args.mz_min)
+else: 
+    mz_min = 0
+
+if args.mz_max is not None:
+    mz_max = float(args.mz_max)
+else: 
+    mz_max = 999999999999
+
+if args.int_min is not None:
+    int_min = float(args.int_min)
+else: 
+    int_min = 0
+
+if args.int_max is not None:
+    int_max = float(args.int_max)
+else: 
+    int_max = 999999999999
 
 
 # load the weight factor parameters
@@ -100,11 +126,19 @@ if args.similarity_measure == 'renyi' or args.similarity_measure == 'tsallis':
     else:
         q = 1.1
 
-# load the window size parameter
-if args.window_size is not None:
-    window_size = float(args.window_size)
+
+# load the centroiding window size parameter
+if args.window_size_centroiding is not None:
+    window_size_centroiding = float(args.window_size_centroiding)
 else:
-    window_size = 0.5
+    window_size_centroiding = 0.5
+
+
+# load the matching window size parameter
+if args.window_size_matching is not None:
+    window_size_matching = float(args.window_size_matching)
+else:
+    window_size_matching = 0.5
 
 
 # load the noise removal parameter
@@ -153,15 +187,13 @@ q_idxs_tmp = np.where(df_query.iloc[:,0] == unique_query_ids[query_idx])[0]
 r_idxs_tmp = np.where(df_reference.iloc[:,0] == unique_reference_ids[reference_idx])[0]
 q_spec = np.asarray(pd.concat([df_query.iloc[q_idxs_tmp,1], df_query.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
 r_spec = np.asarray(pd.concat([df_reference.iloc[q_idxs_tmp,1], df_reference.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
-#print(q_spec)
-#print(r_spec)
 
 
 fig, axes = plt.subplots(nrows=2, ncols=1)
 
 plt.subplot(2,1,1)
-plt.vlines(x=q_spec[:,0], ymin=[0]*q_spec.shape[0], ymax=q_spec[:,1], linewidth=4, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
-plt.vlines(x=r_spec[:,0], ymin=[0]*r_spec.shape[0], ymax=r_spec[:,1], linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
+plt.vlines(x=q_spec[:,0], ymin=[0]*q_spec.shape[0], ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=4, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
+plt.vlines(x=r_spec[:,0], ymin=[0]*r_spec.shape[0], ymax=r_spec[:,1]/np.max(r_spec[:,1]), linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
 plt.legend(loc='upper right', fontsize=8)
 plt.xlabel('Mass:Charge Ratio',fontsize=8)
 plt.ylabel('Intensity', fontsize=8)
@@ -171,36 +203,45 @@ plt.title('Untransformed Query and Reference Spectra', fontsize=12)
 
 for transformation in spectrum_preprocessing_order:
     if transformation == 'C':
-        q_spec = clean_spectrum(q_spec, noise_removal=noise_threshold, window_size=window_size) 
-        r_spec = clean_spectrum(r_spec, noise_removal=noise_threshold, window_size=window_size) 
+        q_spec = centroid_spectrum(q_spec, window_size=window_size_centroiding) 
+        r_spec = centroid_spectrum(r_spec, window_size=window_size_centroiding) 
     if transformation == 'M':
-        m_spec = match_peaks_in_spectra(spec_a=q_spec, spec_b=r_spec, window_size=window_size)
+        m_spec = match_peaks_in_spectra(spec_a=q_spec, spec_b=r_spec, window_size=window_size_matching)
         q_spec = m_spec[:,0:2]
         r_spec = m_spec[:,[0,2]]
     if transformation == 'W':
-        q_spec[:,1] = np.power(q_spec[:,0], wf_mz) * np.power(q_spec[:,1], wf_intensity)
-        r_spec[:,1] = np.power(r_spec[:,0], wf_mz) * np.power(r_spec[:,1], wf_intensity)
+        q_spec[:,1] = wf_transform(q_spec[:,0], q_spec[:,1], wf_mz, wf_intensity)
+        r_spec[:,1] = wf_transform(r_spec[:,0], r_spec[:,1], wf_mz, wf_intensity)
     if transformation == 'L':
-        q_spec[:,1] = transform_int(q_spec[:,1], LET_threshold, normalization_method)
-        r_spec[:,1] = transform_int(r_spec[:,1], LET_threshold, normalization_method)
+        q_spec[:,1] = LE_transform(q_spec[:,1], LET_threshold, normalization_method)
+        r_spec[:,1] = LE_transform(r_spec[:,1], LET_threshold, normalization_method)
+    if transformation == 'N':
+        q_spec = remove_noise(q_spec, nr = noise_threshold)
+        r_spec = remove_noise(r_spec, nr = noise_threshold)
+    if transformation == 'F':
+        q_spec = filter_spec(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+        r_spec = filter_spec(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
 
 
-if similarity_measure == 'cosine':
-    similarity_score = S_cos(q_spec[:,1], r_spec[:,1])
+if q_spec.shape[0] > 1:
+    if similarity_measure == 'cosine':
+        similarity_score = S_cos(q_spec[:,1], r_spec[:,1])
+    else:
+        q_spec[:,1] = normalize(q_spec[:,1], method = normalization_method)
+        r_spec[:,1] = normalize(r_spec[:,1], method = normalization_method)
+    if similarity_measure == 'shannon':
+        similarity_score = S_shannon(q_spec[:,1], r_spec[:,1])
+    elif similarity_measure == 'renyi':
+        similarity_score = S_renyi(q_spec[:,1], r_spec[:,1], q)
+    elif similarity_measure == 'tsallis':
+        similarity_score = S_tsallis(q_spec[:,1], r_spec[:,1], q)
 else:
-    q_spec[:,1] = normalize(q_spec[:,1], method = normalization_method)
-    r_spec[:,1] = normalize(r_spec[:,1], method = normalization_method)
-if similarity_measure == 'shannon':
-    similarity_score = S_shannon(q_spec[:,1].to_numpy(), r_spec[:,1].to_numpy())
-elif similarity_measure == 'renyi':
-    similarity_score = S_renyi(q_spec[:,1].to_numpy(), r_spec[:,1].to_numpy(), q)
-elif similarity_measure == 'tsallis':
-    similarity_score = S_tsallis(q_spec[:,1].to_numpy(), r_spec[:,1].to_numpy(), q)
+    similarity_score = 0
 
 
 plt.subplot(2,1,2)
-plt.vlines(x=q_spec[:,0], ymin=[0]*q_spec.shape[0], ymax=q_spec[:,1], linewidth=4, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
-plt.vlines(x=r_spec[:,0], ymin=[0]*r_spec.shape[0], ymax=r_spec[:,1], linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
+plt.vlines(x=q_spec[:,0], ymin=[0]*q_spec.shape[0], ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=4, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
+plt.vlines(x=r_spec[:,0], ymin=[0]*r_spec.shape[0], ymax=r_spec[:,1]/np.max(r_spec[:,1]), linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
 plt.legend(loc='upper right', fontsize=8)
 plt.xlabel('Mass:Charge Ratio', fontsize=8)
 plt.ylabel('Intensity', fontsize=8)
@@ -208,6 +249,7 @@ plt.xticks(fontsize=8)
 plt.yticks(fontsize=8)
 plt.title(f'Transformed Query and Reference Spectra\n Similarity Score: {round(similarity_score,4)}', fontsize=12)
 
+print(similarity_score)
 plt.subplots_adjust(hspace=0.7)
 plt.savefig(path_output, format='pdf')
 

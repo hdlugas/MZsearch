@@ -4,22 +4,26 @@
 import scipy.stats
 import numpy as np
 
-def wf_transform(wf_int, wf_mz, spec):
+def wf_transform(spec_mzs, spec_ints, wf_mz, wf_int):
     #This function performs a weight factor transformation on a spectrum
     
     #input:
     #wf_int: float
     #wf_mz: float
-    #spec: nx2 np array with first column being mass/charge and second column being intensity
+    #spec_mzs: 1d np array representing mass/charge values 
+    #spec_ints: 1d np array representing intensity values 
+
+    #spec_mzs and spec_ints must be of the same length N
 
     #output:
-    #weight factor transformed spectrum
+    #spec_ints: 1d np array of weight-factor-transformed spectrum intensities
 
-    spec[:,1] = np.power(spec[:,0], wf_mz) * np.power(spec[:,1], wf_int)
-    return(spec)
+    spec_ints = np.power(spec_mzs, wf_mz) * np.power(spec_ints, wf_int)
+    return(spec_ints)
 
 
-def transform_int(intensity, thresh, normalization_method):
+
+def LE_transform(intensity, thresh, normalization_method):
     #This transformation was presented by: 
     #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
     #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
@@ -34,7 +38,7 @@ def transform_int(intensity, thresh, normalization_method):
     #1d np array of transformed intensities
 
     intensity = normalize(intensity, method=normalization_method)
-    S = scipy.stats.entropy(intensity)
+    S = scipy.stats.entropy(intensity.astype('float'))
     if S > 0 and S < thresh:
         w = (1 + S) / (1 + thresh) 
         intensity = np.power(intensity, w)
@@ -43,7 +47,7 @@ def transform_int(intensity, thresh, normalization_method):
 
 def normalize(intensities,method='standard'):
     #Normalizes a given vector to sum to 1 so that it represents a probability distribution
-    if method == 'stanwindow_sizerd':
+    if method == 'standard':
         intensities /= np.sum(intensities)
     elif method == 'softmax':
         e_x = np.exp(intensities)
@@ -51,39 +55,23 @@ def normalize(intensities,method='standard'):
     return(intensities)
 
 
-def clean_spectrum(spectrum, noise_removal, window_size):
-    #This function was presented by: 
-    #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
-    #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
-    #Nature Methods 2021, 18, 1524–1531
 
-    #This function: 
-    #1) centroids peaks by merging peaks within a given window-size (i.e. window_size parameter)
-    #2) removes peaks that have intensity lower than max(intensity)*noise_removal
-    #3) normalizes the centroided and noise_removaled spectrum
-
-    #input:
-    #spectrum: nx2 np array with first column being mass/charge and second column being intensity
-    #noise_removal and window_size parameters described above
-
-    #output:
-    #centroided, noise-removed, and normalized spectrum
-
-    #Centroid peaks
-    spectrum = spectrum[np.argsort(spectrum[:, 0])]
-    spectrum = centroid_spec(spectrum, window_size=window_size)
-
-    #Remove noise ions
-    if noise_removal is not None and spectrum.shape[0] > 0:
-        max_intensity = np.max(spectrum[:, 1])
-        spectrum = spectrum[spectrum[:, 1] >= max_intensity * noise_removal]
-
-    #Normalize the spectrum
-    spectrum = normalize(spectrum)
-    return spectrum
+def filter_spec(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999):
+    #keep points in a given spectrum in a given range of mz values and intensity values
+    spec = spec[spec[:,0] >= mz_min]
+    spec = spec[spec[:,0] <= mz_max]
+    spec = spec[spec[:,1] >= int_min]
+    spec = spec[spec[:,1] <= int_max]
+    return(spec)
 
 
-def centroid_spec(spec, window_size):
+def remove_noise(spec, nr):
+    if nr is not None:
+        spec = spec[spec[:,1] >= np.max(spec[:,1]) * nr]
+    return(spec)
+
+
+def centroid_spectrum(spec, window_size):
     #This function was presented by: 
     #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
     #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
@@ -95,6 +83,8 @@ def centroid_spec(spec, window_size):
 
     #output:
     #centroided spectrum
+
+    spec = spec[np.argsort(spec[:,0])]
 
     #Fast check is the spectrum needs centroiding
     mz_array = spec[:, 0]
@@ -111,7 +101,7 @@ def centroid_spec(spec, window_size):
             mz_delta_allowed = window_size
 
             if spec[i, 1] > 0:
-                #Find left board for current peak
+                #Find left bound for current peak
                 i_left = i - 1
                 while i_left >= 0:
                     mz_delta_left = spec[i, 0] - spec[i_left, 0]
@@ -121,7 +111,7 @@ def centroid_spec(spec, window_size):
                         break
                 i_left += 1
 
-                #Find right board for current peak
+                #Find right bound for current peak
                 i_right = i + 1
                 while i_right < spec.shape[0]:
                     mz_delta_right = spec[i_right, 0] - spec[i, 0]
