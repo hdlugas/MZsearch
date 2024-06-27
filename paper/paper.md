@@ -242,10 +242,10 @@ matching to identify compounds based off of their mass spectrometry data
 2. plotting a query spectrum vs a reference spectrum before and after
 preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GCMS and
-(ii) LCMS data due to the different spectrum preprocessing
+These tasks are implemented separately for the cases of (i) GC-MS and
+(ii) LC-MS data due to the different spectrum preprocessing
 transformations stemming from a different format in the mass:charge
-ratios in GCMS vs LCMS data. To see all parameters for any of the four
+ratios in GC-MS vs LC-MS data. To see all parameters for any of the four
 main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
 plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 
@@ -258,7 +258,7 @@ python plot_spectra_gcms.py -h
 
 ## Run spectral library matching
 
-To run spectral library matching on LCMS/GCMS data, one can use:
+To run spectral library matching on LC-MS/GC-MS data, one can use:
 
 ```         
 python spec_lib_matching_lcms.py \
@@ -279,6 +279,7 @@ python spec_lib_matching_lcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_lcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_lcms_similarity_scores
 
@@ -296,6 +297,7 @@ python spec_lib_matching_gcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_gcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
 ```
