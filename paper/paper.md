@@ -29,7 +29,7 @@ affiliations:
  - name: Department of Chemistry, University of Louisville, Louisville, KY, USA
    index: 3
 date: 25 June 2024
-bibliography: paper.sk.bib
+bibliography: paper.bib
 editor_options: 
   markdown: 
     wrap: 72
