@@ -22,7 +22,6 @@ def wf_transform(spec_mzs, spec_ints, wf_mz, wf_int):
     return(spec_ints)
 
 
-
 def LE_transform(intensity, thresh, normalization_method):
     #This transformation was presented by: 
     #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
@@ -37,37 +36,55 @@ def LE_transform(intensity, thresh, normalization_method):
     #output:
     #1d np array of transformed intensities
 
-    intensity = normalize(intensity, method=normalization_method)
-    S = scipy.stats.entropy(intensity.astype('float'))
+    intensity_tmp = normalize(intensity, method=normalization_method)
+    S = scipy.stats.entropy(intensity_tmp.astype('float'))
     if S > 0 and S < thresh:
         w = (1 + S) / (1 + thresh) 
-        intensity = np.power(intensity, w)
+        intensity = np.power(intensity_tmp, w)
     return intensity 
 
 
 def normalize(intensities,method='standard'):
     #Normalizes a given vector to sum to 1 so that it represents a probability distribution
-    if method == 'standard':
+    if np.sum(intensities) > 0:
         intensities /= np.sum(intensities)
-    elif method == 'softmax':
-        e_x = np.exp(intensities)
-        intensities /= np.sum(intensities)
+        if method == 'softmax':
+            e_x = np.exp(intensities)
+            intensities /= np.sum(intensities)
     return(intensities)
 
 
+def filter_spec_lcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999, is_matched = False):
+    #keep points in a given spectrum in a given range of mz values and intensity values
 
-def filter_spec(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999):
+    if is_matched == False:
+        spec = spec[spec[:,0] >= mz_min]
+        spec = spec[spec[:,0] <= mz_max]
+        spec = spec[spec[:,1] >= int_min]
+        spec = spec[spec[:,1] <= int_max]
+    else:
+        spec = spec[spec[:,0] >= mz_min]
+        spec = spec[spec[:,0] <= mz_max]
+        spec[spec[:,1] >= int_min] = 0
+        spec[spec[:,1] <= int_max] = 0
+    return(spec)
+
+
+def filter_spec_gcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999):
     #keep points in a given spectrum in a given range of mz values and intensity values
     spec = spec[spec[:,0] >= mz_min]
     spec = spec[spec[:,0] <= mz_max]
-    spec = spec[spec[:,1] >= int_min]
-    spec = spec[spec[:,1] <= int_max]
+    spec[spec[:,1] < int_min] = 0
+    spec[spec[:,1] > int_max] = 0
     return(spec)
 
 
 def remove_noise(spec, nr):
-    if nr is not None:
-        spec = spec[spec[:,1] >= np.max(spec[:,1]) * nr]
+    #removes points with intensity less than max(intensities)*nr
+    if spec.shape[0] > 1:
+        if nr is not None:
+            spec[np.where(spec[:,1] < np.max(spec[:,1]) * nr)[0]] = 0
+            #spec = spec[spec[:,1] >= np.max(spec[:,1]) * nr]
     return(spec)
 
 
@@ -128,8 +145,12 @@ def centroid_spectrum(spec, window_size):
                 spec[i_left:i_right, 1] = 0
 
         spec_new = np.array(spec_new)
-        spec_new = spec_new[np.argsort(spec_new[:, 0])]
-        return spec_new
+        #spec_new = spec_new[np.argsort(spec_new[:, 0])]
+        if spec_new.shape[0] > 1:
+            spec_new = spec_new[np.argsort(spec_new[:, 0])]
+            return spec_new
+        else:
+            return np.array([[0,0]])
     else:
         return spec
 

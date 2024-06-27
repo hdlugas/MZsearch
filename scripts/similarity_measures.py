@@ -37,21 +37,28 @@ def S_renyi(ints_a, ints_b, q):
     #This is a novel similarity measure which generalizes the Shannon Entropy Similarity Measure
     #The Renyi Similarity Measure approaches the Shannon Entropy Similiarity Measure as q approaches 1
     #ints_a and ints_b must be normalized to sum to 1
-    ent_a = ent_renyi(ints_a, q)
-    ent_b = ent_renyi(ints_b, q)
-    ent_merg = ent_renyi(ints_a/2 + ints_b/2, q)
-    N = (1/(1-q)) * (2*np.log(np.sum(np.power(ints_a/2,q))+np.sum(np.power(ints_b/2,q))) - np.log(np.sum(np.power(ints_a,q))) - np.log(np.sum(np.power(ints_b,q))))
-    return 1 - (2 * ent_merg - ent_a - ent_b) / N
+    if q == 1:
+        return S_shannon(ints_a, ints_b)
+    else:
+        ent_a = ent_renyi(ints_a, q)
+        ent_b = ent_renyi(ints_b, q)
+        ent_merg = ent_renyi(ints_a/2 + ints_b/2, q)
+        N = (1/(1-q)) * (2*np.log(np.sum(np.power(ints_a/2,q))+np.sum(np.power(ints_b/2,q))) - np.log(np.sum(np.power(ints_a,q))) - np.log(np.sum(np.power(ints_b,q))))
+        return 1 - (2 * ent_merg - ent_a - ent_b) / N
 
 def S_tsallis(ints_a, ints_b, q):
     #Tsallis Entropy Similarity Measure
     #This is a novel similarity measure which generalizes the Shannon Entropy Similarity Measure
     #The Tsallis Similarity Measure approaches the Shannon Entropy Similiarity Measure as q approaches 1
     #ints_a and ints_b must be normalized to sum to 1
-    ent_a = ent_tsallis(ints_a, q)
-    ent_b = ent_tsallis(ints_b, q)
-    ent_merg = ent_tsallis(ints_a/2 + ints_b/2, q)
-    N = np.sum(2*np.power(ints_a/2,q)+2*np.power(ints_b/2,q)-np.power(ints_a,q)-np.power(ints_b,q)) / (1-q)
-    return 1 - (2 * ent_merg - ent_a - ent_b) / N
+    if q == 1:
+        return S_shannon(ints_a, ints_b)
+    else:
+        ent_a = ent_tsallis(ints_a, q)
+        ent_b = ent_tsallis(ints_b, q)
+        ent_merg = ent_tsallis(ints_a/2 + ints_b/2, q)
+        N = np.sum(2*np.power(ints_a/2,q)+2*np.power(ints_b/2,q)-np.power(ints_a,q)-np.power(ints_b,q)) / (1-q)
+        return 1 - (2 * ent_merg - ent_a - ent_b) / N
+
 
 

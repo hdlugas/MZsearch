@@ -21,17 +21,21 @@ parser.add_argument('--int_min', metavar='\b', help='Remove all peaks with inten
 parser.add_argument('--int_max', metavar='\b', help='Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999')
 parser.add_argument('--wf_mz', metavar='\b', help='Mass/charge weight factor parameter. Default = 0.')
 parser.add_argument('--wf_intensity', metavar='\b', help='Intensity weight factor parameter. Default = 1.')
+parser.add_argument('--noise_threshold', metavar='\b', help='Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0')
+parser.add_argument('--LET_threshold', metavar='\b', help='Low-entropy transformation threshold parameter. Spectra with Shannon entropy less than LET_threshold are transformed according to intensitiesNew=intensitiesOriginal^{(1+S)/(1+LET_threshold)}. Default = 0.')
 parser.add_argument('--entropy_dimension', metavar='\b', help='Entropy dimension parameter. Note that this only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similairty measure cosine or shannon is chosen. Default = 1.1.')
 parser.add_argument('--normalization_method', metavar='\b', help='Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: \'standard\' and \'softmax\'. Default = standard.')
 parser.add_argument('--n_top_matches_to_save', metavar='\b', help='The number of top matches to report. For example, if n_top_matches_to_save=5, then for each query spectrum, the five reference spectra with the largest similarity with the given query spectrum will be reported. Default = 1.')
+parser.add_argument('--print_id_results', metavar='\b', help='Flag that prints identification results if True. Default: False')
 parser.add_argument('--output_identification', metavar='\b', help='Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save identification output in current working directory (i.e. same directory this script is contained in) with filename \'output_gcms_identification.csv\'.')
 parser.add_argument('--output_similarity_scores', metavar='\b', help='Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename \'output_gcms_all_similarity_scores\'.csv.')
 parser.add_argument('-v', '--verbose', action='store_true')
 
+# begin spectral library matching
+print('\nPerforming spectral library matching on GCMS data\n')
 
 # parse the user-input arguments
 args = parser.parse_args()
-
 
 
 # import the query library
@@ -42,16 +46,11 @@ else:
     print('No argument passed to query_data; using default GCMS NIST WebBook library')
 
 
-
-# begin spectral library matching
-print('Performing spectral library matching on GCMS data\n')
-
-
 # load the reference library
 if args.reference_data is not None:
     df_reference = pd.read_csv(args.reference_data)
 else:
-    print('Using default GCMS reference library (i.e. NIST WebBook)\n')
+    print('No argument passed to reference_data; using default GCMS reference library (i.e. NIST WebBook)')
     df_reference = pd.read_csv(f'{Path.cwd()}/../data/gcms_reference_library.csv')
 
 
@@ -60,6 +59,14 @@ if args.spectrum_preprocessing_order is not None:
     spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
 else:
     spectrum_preprocessing_order = ['F', 'N', 'L', 'W']
+
+
+# load the entropy dimension parameter (if applicable)
+if args.similarity_measure == 'renyi' or args.similarity_measure == 'tsallis':
+    if args.entropy_dimension is not None:
+        q = float(args.entropy_dimension)
+    else:
+        q = 1.1
 
 
 # load the filtering parameters
@@ -97,12 +104,18 @@ else:
     wf_intensity = 1
 
 
-# load the entropy dimension parameter (if applicable)
-if args.similarity_measure == 'renyi' or args.similarity_measure == 'tsallis':
-    if args.entropy_dimension is not None:
-        q = float(args.entropy_dimension)
-    else:
-        q = 1.1
+# load the noise removal parameter
+if args.noise_threshold is not None:
+    noise_threshold = float(args.noise_threshold)
+else:
+    noise_threshold = 0
+
+
+# load the low-entropy transformation threshold
+if args.LET_threshold is not None: 
+    LET_threshold = float(args.LET_threshold)
+else:
+    LET_threshold = 0
 
 
 # set the normalization method
@@ -126,33 +139,67 @@ else:
     n_top_matches_to_save = 1
 
 
+# get the flag to determine whether or not to print identification results
+if args.print_id_results is not None:
+    print_id_results = str(args.print_id_results)
+else:
+    print_id_results = 'False'
+
+
 
 # compute the similarity score between each query library spectrum/spectra and all reference library spectra
 mzs = np.linspace(1,df_query.shape[1]-1,df_query.shape[1]-1)
 all_similarity_scores =  []
 for query_idx in range(0,df_query.shape[0]):
-    query_spec = df_query.iloc[query_idx,1:df_query.shape[1]]
-    query_spec = wf_transform(mzs, query_spec, wf_mz, wf_intensity)
+    q_ints = df_query.iloc[query_idx,1:df_query.shape[1]]
+    q_spec = np.transpose(np.array([mzs,q_ints]))
 
     similarity_scores = []
     for ref_idx in range(0, df_reference.shape[0]):
-        if ref_idx % 1000 == 0:
-            print(f'Query spectrum #{query_idx} has had its similarity with {ref_idx} reference library spectra computed')
-        ref_spec = df_reference.iloc[ref_idx,1:df_reference.shape[1]]
-        ref_spec = wf_transform(mzs, ref_spec, wf_mz, wf_intensity)
+        #if ref_idx % 1000 == 0:
+        #    print(f'Query spectrum #{query_idx} has had its similarity with {ref_idx} reference library spectra computed')
+        r_ints = df_reference.iloc[ref_idx,1:df_reference.shape[1]]
+        r_spec = np.transpose(np.array([mzs,r_ints]))
 
-        if similarity_measure == 'cosine':
-            similarity_score = S_cos(query_spec, ref_spec)
+        for transformation in spectrum_preprocessing_order:
+            if transformation == 'W':
+                q_spec[:,1] = wf_transform(q_spec[:,0], q_spec[:,1], wf_mz, wf_intensity)
+                r_spec[:,1] = wf_transform(r_spec[:,0], r_spec[:,1], wf_mz, wf_intensity)
+            if transformation == 'L':
+                q_spec[:,1] = LE_transform(q_spec[:,1], LET_threshold, normalization_method=normalization_method)
+                r_spec[:,1] = LE_transform(r_spec[:,1], LET_threshold, normalization_method=normalization_method)
+            if transformation == 'N':
+                q_spec = remove_noise(q_spec, nr = noise_threshold)
+                r_spec = remove_noise(r_spec, nr = noise_threshold)
+            if transformation == 'F':
+                q_spec = filter_spec_gcms(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+                r_spec = filter_spec_gcms(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+
+        q_ints = q_spec[:,1]
+        r_ints = r_spec[:,1]
+
+        '''
+        print('\n')
+        print(len(q_ints))
+        print(len(r_ints))
+        print(np.sum(q_ints))
+        print(np.sum(r_ints))
+        '''
+        if np.sum(q_ints) != 0 and np.sum(r_ints) != 0:
+            if similarity_measure == 'cosine':
+                similarity_score = S_cos(q_ints, r_ints)
+            else:
+                q_ints = normalize(q_ints, method = normalization_method)
+                r_ints = normalize(r_ints, method = normalization_method)
+
+                if similarity_measure == 'shannon':
+                    similarity_score = S_shannon(q_ints, r_ints)
+                elif similarity_measure == 'renyi':
+                    similarity_score = S_renyi(q_ints, r_ints, q)
+                elif similarity_measure == 'tsallis':
+                    similarity_score = S_tsallis(q_ints, r_ints, q)
         else:
-            query_spec = normalize(query_spec, method = normalization_method)
-            ref_spec = normalize(ref_spec, method = normalization_method)
-
-            if similarity_measure == 'shannon':
-                similarity_score = S_shannon(query_spec.to_numpy(), ref_spec.to_numpy())
-            elif similarity_measure == 'renyi':
-                similarity_score = S_renyi(query_spec.to_numpy(), ref_spec.to_numpy(), q)
-            elif similarity_measure == 'tsallis':
-                similarity_score = S_tsallis(query_spec.to_numpy(), ref_spec.to_numpy(), q)
+            similarity_score = 0
 
         similarity_scores.append(similarity_score)
     all_similarity_scores.append(similarity_scores)
@@ -175,7 +222,10 @@ for i in range(0, df_scores.shape[0]):
         df_scores_tmp = df_scores_tmp.iloc[:,cols_to_keep]
 
         preds_tmp.append(';'.join(map(str,top_ref_specs_tmp.index.to_list())))
-        scores_tmp.append(top_ref_specs_tmp.values[0])
+        if len(top_ref_specs_tmp.values) == 0:
+            scores_tmp.append(0)
+        else:
+            scores_tmp.append(top_ref_specs_tmp.values[0])
     preds.append(preds_tmp)
     scores.append(scores_tmp)
 
@@ -193,6 +243,8 @@ df_top_ref_specs = pd.DataFrame(out, columns = [*cnames_preds, *cnames_scores])
 df_top_ref_specs.index = df_query.iloc[:,0]
 df_top_ref_specs.index.names = ['Query Spectrum ID']
 
+if print_id_results == 'True':
+    print(df_top_ref_specs.to_string())
 
 
 # write spectral library matching results to disk

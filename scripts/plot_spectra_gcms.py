@@ -9,7 +9,6 @@ import sys
 import matplotlib.pyplot as plt
 
 
-
 parser = argparse.ArgumentParser()
 
 # Add optional command-line arguments
@@ -48,7 +47,7 @@ else:
 if args.reference_data is not None:
     df_reference = pd.read_csv(args.reference_data)
 else:
-    print('Using default GCMS reference library (i.e. NIST WebBook)\n')
+    print('No argument passed to reference_data; using default GCMS reference library (i.e. NIST WebBook)')
     df_reference = pd.read_csv(f'{Path.cwd()}/../data/gcms_reference_library.csv')
 
 
@@ -153,8 +152,12 @@ else:
     similarity_measure = 'cosine'
 
 
-df_query.iloc[:,0] = list(map(str,df_query.iloc[:,0].tolist()))
-df_reference.iloc[:,0] = list(map(str,df_reference.iloc[:,0].tolist()))
+df_query = df_query.astype(object)
+df_reference = df_reference.astype(object)
+df_query.iloc[:,0] = df_query.iloc[:,0].astype(str)
+df_reference.iloc[:,0] = df_reference.iloc[:,0].astype(str)
+#df_query.iloc[:,0] = list(map(str,df_query.iloc[:,0].tolist()))
+#df_reference.iloc[:,0] = list(map(str,df_reference.iloc[:,0].tolist()))
 q_idx = np.where(df_query.iloc[:,0] == query_spectrum_ID)[0][0]
 r_idx = np.where(df_reference.iloc[:,0] == reference_spectrum_ID)[0][0]
 q_ints = df_query.iloc[q_idx,1:df_query.shape[1]].to_numpy()
@@ -193,8 +196,8 @@ for transformation in spectrum_preprocessing_order:
         q_spec = remove_noise(q_spec, nr = noise_threshold)
         r_spec = remove_noise(r_spec, nr = noise_threshold)
     if transformation == 'F':
-        q_spec = filter_spec(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
-        r_spec = filter_spec(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+        q_spec = filter_spec_gcms(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+        r_spec = filter_spec_gcms(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
 
 
 if q_spec.shape[0] > 1:
@@ -225,7 +228,6 @@ plt.yticks(fontsize=8)
 plt.title(f'Transformed Query and Reference Spectra\n Similarity Score: {round(similarity_score,4)}', fontsize=12)
 #plt.show()
 
-print(similarity_score)
 plt.subplots_adjust(hspace=0.7)
 plt.savefig(path_output, format='pdf')
 

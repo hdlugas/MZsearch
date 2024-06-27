@@ -50,7 +50,7 @@ else:
 if args.reference_data is not None:
     df_reference = pd.read_csv(args.reference_data)
 else:
-    print('Using default LCMS reference library (from GNPS)\n')
+    print('No argument passed to reference_data; using default LCMS reference library (from GNPS)\n')
     df_reference = pd.read_csv(f'{Path.cwd()}/../data/lcms_reference_library.csv')
 
 
@@ -79,10 +79,15 @@ else:
 
 
 # get the spectrum preprocessing order
+preprocessing_error_message = 'Error: \'M\' must be a character in spectrum_preprocessing_order.'
 if args.spectrum_preprocessing_order is not None:
     spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
 else:
     spectrum_preprocessing_order = ['F', 'C', 'N', 'M', 'W', 'L']
+
+if 'M' not in spectrum_preprocessing_order:
+    print(f'\n{preprocessing_error_message}\n')
+    sys.exit()
 
 
 # load the filtering parameters
@@ -177,8 +182,18 @@ unique_reference_ids = df_reference.iloc[:,0].unique()
 
 unique_query_ids = np.asarray(list(map(str,unique_query_ids)))
 unique_reference_ids = np.asarray(list(map(str,unique_reference_ids)))
-df_query.iloc[:,0] = list(map(str,df_query.iloc[:,0].tolist()))
-df_reference.iloc[:,0] = list(map(str,df_reference.iloc[:,0].tolist()))
+#a = df_query.iloc[:,0].tolist()
+#b = df_reference.iloc[:,0].tolist()
+#df_query.iloc[:,0] = None
+#df_reference.iloc[:,0] = None
+#df_query.iloc[:,0] = a
+#df_reference.iloc[:,0] = b
+df_query = df_query.astype(object)
+df_reference = df_reference.astype(object)
+df_query.iloc[:,0] = df_query.iloc[:,0].astype(str)
+df_reference.iloc[:,0] = df_reference.iloc[:,0].astype(str)
+#df_query.iloc[:,0] = list(map(str,df_query.iloc[:,0].tolist()))
+#df_reference.iloc[:,0] = list(map(str,df_reference.iloc[:,0].tolist()))
 
 query_idx = np.where(unique_query_ids == query_spectrum_ID)[0][0]
 reference_idx = np.where(unique_reference_ids == reference_spectrum_ID)[0][0]
@@ -187,6 +202,7 @@ q_idxs_tmp = np.where(df_query.iloc[:,0] == unique_query_ids[query_idx])[0]
 r_idxs_tmp = np.where(df_reference.iloc[:,0] == unique_reference_ids[reference_idx])[0]
 q_spec = np.asarray(pd.concat([df_query.iloc[q_idxs_tmp,1], df_query.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
 r_spec = np.asarray(pd.concat([df_reference.iloc[q_idxs_tmp,1], df_reference.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
+
 
 
 fig, axes = plt.subplots(nrows=2, ncols=1)
@@ -201,55 +217,66 @@ plt.xticks(fontsize=8)
 plt.yticks(fontsize=8)
 plt.title('Untransformed Query and Reference Spectra', fontsize=12)
 
+is_matched = False
 for transformation in spectrum_preprocessing_order:
-    if transformation == 'C':
+    if transformation == 'C' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
         q_spec = centroid_spectrum(q_spec, window_size=window_size_centroiding) 
         r_spec = centroid_spectrum(r_spec, window_size=window_size_centroiding) 
-    if transformation == 'M':
+    if transformation == 'M' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
         m_spec = match_peaks_in_spectra(spec_a=q_spec, spec_b=r_spec, window_size=window_size_matching)
         q_spec = m_spec[:,0:2]
         r_spec = m_spec[:,[0,2]]
-    if transformation == 'W':
+        is_matched = True
+    if transformation == 'W' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
         q_spec[:,1] = wf_transform(q_spec[:,0], q_spec[:,1], wf_mz, wf_intensity)
         r_spec[:,1] = wf_transform(r_spec[:,0], r_spec[:,1], wf_mz, wf_intensity)
-    if transformation == 'L':
-        q_spec[:,1] = LE_transform(q_spec[:,1], LET_threshold, normalization_method)
-        r_spec[:,1] = LE_transform(r_spec[:,1], LET_threshold, normalization_method)
-    if transformation == 'N':
+    if transformation == 'L' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
+        q_spec[:,1] = LE_transform(q_spec[:,1], LET_threshold, normalization_method=normalization_method)
+        r_spec[:,1] = LE_transform(r_spec[:,1], LET_threshold, normalization_method=normalization_method)
+    if transformation == 'N' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
         q_spec = remove_noise(q_spec, nr = noise_threshold)
         r_spec = remove_noise(r_spec, nr = noise_threshold)
-    if transformation == 'F':
-        q_spec = filter_spec(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
-        r_spec = filter_spec(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+    if transformation == 'F' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
+        q_spec = filter_spec_lcms(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max, is_matched = is_matched)
+        r_spec = filter_spec_lcms(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max, is_matched = is_matched)
 
+q_ints = q_spec[:,1]
+r_ints = r_spec[:,1]
 
-if q_spec.shape[0] > 1:
+if np.sum(q_ints) != 0 and np.sum(r_ints) != 0 and q_spec.shape[0] > 1 and r_spec.shape[1] > 1:
     if similarity_measure == 'cosine':
-        similarity_score = S_cos(q_spec[:,1], r_spec[:,1])
+        similarity_score = S_cos(q_ints, r_ints)
     else:
-        q_spec[:,1] = normalize(q_spec[:,1], method = normalization_method)
-        r_spec[:,1] = normalize(r_spec[:,1], method = normalization_method)
-    if similarity_measure == 'shannon':
-        similarity_score = S_shannon(q_spec[:,1], r_spec[:,1])
-    elif similarity_measure == 'renyi':
-        similarity_score = S_renyi(q_spec[:,1], r_spec[:,1], q)
-    elif similarity_measure == 'tsallis':
-        similarity_score = S_tsallis(q_spec[:,1], r_spec[:,1], q)
+        q_ints = normalize(q_ints, method = normalization_method)
+        r_ints = normalize(r_ints, method = normalization_method)
+        if similarity_measure == 'shannon':
+            similarity_score = S_shannon(q_ints, r_ints)
+        elif similarity_measure == 'renyi':
+            similarity_score = S_renyi(q_ints, r_ints, q)
+        elif similarity_measure == 'tsallis':
+            similarity_score = S_tsallis(q_ints, r_ints, q)
 else:
     similarity_score = 0
 
+print(q_spec.shape)
+print(r_spec.shape)
 
 plt.subplot(2,1,2)
-plt.vlines(x=q_spec[:,0], ymin=[0]*q_spec.shape[0], ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=4, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
-plt.vlines(x=r_spec[:,0], ymin=[0]*r_spec.shape[0], ymax=r_spec[:,1]/np.max(r_spec[:,1]), linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
-plt.legend(loc='upper right', fontsize=8)
-plt.xlabel('Mass:Charge Ratio', fontsize=8)
-plt.ylabel('Intensity', fontsize=8)
-plt.xticks(fontsize=8)
-plt.yticks(fontsize=8)
-plt.title(f'Transformed Query and Reference Spectra\n Similarity Score: {round(similarity_score,4)}', fontsize=12)
+if q_spec.shape[0] > 1:
+    plt.vlines(x=q_spec[:,0], ymin=[0]*q_spec.shape[0], ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=4, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
+    plt.vlines(x=r_spec[:,0], ymin=[0]*r_spec.shape[0], ymax=r_spec[:,1]/np.max(r_spec[:,1]), linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
+    plt.legend(loc='upper right', fontsize=8)
+    plt.xlabel('Mass:Charge Ratio', fontsize=8)
+    plt.ylabel('Intensity', fontsize=8)
+    plt.xticks(fontsize=8)
+    plt.yticks(fontsize=8)
+    plt.title(f'Transformed Query and Reference Spectra\n Similarity Score: {round(similarity_score,4)}', fontsize=12)
+else:
+    plt.text(0.5, 0.5, 'All points in the reference and query spectra were removed during preprocessing. \nChange the spectrum_preprocesing_order and/or change other spectrum-preprocessing parameters.', ha='center', va='center', fontsize=7, color='black')
+    plt.xticks([])
+    plt.yticks([])
 
-print(similarity_score)
+#print(similarity_score)
 plt.subplots_adjust(hspace=0.7)
 plt.savefig(path_output, format='pdf')
 
