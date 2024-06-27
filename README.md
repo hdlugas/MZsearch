@@ -23,7 +23,7 @@ This repository has two main capabilities:
 1. running spectral library matching to identify compounds based off of their mass spectrometry data
 2. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GCMS and (ii) LCMS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GCMS vs LCMS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
+These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 ```
 python spec_lib_matching_lcms.py -h
 python spec_lib_matching_lcms.py -h
@@ -31,7 +31,7 @@ python plot_spectra_lcms.py -h
 python plot_spectra_gcms.py -h
 ```
 ## Run spectral library matching
-To run spectral library matching on LCMS/GCMS data, one can use:
+To run spectral library matching on LC-MS/GC-MS data, one can use:
 ```
 python spec_lib_matching_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
@@ -88,14 +88,14 @@ python spec_lib_matching_gcms.py \
 Parameter descriptions are as follows:
 
 --query_data: 
-  * LCMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LCMS GNPS library.
+  * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
   * GCMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GCMS NIST WebBook library
 
 --reference_data: same format CSV file as query_data except of reference library spectra.
 
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order: The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LCMS and FNLW for GCMS.
+--spectrum_preprocessing_order: The spectrum preprocessing transformations and the order in which they are to be applied. These transformations are applied prior to computing similarity scores. Format must be a string with 2-6 (LC-MS) or 2-4 (GC-MS) characters chosen from F, N, W, C, M, L representing filtering, noise removal, weight-factor-transformation, centroiding, matching, and low-entropy tranformation, respectively. Matching (M) and centroiding (C) are applicable only to LC-MS data. For example, if \'WCM\' is passed, then each (LC-MS) spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LC-MS and FNLW for GC-MS.
 
 --mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
 
@@ -105,11 +105,11 @@ Parameter descriptions are as follows:
 
 --int_max: Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999.
 
---window_size_centroiding (LCMS only): Window size parameter used in centroiding a given spectrum. Default = 0.5.
+--window_size_centroiding (LC-MS only): Window size parameter used in centroiding a given spectrum. Default = 0.5.
 
---window_size_matching (LCMS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
+--window_size_matching (LC-MS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
 
---noise_threshold (LCMS only): Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
+--noise_threshold: Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
 --wf_mz: Mass/charge weight factor parameter. Default = 0.
 
@@ -187,7 +187,7 @@ Parameter descriptions are as follows:
 
 --similarity_measure: Options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order: The LCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LCMS and FNLW for GCMS .
+--spectrum_preprocessing_order: The LC-MS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LC-MS data. Default: FCNMWL for LC-MS and FNLW for GC-MS .
 
 --mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
 
@@ -197,11 +197,11 @@ Parameter descriptions are as follows:
 
 --int_max: Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999.
 
---window_size_centroiding (LCMS only): Window size parameter used in centroiding a given spectrum. Default = 0.5.
+--window_size_centroiding (LC-MS only): Window size parameter used in centroiding a given spectrum. Default = 0.5.
 
---window_size_matching (LCMS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
+--window_size_matching (LC-MS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
 
---noise_threshold (LCMS only): Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
+--noise_threshold: Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
 --wf_mz: Mass/charge weight factor parameter. Default = 0.
 
