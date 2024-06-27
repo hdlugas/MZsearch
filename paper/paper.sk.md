@@ -44,7 +44,7 @@ for use in diagnosing, treating, and stratifying the risk of various
 diseases. A central tool for compound identification in metabolomics is
 mass spectrometry, which produces the mass spectrum for a given chemical
 compound. Each point in the mass spectrum represents an ion fragment,
-with one axis representing mass to charge (m/z) and the other axis
+with one axis representing mass to charge ratio (m/z) and the other axis
 representing relative intensity. A popular method used to identify an
 unknown chemical compound based on its mass spectrum is spectral library
 matching. This process involves computing a measure of similarity
@@ -92,25 +92,25 @@ addition to these canonical spectrum preprocessing transformations for
 LC-MS, weight factor transformations and low-entropy transformations
 have been proposed to improve the performance of compound identification
 for both GC-MS and LC-MS [@Kim2012; @Li2021; @Dlugas2024]. The Shannon
-Entropy Similarity measure has been shown to outperform the Cosine
-Similarity measure with respect to LC-MS-based compound identification
-[@Li2021]. A generalization of the Shannon Entropy Similarity measure,
-the Tsallis Entropy Similarity measure, has recently been developed and
-performs better than the Shannon Entropy Similarity measure in both
+Entropy Similarity Measure has been shown to outperform the Cosine
+Similarity Measure with respect to LC-MS-based compound identification
+[@Li2021]. A generalization of the Shannon Entropy Similarity Measure,
+the Tsallis Entropy Similarity Measure, has recently been developed and
+performs better than the Shannon Entropy Similarity Measure in both
 GC-MS and LC-MS data [@Dlugas2024]. This recent study has further
 demonstrated that the order of preprocessing transformations is also
 critical to achieving higher accuracy in compound identification.
 However, to our knowledge, there is no tool that includes the
-recently-developed, high-performance similarity scores or considers the
+recently-developed, high-performance entropy-based similarity measures or considers the
 order of the transformations, which are important for effective
 metabolomics studies.
 
-The developed Python package 'EZsearch' provides a command-line tool for
+The developed 'EZsearch' provides a command-line tool for
 performing spectral library matching on either GC-MS or LC-MS data. It
 allows users to construct their own spectrum preprocessing order using
 spectrum preprocessing transformations such as weight factor and
 low-entropy transformations. Additionally, the 'EZsearch' includes a
-novel entropy-based similarity measures, the Rényi Entropy Similarity
+novel entropy-based similarity measure, the Rényi Entropy Similarity
 Measure, enabling users to choose among four similarity measures: the
 commonly-used Cosine Similarity Measure [@Stein1994], the Shannon
 Entropy Similarity Measure [@Li2021], the recently-developed Tsallis
@@ -222,13 +222,13 @@ provides functionality for computing the following similarity measures:
 
 -   Tsallis Entropy Similarity Measure:
     \begin{gather*}\label{eq:tsallis}
-      S_{Tsallis}(I_{q},I_{l},q)=1-\fracK{2\times H_{Tsallis}(I_{Q}/2+I_{L}/2,q)-H_{Tsallis}(I_{Q},q)-H_{Tsallis}(I_{L},q)}{N_{Tsallis}},\\
+      S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H_{Tsallis}(I_{Q}/2+I_{L}/2,q)-H_{Tsallis}(I_{Q},q)-H_{Tsallis}(I_{L},q)}{N_{Tsallis}},\\
       N_{Tsallis}:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
       H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q},\\
       q\neq 1, \ q\textgreater 0
     \end{gather*}
 
--   KRényi Entropy Similarity Measure: \begin{gather*}\label{eq:renyi}
+-   Rényi Entropy Similarity Measure: \begin{gather*}\label{eq:renyi}
       S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H_{Renyi}(I_{Q}/2+I_{L}/2,q)-H_{Renyi}(I_{Q},q)-H_{Renyi}(I_{L},q)}{N_{Renyi}},\\
       N_{Renyi}:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
       H_{Renyi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q}),\\
