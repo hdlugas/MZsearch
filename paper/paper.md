@@ -1,5 +1,5 @@
 ---
-title: 'EZsearch: A Python-Based Compound Idnetification Tool for GC-MS and LC-MS-Based Metabolomics'
+title: 'MZsearch: A Python-Based Compound Idnetification Tool for GC-MS and LC-MS-Based Metabolomics'
 tags:
   - Python
   - metabolomics
@@ -51,9 +51,9 @@ matching. This process involves computing a measure of similarity
 between the mass spectrum of the unknown chemical compound and each mass
 spectrum in a reference library. The unknown chemical compound is then
 identified as the one from the reference library whose mass spectrum is
-most similar to that of the unknown compound. We present 'EZsearch', a
+most similar to that of the unknown compound. We present 'MZsearch', a
 command-line tool written in Python that implements spectral library
-matching. The 'EZsearch' offers a range of spectrum preprocessing
+matching. The 'MZsearch' offers a range of spectrum preprocessing
 transformations and similarity measures, and it is capable of analyzing
 data generated from both types of mass spectrometry: gas
 chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass
@@ -105,11 +105,11 @@ recently-developed, high-performance entropy-based similarity measures or consid
 order of the transformations, which are important for effective
 metabolomics studies.
 
-The developed 'EZsearch' provides a command-line tool for
+The developed 'MZsearch' provides a command-line tool for
 performing spectral library matching on either GC-MS or LC-MS data. It
 allows users to construct their own spectrum preprocessing order using
 spectrum preprocessing transformations such as weight factor and
-low-entropy transformations. Additionally, the 'EZsearch' includes a
+low-entropy transformations. Additionally, the 'MZsearch' includes a
 novel entropy-based similarity measure, the Rényi Entropy Similarity
 Measure, enabling users to choose among four similarity measures: the
 commonly-used Cosine Similarity Measure [@Stein1994], the Shannon
@@ -122,7 +122,7 @@ Similarity Measure.
 ## Spectrum Preprocessing Transformations
 
 Functionality implementing the following spectrum preprocessing
-transformations is offered in 'EZsearch':
+transformations is offered in 'MZsearch':
 
 -   Filtering: Given user-defined parameters (mz_min,mz_max),
     (int_min,int_max) and spectrum $I$ with mass/charge values
