@@ -311,6 +311,7 @@ preprocessing transformations, run:
 python plot_spectra_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
+  --likely_reference_IDs path_to_likely_reference_IDs_CSV_file \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
@@ -332,6 +333,7 @@ python plot_spectra_lcms.py \
 python plot_spectra_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
   --reference_data path_to_reference_gcms_CSV_file \
+  --likely_reference_IDs path_to_likely_reference_IDs_CSV_file \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
