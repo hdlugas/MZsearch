@@ -50,6 +50,7 @@ python spec_lib_matching_lcms.py \
   --likely_reference_IDs None \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -73,6 +74,7 @@ python spec_lib_matching_gcms.py \
   --likely_reference_IDs None \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -100,6 +102,8 @@ Parameter descriptions are as follows:
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
 --spectrum_preprocessing_order: The spectrum preprocessing transformations and the order in which they are to be applied. These transformations are applied prior to computing similarity scores. Format must be a string with 2-6 (LC-MS) or 2-4 (GC-MS) characters chosen from F, N, W, C, M, L representing filtering, noise removal, weight-factor-transformation, centroiding, matching, and low-entropy tranformation, respectively. Matching (M) and centroiding (C) are applicable only to LC-MS data. For example, if \'WCM\' is passed, then each (LC-MS) spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LC-MS and FNLW for GC-MS.
+
+--high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
 --mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
 
@@ -144,6 +148,7 @@ python plot_spectra_lcms.py \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -165,6 +170,7 @@ python plot_spectra_gcms.py \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -192,6 +198,8 @@ Parameter descriptions are as follows:
 --similarity_measure: Options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
 --spectrum_preprocessing_order: The LC-MS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LC-MS data. Default: FCNMWL for LC-MS and FNLW for GC-MS .
+
+--high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
 --mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
 
