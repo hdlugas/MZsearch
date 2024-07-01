@@ -266,6 +266,7 @@ python spec_lib_matching_lcms.py \
   --reference_data path_to_reference_lcms_CSV_file \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -288,6 +289,7 @@ python spec_lib_matching_gcms.py \
   --reference_data path_to_reference_gcms_CSV_file \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -316,6 +318,7 @@ python plot_spectra_lcms.py \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -338,6 +341,7 @@ python plot_spectra_gcms.py \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
