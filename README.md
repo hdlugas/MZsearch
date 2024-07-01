@@ -47,6 +47,7 @@ Example implementations of these scripts with all parameters specified are:
 python spec_lib_matching_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
+  --likely_reference_IDs None \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
   --mz_min 0\
@@ -69,6 +70,7 @@ python spec_lib_matching_lcms.py \
 python spec_lib_matching_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
   --reference_data path_to_reference_gcms_CSV_file \
+  --likely_reference_IDs None \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
   --mz_min 0\
@@ -92,6 +94,8 @@ Parameter descriptions are as follows:
   * GCMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GCMS NIST WebBook library
 
 --reference_data: same format CSV file as query_data except of reference library spectra.
+
+--likely_reference_IDs: CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: None (i.e. default is to use entire reference library)
 
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
