@@ -356,12 +356,9 @@ python plot_spectra_gcms.py \
 
 # Figures
 
-Figures can be included like this: ![Caption for example
-figure.](figure.png) and referenced from text using
-\autoref{fig:example}.
+![caption for flowchart figure.\label{fig:flowchart}](https://github.com/hdlugas/MZsearch/assets/73852653/34f1273b-8f9d-4aa6-b021-949df6cb8e64){width=100%, height=100%}
+helllo world reference \autoref{fig:flowchart}
 
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){width="20%"}
 
 # Acknowledgements
 
