@@ -356,9 +356,10 @@ python plot_spectra_gcms.py \
 
 # Figures
 
+<!--
 ![caption for flowchart figure.\label{fig:flowchart}](https://github.com/hdlugas/MZsearch/assets/73852653/34f1273b-8f9d-4aa6-b021-949df6cb8e64){width=100%, height=100%}
-helllo world reference \autoref{fig:flowchart}
-
+hello world reference \autoref{fig:flowchart}
+-->
 
 # Acknowledgements
 
