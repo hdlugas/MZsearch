@@ -363,6 +363,14 @@ An example output figure is shown in (\autoref{fig:spectra_plot}).
 
 ![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations.\label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
 
+## Get LC-MS library from MGF file
+To obtain an LC-MS query/reference library from an MGF file, one can use:
+
+```
+Rscript get_lcms_library_from_mgf.R \
+  --input_path path_to_input_mgf_file \
+  --output_path path_to_output_csv_file 
+```
 
 
 # Acknowledgements
