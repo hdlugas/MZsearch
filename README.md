@@ -228,4 +228,22 @@ Parameter descriptions are as follows:
 --save_plots: Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.
 
 
+## Obtain LC-MS library from MGF file
+To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in an MGF file, one can run:
+```
+Rscript get_lcms_library_from_mgf.R \
+--input_path path_to_input_mgf_file \
+--output_path path_to_output_csv_file
+```
+
+Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary).
+
+
+# Bugs/Questions?
+If you notice any bugs in this software or have any questions, don't hesitate to reach out to fy7392@wayne.edu.
+
+
+
+
+
 
