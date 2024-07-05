@@ -1,5 +1,7 @@
 
+# this script performs spectral library matching to identify unknown query compound(s) from LC-MS data
 
+# load libraries
 from processing import *
 from similarity_measures import *
 import pandas as pd
@@ -8,13 +10,16 @@ from pathlib import Path
 import sys
 
 
+# create argparse object so command-line input can be imported
 parser = argparse.ArgumentParser()
 
-# Add optional command-line arguments
+# import optional command-line arguments
 parser.add_argument('--query_data', metavar='\b', help='CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns should correspond to a single mass/charge ratio. Mandatory argument.')
 parser.add_argument('--reference_data', metavar='\b', help='CSV file of the reference mass spectra. Each row should correspond to a mass spectrum, the left-most column should contain in identifier (i.e. the CAS registry number or the compound name), and the remaining column should correspond to a single mass/charge ratio. Default = GCMS NIST WebBook Library.')
+parser.add_argument('--likely_reference_IDs', metavar='\b', help='CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. This CSV file should not contain a header. Each ID in this CSV file must be an ID in the reference library. Default: none (i.e. default is to use entire reference library)')
 parser.add_argument('--similarity_measure', metavar='\b', help='Similarity measure: options are \'cosine\', \'shannon\', \'renyi\', and \'tsallis\'. Default = cosine.')
 parser.add_argument('--spectrum_preprocessing_order', metavar='\b', help='The GCMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from F, N, L, W representing filtering based on mass/charge and intensity values, noise removal, low-entropy trannsformation, and weight-factor-transformation, respectively. For example, if \'LW\' is passed, then each spectrum will undergo a low-entropy transformation and then a weight factor transformation. Default: FNLW')
+parser.add_argument('--high_quality_reference_library', metavar='\b', help='True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False')
 parser.add_argument('--mz_min', metavar='\b', help='Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0')
 parser.add_argument('--mz_max', metavar='\b', help='Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999')
 parser.add_argument('--int_min', metavar='\b', help='Remove all peaks with intensity less than int_min in each spectrum. Default = 0')
@@ -31,11 +36,12 @@ parser.add_argument('--output_identification', metavar='\b', help='Output CSV fi
 parser.add_argument('--output_similarity_scores', metavar='\b', help='Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename \'output_gcms_all_similarity_scores\'.csv.')
 parser.add_argument('-v', '--verbose', action='store_true')
 
-# begin spectral library matching
-print('\nPerforming spectral library matching on GCMS data\n')
 
 # parse the user-input arguments
 args = parser.parse_args()
+
+
+print('\nPerforming spectral library matching on GCMS data\n')
 
 
 # import the query library
@@ -54,11 +60,32 @@ else:
     df_reference = pd.read_csv(f'{Path.cwd()}/../data/gcms_reference_library.csv')
 
 
+# load the IDs of a subset of the reference library for use in spectral library matching
+if args.likely_reference_IDs is not None:
+    if args.likely_reference_IDs != 'None' and args.likely_reference_IDs != 'none':
+        likely_reference_IDs = pd.read_csv(args.likely_reference_IDs, header=None)
+        df_reference = df_reference.loc[df_reference.iloc[:,0].isin(likely_reference_IDs.iloc[:,0].tolist())]
+
+
+# specify the similarity measure to use
+if args.similarity_measure is not None:
+    similarity_measure = args.similarity_measure
+else:
+    similarity_measure = 'cosine'
+
+
 # get the spectrum preprocessing order
 if args.spectrum_preprocessing_order is not None:
     spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
 else:
     spectrum_preprocessing_order = ['F', 'N', 'L', 'W']
+
+
+# load the flag indicating whether the reference library is considered to be of high quality
+if args.high_quality_reference_library is not None:
+    high_quality_reference_library = args.high_quality_reference_library
+else:
+    high_quality_reference_library = False
 
 
 # load the entropy dimension parameter (if applicable)
@@ -125,13 +152,6 @@ else:
     normalization_method = 'standard'
 
 
-# specify the similarity measure to use
-if args.similarity_measure is not None:
-    similarity_measure = args.similarity_measure
-else:
-    similarity_measure = 'cosine'
-
-
 # get the number of most-similar reference library spectra to report for each query spectrum
 if args.n_top_matches_to_save is not None:
     n_top_matches_to_save = int(args.n_top_matches_to_save)
@@ -161,30 +181,28 @@ for query_idx in range(0,df_query.shape[0]):
         r_ints = df_reference.iloc[ref_idx,1:df_reference.shape[1]]
         r_spec = np.transpose(np.array([mzs,r_ints]))
 
+        # apply spectrum preprocessing transformation in the order specified by user
         for transformation in spectrum_preprocessing_order:
-            if transformation == 'W':
+            if transformation == 'W': # weight factor transformation
                 q_spec[:,1] = wf_transform(q_spec[:,0], q_spec[:,1], wf_mz, wf_intensity)
                 r_spec[:,1] = wf_transform(r_spec[:,0], r_spec[:,1], wf_mz, wf_intensity)
-            if transformation == 'L':
+            if transformation == 'L': # low-entropy transformation
                 q_spec[:,1] = LE_transform(q_spec[:,1], LET_threshold, normalization_method=normalization_method)
                 r_spec[:,1] = LE_transform(r_spec[:,1], LET_threshold, normalization_method=normalization_method)
-            if transformation == 'N':
+            if transformation == 'N': # noise removal
                 q_spec = remove_noise(q_spec, nr = noise_threshold)
-                r_spec = remove_noise(r_spec, nr = noise_threshold)
-            if transformation == 'F':
+                if high_quality_reference_library == False:
+                    r_spec = remove_noise(r_spec, nr = noise_threshold)
+            if transformation == 'F': # filter with respect to mz and/or intensity
                 q_spec = filter_spec_gcms(q_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
-                r_spec = filter_spec_gcms(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
+                if high_quality_reference_library == False:
+                    r_spec = filter_spec_gcms(r_spec, mz_min = mz_min, mz_max = mz_max, int_min = int_min, int_max = int_max)
 
+        # query and reference spectrum intensities
         q_ints = q_spec[:,1]
         r_ints = r_spec[:,1]
 
-        '''
-        print('\n')
-        print(len(q_ints))
-        print(len(r_ints))
-        print(np.sum(q_ints))
-        print(np.sum(r_ints))
-        '''
+        # if there are no non-zero intensities in the query or reference spectrum, their similarity is 0
         if np.sum(q_ints) != 0 and np.sum(r_ints) != 0:
             if similarity_measure == 'cosine':
                 similarity_score = S_cos(q_ints, r_ints)
@@ -205,11 +223,13 @@ for query_idx in range(0,df_query.shape[0]):
     all_similarity_scores.append(similarity_scores)
 
 
+# create pandas dataframe containing all similarity scores computed with one row for each query spectrum and one column for each reference spectrum
 df_scores = pd.DataFrame(all_similarity_scores, columns = df_reference.iloc[:,0])
 df_scores.index = df_query.iloc[:,0]
 df_scores.index.names = ['Query Spectrum ID']
 
 
+# get predicted identity/identities of each query spectrum and the corresponding maximum similarity score
 preds = []
 scores = []
 for i in range(0, df_scores.shape[0]):
@@ -233,16 +253,19 @@ preds = np.array(preds)
 scores = np.array(scores)
 out = np.c_[preds,scores]
 
+# get column names for a pandas dataframe with the n_top_matches_to_save top-matches for each query spectrum
 cnames_preds = []
 cnames_scores = []
 for i in range(0,n_top_matches_to_save):
     cnames_preds.append(f'RANK.{i+1}.PRED')
     cnames_scores.append(f'RANK.{i+1}.SIMILARITY.SCORE')
 
+# get pandas dataframe with identifcation results with each row corresponding to a query spectrum, n_top_matches_to_save columns for the top predictions, and n_top_matches_to_save columns for the similarity scores corresponding to the predictions
 df_top_ref_specs = pd.DataFrame(out, columns = [*cnames_preds, *cnames_scores])
 df_top_ref_specs.index = df_query.iloc[:,0]
 df_top_ref_specs.index.names = ['Query Spectrum ID']
 
+# print the identification results if the user desires
 if print_id_results == 'True':
     print(df_top_ref_specs.to_string())
 

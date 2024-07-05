@@ -9,7 +9,10 @@ import numpy as np
 
 def S_cos(ints_a, ints_b):
     #Cosine Similarity Measure
-    return np.dot(ints_a,ints_b) / (np.sqrt(sum(np.power(ints_a,2))) * np.sqrt(sum(np.power(ints_b,2))))
+    if np.sum(ints_a) == 0 or np.sum(ints_b) == 0:
+        return(0)
+    else:
+        return np.dot(ints_a,ints_b) / (np.sqrt(sum(np.power(ints_a,2))) * np.sqrt(sum(np.power(ints_b,2))))
 
 def ent_renyi(ints, q):
     #Computes the Renyi entropy of a probability distribution for a given positive entropy dimension q
@@ -38,6 +41,7 @@ def S_renyi(ints_a, ints_b, q):
     #The Renyi Similarity Measure approaches the Shannon Entropy Similiarity Measure as q approaches 1
     #ints_a and ints_b must be normalized to sum to 1
     if q == 1:
+        print('Warning: the Renyi Entropy Similarity Measure is equivalent to the Shannon Entropy Similarity Measure when the entropy dimension is 1')
         return S_shannon(ints_a, ints_b)
     else:
         ent_a = ent_renyi(ints_a, q)
@@ -52,6 +56,7 @@ def S_tsallis(ints_a, ints_b, q):
     #The Tsallis Similarity Measure approaches the Shannon Entropy Similiarity Measure as q approaches 1
     #ints_a and ints_b must be normalized to sum to 1
     if q == 1:
+        print('Warning: the Tsallis Entropy Similarity Measure is equivalent to the Shannon Entropy Similarity Measure when the entropy dimension is 1')
         return S_shannon(ints_a, ints_b)
     else:
         ent_a = ent_tsallis(ints_a, q)
