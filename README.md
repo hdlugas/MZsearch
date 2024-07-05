@@ -25,17 +25,17 @@ This repository has two main capabilities:
 
 These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 ```
-python spec_lib_matching_lcms.py -h
-python spec_lib_matching_lcms.py -h
-python plot_spectra_lcms.py -h
+python spec_lib_matching_.py -h
+python spec_lib_matching_.py -h
+python plot_spectra_.py -h
 python plot_spectra_gcms.py -h
 ```
 ## Run spectral library matching
 To run spectral library matching on LC-MS/GC-MS data, one can use:
 ```
-python spec_lib_matching_lcms.py \
-  --query_data path_to_query_lcms_CSV_file \
-  --reference_data path_to_reference_lcms_CSV_file
+python spec_lib_matching_.py \
+  --query_data path_to_query__CSV_file \
+  --reference_data path_to_reference__CSV_file
 
 python spec_lib_matching_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
@@ -44,9 +44,9 @@ python spec_lib_matching_gcms.py \
 
 Example implementations of these scripts with all parameters specified are:
 ```
-python spec_lib_matching_lcms.py \
-  --query_data path_to_query_lcms_CSV_file \
-  --reference_data path_to_reference_lcms_CSV_file \
+python spec_lib_matching_.py \
+  --query_data path_to_query__CSV_file \
+  --reference_data path_to_reference__CSV_file \
   --likely_reference_IDs None \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
@@ -65,8 +65,8 @@ python spec_lib_matching_lcms.py \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
   --print_id_results False \
-  --output_identification path_to_lcms_identification_results_CSV \
-  --output_similarity_scores path_to_CSV_of_all_lcms_similarity_scores
+  --output_identification path_to__identification_results_CSV \
+  --output_similarity_scores path_to_CSV_of_all__similarity_scores
 
 python spec_lib_matching_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
@@ -93,7 +93,7 @@ Parameter descriptions are as follows:
 
 --query_data: 
   * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
-  * GCMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GCMS NIST WebBook library
+  * GC-MS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GC-MS NIST WebBook library
 
 --reference_data: same format CSV file as query_data except of reference library spectra.
 
@@ -101,7 +101,7 @@ Parameter descriptions are as follows:
 
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order: The spectrum preprocessing transformations and the order in which they are to be applied. These transformations are applied prior to computing similarity scores. Format must be a string with 2-6 (LC-MS) or 2-4 (GC-MS) characters chosen from F, N, W, C, M, L representing filtering, noise removal, weight-factor-transformation, centroiding, matching, and low-entropy tranformation, respectively. Matching (M) and centroiding (C) are applicable only to LC-MS data. For example, if \'WCM\' is passed, then each (LC-MS) spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LCMS data. Default: FCNMWL for LC-MS and FNLW for GC-MS.
+--spectrum_preprocessing_order: The spectrum preprocessing transformations and the order in which they are to be applied. These transformations are applied prior to computing similarity scores. Format must be a string with 2-6 (LC-MS) or 2-4 (GC-MS) characters chosen from F, N, W, C, M, L representing filtering, noise removal, weight-factor-transformation, centroiding, matching, and low-entropy tranformation, respectively. Matching (M) and centroiding (C) are applicable only to LC-MS data. For example, if \'WCM\' is passed, then each (LC-MS) spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of  data. Default: FCNMWL for LC-MS and FNLW for GC-MS.
 
 --high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
@@ -186,8 +186,8 @@ python plot_spectra_gcms.py \
 Parameter descriptions are as follows:
 
 --query_data: 
-  * LCMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LCMS GNPS library.
-  * GCMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GCMS NIST WebBook library
+  * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
+  * GC-MS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GC-MS NIST WebBook library
 
 --reference_data: Same format CSV file as query_data except of reference library spectra.
 
