@@ -53,7 +53,7 @@ spectrum in a reference library. The unknown chemical compound is then
 identified as the one from the reference library whose mass spectrum is
 most similar to that of the unknown compound. We present 'MZsearch', a
 command-line tool written in Python that implements spectral library
-matching. The 'MZsearch' offers a range of spectrum preprocessing
+matching. The 'MZsearch' tool offers a range of spectrum preprocessing
 transformations and similarity measures, and it is capable of analyzing
 data generated from both types of mass spectrometry: gas
 chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass
@@ -66,7 +66,7 @@ spectrometry data. The Python package 'matchms' allows one to perform
 spectral library matching for both GC-MS and LC-MS and provides an
 application programming interface (API) for users to define their own
 spectrum preprocessing transformations and similarity measures
-[@Huber2020]. The 'pyOpenMS', which is a Python wrapper of the 'OpenMS',
+[@Huber2020]. The 'pyOpenMS' tool, which is a Python wrapper of the 'OpenMS' tool,
 is for analyzing LC-MS data and provide common spectrum preprocessing
 transformations such as filtering based on m/z and intensity values
 [@Rost2014; @Rost2016]. The Python package 'spectrum_utils' provides
@@ -89,9 +89,9 @@ preprocessing steps unique to LC-MS data analysis, namely centroiding
 and matching (i.e., aligning the m/z values in such a way that we obtain
 a list of intensities \emph{of the same length} from each spectrum). In
 addition to these canonical spectrum preprocessing transformations for
-LC-MS, weight factor transformations and low-entropy transformations
+LC-MS data, weight factor transformations and low-entropy transformations
 have been proposed to improve the performance of compound identification
-for both GC-MS and LC-MS [@Kim2012; @Li2021; @Dlugas2024]. The Shannon
+for both GC-MS and LC-MS data [@Kim2012; @Li2021; @Dlugas2024]. The Shannon
 Entropy Similarity Measure has been shown to outperform the Cosine
 Similarity Measure with respect to LC-MS-based compound identification
 [@Li2021]. A generalization of the Shannon Entropy Similarity Measure,
@@ -105,11 +105,11 @@ recently-developed, high-performance entropy-based similarity measures or consid
 order of the transformations, which are important for effective
 metabolomics studies.
 
-The developed 'MZsearch' provides a command-line tool for
+The developed 'MZsearch' is a command-line tool for
 performing spectral library matching on either GC-MS or LC-MS data. It
 allows users to construct their own spectrum preprocessing order using
 spectrum preprocessing transformations such as weight factor and
-low-entropy transformations. Additionally, the 'MZsearch' includes a
+low-entropy transformations. Additionally, the 'MZsearch' tool includes a
 novel entropy-based similarity measure, the Rényi Entropy Similarity
 Measure, enabling users to choose among four similarity measures: the
 commonly-used Cosine Similarity Measure [@Stein1994], the Shannon
@@ -200,7 +200,8 @@ transformations is offered in 'MZsearch':
     $e\approx 2.72$ is Euler's constant.
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of MZsearch.
-![caption for flowchart figure.\label{fig:flowchart}](flowchart.png){width=100%, height=110%}
+
+![caption for flowchart figure.\label{fig:flowchart}](flowchart.png){width=100%, height=100%}
 
 
 ## Similarity Measures
@@ -359,6 +360,7 @@ python plot_spectra_gcms.py \
 ```
 
 An example output figure is shown in (\autoref{fig:spectra_plot}).
+
 ![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations.\label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
 
 
