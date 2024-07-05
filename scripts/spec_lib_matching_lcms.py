@@ -87,9 +87,10 @@ if 'M' not in spectrum_preprocessing_order:
     print(f'\n{preprocessing_error_message1}\n')
     sys.exit()
 
-if spectrum_preprocessing_order.index('C') > spectrum_preprocessing_order.index('M'):
-    print(f'\n{preprocessing_error_message2}\n')
-    sys.exit()
+if 'C' in spectrum_preprocessing_order:
+    if spectrum_preprocessing_order.index('C') > spectrum_preprocessing_order.index('M'):
+        print(f'\n{preprocessing_error_message2}\n')
+        sys.exit()
 
 
 # load the flag indicating whether the reference library is considered to be of high quality
