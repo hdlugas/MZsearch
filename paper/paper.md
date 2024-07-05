@@ -201,7 +201,7 @@ transformations is offered in 'MZsearch':
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of MZsearch.
 
-![caption for flowchart figure.\label{fig:flowchart}](flowchart.png){width=100%, height=100%}
+![Workflow of MZsearch.\label{fig:flowchart}](flowchart.png){width=100%, height=100%}
 
 
 ## Similarity Measures
@@ -361,7 +361,7 @@ python plot_spectra_gcms.py \
 
 An example output figure is shown in (\autoref{fig:spectra_plot}).
 
-![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations.\label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
+![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations. A low-entropy transformation is applied to the LC-MS spectra, and a weight factor tranformation is applied to the GC-MS spectra. \label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
 
 ## Get LC-MS library from MGF file
 To obtain an LC-MS query/reference library from an MGF file, one can use:
