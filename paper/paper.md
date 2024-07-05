@@ -359,9 +359,9 @@ python plot_spectra_gcms.py \
   --save_plots path_to_output_PDF_file
 ```
 
-An example output figure is shown in (\autoref{fig:spectra_plot}).
+Examples of figures output from these functions are displayed in (\autoref{fig:spectra_plot}).
 
-![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations. A low-entropy transformation is applied to the LC-MS spectra, and a weight factor tranformation is applied to the GC-MS spectra. \label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
+![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations. a) A low-entropy transformation is applied to the LC-MS spectra, b) a weight factor tranformation is applied to the GC-MS spectra. \label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
 
 ## Get LC-MS library from MGF file
 To obtain an LC-MS query/reference library from an MGF file, one can use:
