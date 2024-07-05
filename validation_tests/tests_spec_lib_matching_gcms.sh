@@ -3,9 +3,7 @@
 source activate base
 conda activate ezsearch_env
 
-: <<'END'
-
-END
+cd /home/hunter/mass_spec/entropies/JOSS/scripts
 
 echo $'\n\n\n\n\ntest #0'
 python spec_lib_matching_gcms.py \
@@ -137,7 +135,7 @@ echo $'\n\n\n\n\ntest #15'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
@@ -146,9 +144,27 @@ python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
   --wf_int 1.2 \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
+
+echo $'\n\n\n\n\ntest #17'
+python spec_lib_matching_gcms.py \
+  --spectrum_preprocessing_order LWF \
+  --similarity_measure cosine \
+  --likely_reference_IDs /home/hunter/mass_spec/entropies/JOSS/data/likely_gcms_ids.csv \
+  --n_top_matches_to_save 2 \
+  --print_id_results True
+
+echo $'\n\n\n\n\ntest #18'
+python spec_lib_matching_gcms.py \
+  --spectrum_preprocessing_order LWF \
+  --high_quality_reference_library True \
+  --similarity_measure cosine \
+  --n_top_matches_to_save 2 \
+  --print_id_results True
+
+
 
 echo $'\n\nFinished Testing\n'
 

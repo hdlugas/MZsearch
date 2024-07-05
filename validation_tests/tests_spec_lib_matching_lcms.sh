@@ -3,7 +3,11 @@
 source activate base
 conda activate ezsearch_env
 
+cd /home/hunter/mass_spec/entropies/JOSS/scripts
+
 :<< 'END'
+
+
 END
 
 echo $'\n\n\n\n\ntest #1'
@@ -90,7 +94,7 @@ echo $'\n\n\n\n\ntest #10'
 python spec_lib_matching_lcms.py \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
-  --mz_max 100 \
+  --mz_max 300 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
@@ -98,7 +102,7 @@ echo $'\n\n\n\n\ntest #11'
 python spec_lib_matching_lcms.py \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
-  --int_max 300 \
+  --int_max 400 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
@@ -106,7 +110,7 @@ echo $'\n\n\n\n\ntest #12'
 python spec_lib_matching_lcms.py \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
-  --int_min 100 \
+  --int_min 80 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
@@ -130,7 +134,7 @@ echo $'\n\n\n\n\ntest #15'
 python spec_lib_matching_lcms.py \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
-  --noise_threshold 0.4 \
+  --noise_threshold 0.1 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
@@ -144,58 +148,58 @@ python spec_lib_matching_lcms.py \
 
 echo $'\n\n\n\n\ntest #17'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCMNLF \
   --similarity_measure cosine \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
 echo $'\n\n\n\n\ntest #18'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCNMLF \
   --similarity_measure cosine \
   --window_size_centroiding 0.05 \
   --wf_mz 0.5 \
   --wf_int 1.3 \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
 echo $'\n\n\n\n\ntest #19'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCNLMF \
   --similarity_measure shannon \
   --wf_mz 0.5 \
   --wf_int 1.3 \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
 echo $'\n\n\n\n\ntest #20'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCNLFM \
   --similarity_measure renyi \
   --wf_mz 0.5 \
   --wf_int 1.3 \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
 echo $'\n\n\n\n\ntest #21'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCLNMF \
   --similarity_measure tsallis \
   --wf_mz 0.5 \
   --wf_int 1.3 \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
 echo $'\n\n\n\n\ntest #22'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order CMWNLF \
   --similarity_measure tsallis \
-  --LET_threshold 2 \
+  --LET_threshold 3 \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
@@ -227,20 +231,31 @@ python spec_lib_matching_lcms.py \
 
 echo $'\n\n\n\n\ntest #26'
 python spec_lib_matching_lcms.py \
-  --spectrum_preprocessing_order WM \
-  --similarity_measure tsallis \
-  --wf_mz 0.55 \
-  --wf_int 1.1 \
-  --n_top_matches_to_save 1 \
-  --print_id_results True
-
-echo $'\n\n\n\n\ntest #27'
-python spec_lib_matching_lcms.py \
   --spectrum_preprocessing_order FWL \
   --similarity_measure tsallis \
   --wf_mz 0.55 \
   --wf_int 1.1 \
   --LET_threshold 3 \
+  --n_top_matches_to_save 1 \
+  --print_id_results True
+
+echo $'\n\n\n\n\ntest #26'
+python spec_lib_matching_lcms.py \
+  --spectrum_preprocessing_order MNC \
+  --similarity_measure tsallis \
+  --wf_mz 0.55 \
+  --wf_int 1.1 \
+  --LET_threshold 3 \
+  --n_top_matches_to_save 1 \
+  --print_id_results True
+
+echo $'\n\n\n\n\ntest #27'
+python spec_lib_matching_lcms.py \
+  --spectrum_preprocessing_order WM \
+  --similarity_measure tsallis \
+  --high_quality_reference_library True \
+  --wf_mz 0.55 \
+  --wf_int 1.1 \
   --n_top_matches_to_save 1 \
   --print_id_results True
 

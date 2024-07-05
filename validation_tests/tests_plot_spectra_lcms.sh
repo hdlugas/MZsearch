@@ -3,6 +3,7 @@
 source activate base
 conda activate ezsearch_env
 
+cd /home/hunter/mass_spec/entropies/JOSS/scripts
 
 :<< 'END'
 
@@ -130,14 +131,14 @@ python plot_spectra_lcms.py \
 
 echo $'\n\n\n\n\ntest #17'
 python plot_spectra_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order CMWNLF \
   --similarity_measure cosine \
   --LET_threshold 2 \
   --save_plots /home/hunter/mass_spec/entropies/JOSS/scripts/test17.pdf
 
 echo $'\n\n\n\n\ntest #18'
 python plot_spectra_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order CMWNLF \
   --similarity_measure cosine \
   --window_size_centroiding 0.05 \
   --wf_mz 0.5 \
@@ -147,7 +148,7 @@ python plot_spectra_lcms.py \
 
 echo $'\n\n\n\n\ntest #19'
 python plot_spectra_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCNLMF \
   --similarity_measure shannon \
   --wf_mz 0.5 \
   --wf_int 1.3 \
@@ -156,7 +157,7 @@ python plot_spectra_lcms.py \
 
 echo $'\n\n\n\n\ntest #20'
 python plot_spectra_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order WCNLFM \
   --similarity_measure renyi \
   --wf_mz 0.5 \
   --wf_int 1.3 \
@@ -165,7 +166,7 @@ python plot_spectra_lcms.py \
 
 echo $'\n\n\n\n\ntest #21'
 python plot_spectra_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order LWCMNF \
   --similarity_measure tsallis \
   --wf_mz 0.5 \
   --wf_int 1.3 \
@@ -174,7 +175,7 @@ python plot_spectra_lcms.py \
 
 echo $'\n\n\n\n\ntest #22'
 python plot_spectra_lcms.py \
-  --spectrum_preprocessing_order MWCNLF \
+  --spectrum_preprocessing_order CMWNLF \
   --similarity_measure tsallis \
   --LET_threshold 2 \
   --save_plots /home/hunter/mass_spec/entropies/JOSS/scripts/test22.pdf
@@ -218,6 +219,25 @@ python plot_spectra_lcms.py \
   --wf_int 1.1 \
   --LET_threshold 4 \
   --save_plots /home/hunter/mass_spec/entropies/JOSS/scripts/test27.pdf
+
+echo $'\n\n\n\n\ntest #28'
+python plot_spectra_lcms.py \
+  --spectrum_preprocessing_order MCWL \
+  --similarity_measure tsallis \
+  --wf_mz 0.55 \
+  --wf_int 1.1 \
+  --LET_threshold 4 \
+  --save_plots /home/hunter/mass_spec/entropies/JOSS/scripts/test27.pdf
+
+
+echo $'\n\n\n\n\ntest #29'
+python plot_spectra_lcms.py \
+  --similarity_measure tsallis \
+  --high_quality_reference_library True \
+  --wf_mz 0.55 \
+  --wf_int 1.1 \
+  --LET_threshold 3 \
+  --save_plots /home/hunter/mass_spec/entropies/JOSS/scripts/test29.pdf
 
 
 echo 'Finished Testing'

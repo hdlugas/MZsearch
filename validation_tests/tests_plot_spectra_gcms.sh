@@ -3,8 +3,7 @@
 source activate base
 conda activate ezsearch_env
 
-: <<'END'
-END
+cd /home/hunter/mass_spec/entropies/JOSS/scripts
 
 
 echo $'\n\n\n\n\ntest #0'
@@ -97,6 +96,7 @@ python plot_spectra_gcms.py \
   --similarity_measure cosine \
   --int_max 300 \
   --save_plots /home/hunter/mass_spec/entropies/JOSS/scripts/test11.pdf
+
 
 echo $'\n\n\n\n\ntest #12'
 python plot_spectra_gcms.py \
