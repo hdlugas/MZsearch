@@ -46,10 +46,10 @@ python spec_lib_matching_.py \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
   --high_quality_reference_library False \
-  --mz_min 0\
-  --mz_max 999999999999\
-  --int_min 0\
-  --int_max 999999999999\
+  --mz_min 0 \
+  --mz_max 999999999999 \
+  --int_min 0 \
+  --int_max 999999999999 \
   --window_size_centroiding 0.5 \
   --window_size_matching 0.5 \
   --noise_threshold 0 \
@@ -70,10 +70,10 @@ python spec_lib_matching_gcms.py \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
   --high_quality_reference_library False \
-  --mz_min 0\
-  --mz_max 999999999999\
-  --int_min 0\
-  --int_max 999999999999\
+  --mz_min 0 \
+  --mz_max 999999999999 \
+  --int_min 0 \
+  --int_max 999999999999 \
   --wf_mz 0 \
   --wf_intensity 1 \
   --entropy_dimension 1.1 \
@@ -144,10 +144,10 @@ python plot_spectra_lcms.py \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
   --high_quality_reference_library False \
-  --mz_min 0\
-  --mz_max 999999999999\
-  --int_min 0\
-  --int_max 999999999999\
+  --mz_min 0 \
+  --mz_max 999999999999 \
+  --int_min 0 \
+  --int_max 999999999999 \
   --window_size_centroiding 0.5 \
   --window_size_matching 0.5 \
   --noise_threshold 0 \
@@ -166,10 +166,10 @@ python plot_spectra_gcms.py \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
   --high_quality_reference_library False \
-  --mz_min 0\
-  --mz_max 999999999999\
-  --int_min 0\
-  --int_max 999999999999\
+  --mz_min 0 \
+  --mz_max 999999999999 \
+  --int_min 0 \
+  --int_max 999999999999 \
   --wf_mz 0 \
   --wf_intensity 1 \
   --LET_threshold 0 \
