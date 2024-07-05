@@ -2,15 +2,10 @@
 Command-line Python tool to perform spectral library matching to identify chemical compounds with host of preprocessing transformations and similarity measures (Cosine and three entropy-based similarity measures). MZsearch is capable of performing spectral library matching with respect to either gas chromatography - mass spectrometry (GC-MS) or liquid chromatography - mass spectrometry (LC-MS) data.
 
 # Create conda environment and install dependencies
-The only dependencies MZsearch requires are Matplotlib, NumPy, Pandas, and SciPy. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, and scipy=1.13.1, although it may work with other versions of these tools. For instructions on installing conda on your system, see: [https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once conda is installed, you can create a conda environment, activate the conda environment, and install the required dependencies with the commands:
+MZsearch requires the Python dependencies Matplotlib, NumPy, Pandas, and SciPy and R libraries MSnbase and optparse. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, scipy=1.13.1, MSnbase=2.30.1, and optparse=1.7.5, although it may work with other versions of these tools. For instructions on installing conda on your system, see: [https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once conda is installed, you can create a conda environment with the necessary dependencies and activate the conda environment with the commands:
 ```
-conda create -n mzsearch_env
+conda env create -n mzsearch_env -f environment.yml
 conda activate mzsearch_env
-conda install python=3.12.4
-conda install matplotlib=3.8.4
-conda install numpy=1.26.4
-conda install pandas=2.2.2
-conda install scipy=1.13.1
 ```
 
 To return to your base environment, you can deactivate the mzsearch_env environment with the command:
