@@ -199,7 +199,9 @@ transformations is offered in 'MZsearch':
     $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where
     $e\approx 2.72$ is Euler's constant.
 
-The flowchart in (\autoref{fig:flowchart}) depicts the overall workflow of MZsearch.
+The flowchart in \autoref{fig:flowchart} depicts the overall workflow of MZsearch.
+![caption for flowchart figure.\label{fig:flowchart}](flowchart.png){width=100%, height=110%}
+
 
 ## Similarity Measures
 
@@ -357,8 +359,6 @@ python plot_spectra_gcms.py \
 ```
 
 An example output figure is shown in (\autoref{fig:spectra_plot}).
-
-![caption for flowchart figure.\label{fig:flowchart}](flowchart.png){width=100%, height=110%}
 ![Query spectrum plotted against reference spectrum before/after spectrum preprocessing transformations.\label{fig:spectra_plot}](spectra_figure.png){width=100%, height=100%}
 
 
