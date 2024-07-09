@@ -144,9 +144,9 @@ transformations is offered in 'MZsearch':
     $(x_{1},x_{2},...,x_{n})$, then the transformed spectrum intensities
     $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such
     that, for all $i\in\{1,2,...,n\}$, $x_{i}^{\star}=x_{i}$ if
-    $H_{Shannon}\geq T$ and
+    $H_{Shannon}(I)\geq T$ and
     $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ if
-    $H_{Shannon}\textless T$.
+    $H_{Shannon}(I)\textless T$ with $H_{Shannon}(I)=-\sum_{i=1}^{n}p_{i}\cdot ln(p_{i})$.
 
 -   Centroiding (only applicable to LC-MS data): Given a user-defined
     window-size parameter $w_{centroiding}$ and a spectrum $I$ with m/z
@@ -229,16 +229,16 @@ functionality for computing the following similarity measures:
 
 -   Tsallis Entropy Similarity Measure:
     \begin{gather*}\label{eq:tsallis}
-      S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H_{Tsallis}(I_{Q}/2+I_{L}/2,q)-H_{Tsallis}(I_{Q},q)-H_{Tsallis}(I_{L},q)}{N_{Tsallis}},\\
-      N_{Tsallis}:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
-      H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q},\\
+      S_{Tsallis}(I,J,q)=1-\frac{2\times H_{Tsallis}(I/2+J/2,q)-H_{Tsallis}(I,q)-H_{Tsallis}(J,q)}{N_{Tsallis}(I,J,q)},\\
+      N_{Tsallis}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
+      H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
       q\neq 1, \ q\textgreater 0
     \end{gather*}
 
 -   Rényi Entropy Similarity Measure: \begin{gather*}\label{eq:renyi}
-      S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H_{Renyi}(I_{Q}/2+I_{L}/2,q)-H_{Renyi}(I_{Q},q)-H_{Renyi}(I_{L},q)}{N_{Renyi}},\\
-      N_{Renyi}:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
-      H_{Renyi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q}),\\
+      S_{Renyi}(I,J,q)=1-\frac{2\times H_{Renyi}(I/2+J/2,q)-H_{Renyi}(I,q)-H_{Renyi}(J,q)}{N_{Renyi}(I,J,q)},\\
+      N_{Renyi}(I,J,q):=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
+      H_{Renyi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}a_{i}^{q}),\\
       q\neq 1, \ q\textgreater 0
     \end{gather*}
 
