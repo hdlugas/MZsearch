@@ -222,7 +222,7 @@ provides functionality for computing the following similarity measures:
 
 -   Tsallis Entropy Similarity Measure:
     \begin{gather*}\label{eq:tsallis}
-      S_{Tsallis}(I_{q},I_{l},q)=1-\fracK{2\times H_{Tsallis}(I_{Q}/2+I_{L}/2,q)-H_{Tsallis}(I_{Q},q)-H_{Tsallis}(I_{L},q)}{N_{Tsallis}},\\
+      S_{Tsallis}(I_{q},I_{l},q)=1-\frac{2\times H_{Tsallis}(I_{Q}/2+I_{L}/2,q)-H_{Tsallis}(I_{Q},q)-H_{Tsallis}(I_{L},q)}{N_{Tsallis}},\\
       N_{Tsallis}:==\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
       H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}p_{i}^{q}\right)-1}{1-q},\\
       q\neq 1, \ q\textgreater 0
