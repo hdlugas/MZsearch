@@ -146,7 +146,7 @@ transformations is offered in 'MZsearch':
     that, for all $i\in\{1,2,...,n\}$, $x_{i}^{\star}=x_{i}$ if
     $H_{Shannon}(I)\geq T$ and
     $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ if
-    $H_{Shannon}(I)\textless T$ with $H_{Shannon}(I)=-\sum_{i=1}^{n}p_{i}\cdot ln(p_{i})$.
+    $H_{Shannon}(I)\textless T$ with $H_{Shannon}(I)=-\sum_{i=1}^{n}x_{i}\cdot ln(p_{i})$.
 
 -   Centroiding (only applicable to LC-MS data): Given a user-defined
     window-size parameter $w_{centroiding}$ and a spectrum $I$ with m/z
