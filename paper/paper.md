@@ -1,5 +1,5 @@
 ---
-title: 'EZsearch: A Python-Based Compound Idnetification Tool for GC-MS and LC-MS-Based Metabolomics'
+title: 'MZsearch: A Python-Based Compound Idnetification Tool for GC-MS and LC-MS-Based Metabolomics'
 tags:
   - Python
   - metabolomics
@@ -43,17 +43,17 @@ This often involves identifying and quantifying metabolomic biomarkers
 for use in diagnosing, treating, and stratifying the risk of various
 diseases. A central tool for compound identification in metabolomics is
 mass spectrometry, which produces the mass spectrum for a given chemical
-compound. Each point in the mass spectrum represents an ion fragment,
-with one axis representing mass to charge (m/z) and the other axis
+compound. Each peak in the mass spectrum represents an ion fragment,
+with one axis representing mass to charge ratio (m/z) and the other axis
 representing relative intensity. A popular method used to identify an
 unknown chemical compound based on its mass spectrum is spectral library
 matching. This process involves computing a measure of similarity
 between the mass spectrum of the unknown chemical compound and each mass
 spectrum in a reference library. The unknown chemical compound is then
 identified as the one from the reference library whose mass spectrum is
-most similar to that of the unknown compound. We present 'EZsearch', a
+most similar to that of the unknown compound. We present 'MZsearch', a
 command-line tool written in Python that implements spectral library
-matching. The 'EZsearch' offers a range of spectrum preprocessing
+matching. The 'MZsearch' tool offers a range of spectrum preprocessing
 transformations and similarity measures, and it is capable of analyzing
 data generated from both types of mass spectrometry: gas
 chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass
@@ -66,19 +66,20 @@ spectrometry data. The Python package 'matchms' allows one to perform
 spectral library matching for both GC-MS and LC-MS and provides an
 application programming interface (API) for users to define their own
 spectrum preprocessing transformations and similarity measures
-[@Huber2020]. The 'pyOpenMS', which is a Python wrapper of the 'OpenMS',
-is for analyzing LC-MS data and provide common spectrum preprocessing
-transformations such as filtering based on m/z and intensity values
-[@Rost2014; @Rost2016]. The Python package 'spectrum_utils' provides
-functionality for preprocessing and visualizing mass spectrometry data
-[@Bittremieux2020]. The R package 'metID' is a tool for LC-MS-based
-compound identification with a focus on allowing users to combine their
-in-house database(s) with public databases [@Shen2022]. The R Shiny
-package 'ShinyMetID' provides users six similarity measures (Cosine,
-Weighted Cosine, Stein & Scott, Discrete Fourier Transformation,
-Discrete Wavelet Transformation, and Semi-Partial Correlation) and a
-graphical user interface (GUI) to perform spectral library matching to
-identify chemical compounds based on GC-MS data [@Jeong2023].
+[@Huber2020]. The 'pyOpenMS' tool, which is a Python wrapper of the
+'OpenMS' tool, is for analyzing LC-MS data and provide common spectrum
+preprocessing transformations such as filtering based on m/z and
+intensity values [@Rost2014; @Rost2016]. The Python package
+'spectrum_utils' provides functionality for preprocessing and
+visualizing mass spectrometry data [@Bittremieux2020]. The R package
+'metID' is a tool for LC-MS-based compound identification with a focus
+on allowing users to combine their in-house database(s) with public
+databases [@Shen2022]. The R Shiny package 'ShinyMetID' provides users
+six similarity measures (Cosine, Weighted Cosine, Stein & Scott,
+Discrete Fourier Transformation, Discrete Wavelet Transformation, and
+Semi-Partial Correlation) and a graphical user interface (GUI) to
+perform spectral library matching to identify chemical compounds based
+on GC-MS data [@Jeong2023].
 
 In a GC-MS experiment, the resulting mass spectra typically have m/z
 values as integers for all chemical compounds. In contrast, LC-MS
@@ -89,29 +90,29 @@ preprocessing steps unique to LC-MS data analysis, namely centroiding
 and matching (i.e., aligning the m/z values in such a way that we obtain
 a list of intensities \emph{of the same length} from each spectrum). In
 addition to these canonical spectrum preprocessing transformations for
-LC-MS, weight factor transformations and low-entropy transformations
-have been proposed to improve the performance of compound identification
-for both GC-MS and LC-MS [@Kim2012; @Li2021; @Dlugas2024]. The Shannon
-Entropy Similarity measure has been shown to outperform the Cosine
-Similarity measure with respect to LC-MS-based compound identification
-[@Li2021]. A generalization of the Shannon Entropy Similarity measure,
-the Tsallis Entropy Similarity measure, has recently been developed and
-performs better than the Shannon Entropy Similarity measure in both
-GC-MS and LC-MS data [@Dlugas2024]. This recent study has further
-demonstrated that the order of preprocessing transformations is also
-critical to achieving higher accuracy in compound identification.
-However, to our knowledge, there is no tool that includes the
-recently-developed, high-performance similarity scores or considers the
-order of the transformations, which are important for effective
-metabolomics studies.
+LC-MS data, weight factor transformations and low-entropy
+transformations have been proposed to improve the performance of
+compound identification for both GC-MS and LC-MS data [@Kim2012;
+@Li2021; @Dlugas2024]. The Shannon Entropy Similarity Measure has been
+shown to outperform the Cosine Similarity Measure with respect to
+LC-MS-based compound identification [@Li2021]. A generalization of the
+Shannon Entropy Similarity Measure, the Tsallis Entropy Similarity
+Measure, has recently been developed and performs better than the
+Shannon Entropy Similarity Measure in both GC-MS and LC-MS data
+[@Dlugas2024]. This recent study has further demonstrated that the order
+of preprocessing transformations is also critical to achieving higher
+accuracy in compound identification. However, to our knowledge, there is
+no tool that includes the recently-developed, high-performance
+entropy-based similarity measures or considers the order of the
+transformations, which are important for effective metabolomics studies.
 
-The developed Python package 'EZsearch' provides a command-line tool for
-performing spectral library matching on either GC-MS or LC-MS data. It
-allows users to construct their own spectrum preprocessing order using
-spectrum preprocessing transformations such as weight factor and
-low-entropy transformations. Additionally, the 'EZsearch' includes a
-novel entropy-based similarity measures, the Rényi Entropy Similarity
-Measure, enabling users to choose among four similarity measures: the
+The developed 'MZsearch' is a command-line tool for performing spectral
+library matching on either GC-MS or LC-MS data. It allows users to
+construct their own spectrum preprocessing order using spectrum
+preprocessing transformations such as weight factor and low-entropy
+transformations. Additionally, the 'MZsearch' tool includes a novel
+entropy-based similarity measure, the Rényi Entropy Similarity Measure,
+enabling users to choose among four similarity measures: the
 commonly-used Cosine Similarity Measure [@Stein1994], the Shannon
 Entropy Similarity Measure [@Li2021], the recently-developed Tsallis
 Entropy Similarity Measure [@Dlugas2024], and the novel Rényi Entropy
@@ -122,20 +123,20 @@ Similarity Measure.
 ## Spectrum Preprocessing Transformations
 
 Functionality implementing the following spectrum preprocessing
-transformations is offered in 'EZsearch':
+transformations is offered in 'MZsearch':
 
 -   Filtering: Given user-defined parameters (mz_min,mz_max),
-    (int_min,int_max) and spectrum $I$ with mass/charge values
+    (int_min,int_max) and spectrum $I$ with m/z values
     $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$,
-    the transformed spectrum $I^{\star}$ consists of the points
+    the transformed spectrum $I^{\star}$ consists of the peaks
     $(m_{i},x_{i})$ in $I$ such that mz_min $\leq m_{i}\leq$ mz_max and
     int_min $\leq x_{i}\leq$ int_max.
 
 -   Weight Factor Transformation: Given a pair of user-defined weight
-    factor parameters $(\text{a,b})$ and spectrum $I$ with mass/charge
-    values $(m_{1},m_{2},...,m_{n})$ and intensities
-    $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$ has
-    the same mass/charge values as $I$ and has intensities given by
+    factor parameters $(\text{a,b})$ and spectrum $I$ with m/z values
+    $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$,
+    the transformed spectrum $I^{\star}$ has the same m/z values as $I$
+    and has intensities given by
     $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}})$.
 
 -   Low-Entropy Transformation: Given a user-defined low-entropy
@@ -148,41 +149,40 @@ transformations is offered in 'EZsearch':
     $H_{Shannon}\textless T$.
 
 -   Centroiding (only applicable to LC-MS data): Given a user-defined
-    window-size parameter $w_{centroiding}$ and a spectrum $I$ with
-    mass/charge values $(m_{1},m_{2},...,m_{n})$ and intensities
+    window-size parameter $w_{centroiding}$ and a spectrum $I$ with m/z
+    values $(m_{1},m_{2},...,m_{n})$ and intensities
     $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$
-    merges adjacent points $(m_{i},x_{i}),(m_{i+1},x_{i+1})$ into the
-    point
+    merges adjacent peaks $(m_{i},x_{i}),(m_{i+1},x_{i+1})$ into the
+    peak
     $(\frac{m_{i}\cdot x_{i}+m_{i+1}\cdot x_{i+1}}{x_{i}+x_{i+1}},x_{i}+x_{i+1})$
     if $|m_{i}-m_{i+1}|\textless w_{centroiding}$ for
     $i\in\{1,2,...,n-1\}$. This centroiding procedure generalizes to
-    more than two points whose mass/charge values are within distance
+    more than two peaks whose m/z values are within distance
     $w_{centroiding}$ of each other.
 
 -   Noise Removal: Given a user-defined noise removal parameter $r$ and
     a spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})$, noise
-    removal removes points from $I$ with
+    removal removes peaks from $I$ with
     $x_{j}\textless r\cdot\text{max}(\{x_{1},x_{2},...,x_{n}\})$ for
     $j\in\{1,2,...,n\}$.
 
 -   Matching (only applicable to LC-MS data): Given a user-defined
     window-size parameter $w_{matching}$ and two spectra $I$, $J$ with
-    mass/charge ratios
-    $(a_{1},a_{2},...,a_{n}), (b_{1},b_{2},...,b_{m})$ and intensities
-    $(x_{1},x_{2},...,x_{n}), (y_{1},y_{2},...,y_{m})$, respectively, of
-    which we would like to measure the similarity between, the matching
-    procedure outputs two spectra $I^{\star},J^{\star}$ containing the
-    same number of points with $I^{\star}$ and $J^{\star}$ having
-    transformed intensities and identical mass/charge ratios.
-    Specifically, for a given point $(a_{i},x_{i})$ of $I$, if there are
-    no points $(b_{j},y_{j})$ in $J$ with
-    $|a_{i}-b_{j}|\textless w_{matching}$, then the point
-    $(a_{i},x_{i})$ remains in $I^{\star}$ and the point $(a_{i},0)$ is
-    included in $J^{\star}$. If there is at least one point
-    $(b_{j},y_{j})$ with $|a_{i}-b_{j}|\textless w_{matching}$, then the
-    point $(a_{i},x_{i})$ remains in $I^{\star}$ and the point
-    $(a_{i},\sum_{j}b_{j})$ is included in $J^{\star}$. This procedure
-    is applied when transposing the roles of $I$ and $J$ as well.
+    m/z ratios $(a_{1},a_{2},...,a_{n}), (b_{1},b_{2},...,b_{m})$ and
+    intensities $(x_{1},x_{2},...,x_{n}), (y_{1},y_{2},...,y_{m})$,
+    respectively, of which we would like to measure the similarity
+    between, the matching procedure outputs two spectra
+    $I^{\star},J^{\star}$ containing the same number of peaks with
+    $I^{\star}$ and $J^{\star}$ having transformed intensities and
+    identical m/z ratios. Specifically, for a given peak $(a_{i},x_{i})$
+    of $I$, if there are no peaks $(b_{j},y_{j})$ in $J$ with
+    $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
+    remains in $I^{\star}$ and the peak $(a_{i},0)$ is included in
+    $J^{\star}$. If there is at least one peak $(b_{j},y_{j})$ with
+    $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
+    remains in $I^{\star}$ and the peak $(a_{i},\sum_{j}b_{j})$ is
+    included in $J^{\star}$. This procedure is applied when transposing
+    the roles of $I$ and $J$ as well.
 
 -   Normalization: Prior to computing entropy - regardless of whether in
     the context of performing the low-entropy transformation or
@@ -199,13 +199,20 @@ transformations is offered in 'EZsearch':
     $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where
     $e\approx 2.72$ is Euler's constant.
 
+The flowchart in \autoref{fig:flowchart} depicts the overall workflow of
+MZsearch.
+
+![Workflow of
+MZsearch.\label{fig:flowchart}](flowchart.png){width="100%,"
+height="100%"}
+
 ## Similarity Measures
 
 Given a pair of processed spectra intensities
 $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$
 with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and
-$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, (insert package name)
-provides functionality for computing the following similarity measures:
+$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, 'MZsearch' provides
+functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure: \begin{equation*}
       S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
@@ -228,7 +235,7 @@ provides functionality for computing the following similarity measures:
       q\neq 1, \ q\textgreater 0
     \end{gather*}
 
--   KRényi Entropy Similarity Measure: \begin{gather*}\label{eq:renyi}
+-   Rényi Entropy Similarity Measure: \begin{gather*}\label{eq:renyi}
       S_{Renyi}(I_{Q}, I_{L})=1-\frac{2\times H_{Renyi}(I_{Q}/2+I_{L}/2,q)-H_{Renyi}(I_{Q},q)-H_{Renyi}(I_{L},q)}{N_{Renyi}},\\
       N_{Renyi}:=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
       H_{Renyi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}p_{i}^{q}),\\
@@ -237,16 +244,16 @@ provides functionality for computing the following similarity measures:
 
 # Usage
 
-This repository has two main capabilities: 1. running spectral library
-matching to identify compounds based off of their mass spectrometry data
-2. plotting a query spectrum vs a reference spectrum before and after
-preprocessing transformations.
+This repository has two main capabilities: (i) running spectral library
+matching to identify compounds based on their mass spectrometry data,
+and (ii) plotting a query spectrum vs. a reference spectrum before and
+after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GCMS and
-(ii) LCMS data due to the different spectrum preprocessing
-transformations stemming from a different format in the mass:charge
-ratios in GCMS vs LCMS data. To see all parameters for any of the four
-main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
+These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data
+due to the different spectrum preprocessing transformations required by
+the different format in the m/z ratios in GC-MS vs LC-MS data. To see
+all parameters for any of the four main scripts
+(spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
 plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 
 ```         
@@ -258,7 +265,7 @@ python plot_spectra_gcms.py -h
 
 ## Run spectral library matching
 
-To run spectral library matching on LCMS/GCMS data, one can use:
+To run spectral library matching on LC-MS/GC-MS data, one can use:
 
 ```         
 python spec_lib_matching_lcms.py \
@@ -266,6 +273,7 @@ python spec_lib_matching_lcms.py \
   --reference_data path_to_reference_lcms_CSV_file \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -279,6 +287,7 @@ python spec_lib_matching_lcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_lcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_lcms_similarity_scores
 
@@ -287,6 +296,7 @@ python spec_lib_matching_gcms.py \
   --reference_data path_to_reference_gcms_CSV_file \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -296,23 +306,26 @@ python spec_lib_matching_gcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --n_top_matches_to_save 1 \
+  --print_id_results False \
   --output_identification path_to_gcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
 ```
 
 ## Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
 
-To plot a query spectrum vs a reference spectrum before and after
+To plot a query spectrum vs. a reference spectrum before and after
 preprocessing transformations, run:
 
 ```         
 python plot_spectra_lcms.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
+  --likely_reference_IDs path_to_likely_reference_IDs_CSV_file \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -330,10 +343,12 @@ python plot_spectra_lcms.py \
 python plot_spectra_gcms.py \
   --query_data path_to_query_gcms_CSV_file \
   --reference_data path_to_reference_gcms_CSV_file \
+  --likely_reference_IDs path_to_likely_reference_IDs_CSV_file \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FNLW \
+  --high_quality_reference_library False \
   --mz_min 0\
   --mz_max 999999999999\
   --int_min 0\
@@ -346,14 +361,25 @@ python plot_spectra_gcms.py \
   --save_plots path_to_output_PDF_file
 ```
 
-# Figures
+An example output figure is shown in (\autoref{fig:spectra_plot}).
 
-Figures can be included like this: ![Caption for example
-figure.](figure.png) and referenced from text using
-\autoref{fig:example}.
+![Query spectrum plotted against reference spectrum before/after
+spectrum preprocessing transformations. A low-entropy transformation is
+applied to the LC-MS spectra, and a weight factor tranformation is
+applied to the GC-MS spectra.
+\label{fig:spectra_plot}](spectra_figure.png){width="100%,"
+height="100%"}
 
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){width="20%"}
+## Get LC-MS library from MGF file
+
+To obtain an LC-MS query/reference library from an MGF file, one can
+use:
+
+```         
+Rscript get_lcms_library_from_mgf.R \
+  --input_path path_to_input_mgf_file \
+  --output_path path_to_output_csv_file 
+```
 
 # Acknowledgements
 
