@@ -14,9 +14,10 @@ conda deactivate
 ```
 
 # Usage
-This repository has two main capabilities:
-1. running spectral library matching to identify compounds based off of their mass spectrometry data
-2. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
+This repository has three main capabilities:
+1. converting the raw data to the necessary format for spectral library matching
+2. running spectral library matching to identify compounds based off of their mass spectrometry data
+3. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
 
 These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 ```
@@ -24,6 +25,7 @@ python spec_lib_matching_.py -h
 python spec_lib_matching_.py -h
 python plot_spectra_.py -h
 python plot_spectra_gcms.py -h
+python build_lcms_library.py -h
 ```
 ## Run spectral library matching
 To run spectral library matching on LC-MS/GC-MS data, one can use:
@@ -223,13 +225,18 @@ Parameter descriptions are as follows:
 --save_plots: Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.
 
 
-## Obtain LC-MS library from MGF file
+## Obtain LC-MS library from MGF or mzML file
 To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in either an mgf or mzML file, one can run:
 ```
 python build_lcms_library.py \
   --input_path path_to_input_mgf_or_mzML_file \
   --output_path path_to_output_csv_file
 ```
+
+Parameter descriptions are as follows:
+
+--input_path: Path to input file (must be either mgf or mlMZ file). Mandatory argument.
+--output_path: Path to output CSV file. Default: current working directory.
 
 Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
 
