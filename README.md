@@ -4,7 +4,7 @@ Command-line Python tool to perform spectral library matching to identify chemic
 # Create conda environment and install dependencies
 MZsearch requires the Python dependencies Matplotlib, NumPy, Pandas, and SciPy and R libraries MSnbase and optparse. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, scipy=1.13.1, MSnbase=2.28.1, and optparse=1.7.5, although it may work with other versions of these tools. For instructions on installing conda on your system, see: [https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once conda is installed, you can create a conda environment with the necessary dependencies and activate the conda environment with the commands:
 ```
-conda env create -n mzsearch_env -f environment.yml
+conda env create -f environment.yml
 conda activate mzsearch_env
 ```
 
@@ -224,14 +224,14 @@ Parameter descriptions are as follows:
 
 
 ## Obtain LC-MS library from MGF file
-To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in an MGF file, one can run:
+To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in either an mgf or mzML file, one can run:
 ```
-Rscript get_lcms_library_from_mgf.R \
---input_path path_to_input_mgf_file \
---output_path path_to_output_csv_file
+python build_lcms_library.py \
+  --input_path path_to_input_mgf_or_mzML_file \
+  --output_path path_to_output_csv_file
 ```
 
-Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary).
+Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
 
 
 # Bugs/Questions?
