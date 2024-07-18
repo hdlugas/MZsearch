@@ -27,6 +27,25 @@ python plot_spectra_.py -h
 python plot_spectra_gcms.py -h
 python build_library.py -h
 ```
+
+
+## Obtain LC-MS or GC-MS library from MGF, mzML, or cdf file
+To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in the form of an mgf, mzML, or cdf file, one can run:
+```
+python build_library.py \
+  --input_path path_to_input_mgf_or_mzML_or_cdf_file \
+  --output_path path_to_output_csv_file
+```
+
+Parameter descriptions are as follows:
+
+--input_path: Path to input file (must be either mgf, mlMZ, or cdf file). Mandatory argument.
+
+--output_path: Path to output CSV file. Default: current working directory.
+
+Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
+
+
 ## Run spectral library matching
 To run spectral library matching on LC-MS/GC-MS data, one can use:
 ```
@@ -85,6 +104,18 @@ python spec_lib_matching_gcms.py \
   --output_identification path_to_gcms_identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
 ```
+
+To implement an example of spectral library matching, you can navigate to the scripts directory and run the following commands which should produce CSV files of the identification results in your current working directory (i.e. the scripts directory) by default:
+```
+python spec_lib_matching_lcms.py \
+  --query_data "$PWD"/../data/lcms_query_library.csv \
+  --reference_data "$PWD"/../data/lcms_reference_library.csv
+
+python spec_lib_matching_gcms.py \
+  --query_data "$PWD"/../data/gcms_query_library.csv \
+  --reference_data "$PWD"/../data/gcms_reference_library.csv
+```
+
 
 Parameter descriptions are as follows:
 
@@ -180,6 +211,26 @@ python plot_spectra_gcms.py \
   --save_plots path_to_output_PDF_file
 ```
 
+To implement an example of plotting spectra, you can navigate to the scripts directory and run the following commands which should produce PDF files of the spectra plots in your current working directory (i.e. the scripts directory) by default:
+```
+python plot_spectra_lcms.py \
+  --query_data "$PWD"/../data/lcms_query_library.csv \
+  --reference_data "$PWD"/../data/lcms_reference_library.csv \
+  --query_spectrum_ID 100 \
+  --reference_spectrum_ID 'Hectochlorin M+H' \
+  --noise_threshold 0.05 \
+  --wf_mz 0.5 \
+  --wf_int 1.2
+
+python plot_spectra_gcms.py \
+  --query_data "$PWD"/../data/gcms_query_library.csv \
+  --reference_data "$PWD"/../data/gcms_reference_library.csv \
+  --query_spectrum_ID ID_1 \
+  --reference_spectrum_ID 616386 \
+  --similarity_measure tsallis
+```
+
+
 Parameter descriptions are as follows:
 
 --query_data: 
@@ -223,23 +274,6 @@ Parameter descriptions are as follows:
 --normalization_method: Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: 'standard' and 'softmax'. Default = standard.
 
 --save_plots: Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.
-
-
-## Obtain LC-MS library from MGF, mzML, or cdf file
-To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in the form of an mgf, mzML, or cdf file, one can run:
-```
-python build_library.py \
-  --input_path path_to_input_mgf_or_mzML_or_cdf_file \
-  --output_path path_to_output_csv_file
-```
-
-Parameter descriptions are as follows:
-
---input_path: Path to input file (must be either mgf, mlMZ, or cdf file). Mandatory argument.
-
---output_path: Path to output CSV file. Default: current working directory.
-
-Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
 
 
 # Bugs/Questions?
