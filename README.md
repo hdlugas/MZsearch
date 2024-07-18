@@ -19,7 +19,7 @@ This repository has three main capabilities:
 2. running spectral library matching to identify compounds based off of their mass spectrometry data
 3. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass:charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
+These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 ```
 python spec_lib_matching_.py -h
 python spec_lib_matching_.py -h
@@ -89,8 +89,8 @@ python spec_lib_matching_gcms.py \
 Parameter descriptions are as follows:
 
 --query_data: 
-  * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
-  * GC-MS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GC-MS NIST WebBook library
+  * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass to charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
+  * GC-MS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass to charge ratio. Default: GC-MS NIST WebBook library
 
 --reference_data: same format CSV file as query_data except of reference library spectra.
 
@@ -102,9 +102,9 @@ Parameter descriptions are as follows:
 
 --high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
---mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
+--mz_min: Remove all peaks with mass to charge less than mz_min in each spectrum. Default = 0.
 
---mz_max: Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999.
+--mz_max: Remove all peaks with mass to charge greater than mz_max in each spectrum. Default = 999999999999.
 
 --int_min: Remove all peaks with intensity less than int_min in each spectrum. Default = 0.
 
@@ -116,7 +116,7 @@ Parameter descriptions are as follows:
 
 --noise_threshold: Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
---wf_mz: Mass/charge weight factor parameter. Default = 0.
+--wf_mz: Mass to charge weight factor parameter. Default = 0.
 
 --wf_intensity: Intensity weight factor parameter. Default = 1.
 
@@ -183,8 +183,8 @@ python plot_spectra_gcms.py \
 Parameter descriptions are as follows:
 
 --query_data: 
-  * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass:charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
-  * GC-MS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass/charge ratio. Default: GC-MS NIST WebBook library
+  * LC-MS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass to charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS GNPS library.
+  * GC-MS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass to charge ratio. Default: GC-MS NIST WebBook library
 
 --reference_data: Same format CSV file as query_data except of reference library spectra.
 
@@ -198,9 +198,9 @@ Parameter descriptions are as follows:
 
 --high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
---mz_min: Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0.
+--mz_min: Remove all peaks with mass to charge less than mz_min in each spectrum. Default = 0.
 
---mz_max: Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999.
+--mz_max: Remove all peaks with mass to charge greater than mz_max in each spectrum. Default = 999999999999.
 
 --int_min: Remove all peaks with intensity less than int_min in each spectrum. Default = 0.
 
@@ -212,7 +212,7 @@ Parameter descriptions are as follows:
 
 --noise_threshold: Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
---wf_mz: Mass/charge weight factor parameter. Default = 0.
+--wf_mz: Mass to charge weight factor parameter. Default = 0.
 
 --wf_intensity: Intensity weight factor parameter. Default = 1.
 
