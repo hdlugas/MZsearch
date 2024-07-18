@@ -1,9 +1,12 @@
 #!/bin/bash
 
 source activate base
-conda activate ezsearch_env
+conda activate mzsearch_env
 
 cd /home/hunter/mass_spec/entropies/JOSS/scripts
+
+:<< 'END'
+END
 
 echo $'\n\n\n\n\ntest #0'
 python spec_lib_matching_gcms.py \
@@ -110,8 +113,9 @@ python spec_lib_matching_gcms.py \
 
 echo $'\n\n\n\n\ntest #12'
 python spec_lib_matching_gcms.py \
+  --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
-  --int_min 100 \
+  --noise_threshold 0.1 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
@@ -119,19 +123,11 @@ echo $'\n\n\n\n\ntest #13'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
-  --noise_threshold 0.1 \
-  --n_top_matches_to_save 2 \
-  --print_id_results True
-
-echo $'\n\n\n\n\ntest #14'
-python spec_lib_matching_gcms.py \
-  --spectrum_preprocessing_order NFLW \
-  --similarity_measure cosine \
   --noise_threshold 0.4 \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #15'
+echo $'\n\n\n\n\ntest #14'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
@@ -139,7 +135,7 @@ python spec_lib_matching_gcms.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #16'
+echo $'\n\n\n\n\ntest #15'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
@@ -148,7 +144,7 @@ python spec_lib_matching_gcms.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #17'
+echo $'\n\n\n\n\ntest #16'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
@@ -156,14 +152,13 @@ python spec_lib_matching_gcms.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #18'
+echo $'\n\n\n\n\ntest #17'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order LWF \
   --high_quality_reference_library True \
   --similarity_measure cosine \
   --n_top_matches_to_save 2 \
   --print_id_results True
-
 
 
 echo $'\n\nFinished Testing\n'

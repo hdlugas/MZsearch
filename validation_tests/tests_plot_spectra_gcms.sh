@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source activate base
-conda activate ezsearch_env
+conda activate mzsearch_env
 
 cd /home/hunter/mass_spec/entropies/JOSS/scripts
 
