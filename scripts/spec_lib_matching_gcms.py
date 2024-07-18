@@ -9,7 +9,6 @@ import argparse
 from pathlib import Path
 import sys
 
-
 # create argparse object so command-line input can be imported
 parser = argparse.ArgumentParser()
 
@@ -48,7 +47,7 @@ print('\nPerforming spectral library matching on GCMS data\n')
 if args.query_data is not None:
     df_query = pd.read_csv(args.query_data)
 else:
-    df_query = pd.read_csv(f'{Path.cwd()}/../data_all/gcms_query_library_tmp.csv')
+    df_query = pd.read_csv(f'{Path.cwd()}/../data/gcms_query_library.csv')
     print('No argument passed to query_data; using default GCMS NIST WebBook library')
 
 
@@ -166,20 +165,53 @@ else:
     print_id_results = 'False'
 
 
+# get unique query/reference library IDs; each query/reference ID corresponds to exactly one query/reference mass spectrum
+unique_query_ids = df_query.iloc[:,0].unique()
+unique_reference_ids = df_reference.iloc[:,0].unique()
 
 # compute the similarity score between each query library spectrum/spectra and all reference library spectra
-mzs = np.linspace(1,df_query.shape[1]-1,df_query.shape[1]-1)
+min_mz = np.min([np.min(df_query.iloc[:,1]), np.min(df_reference.iloc[:,1])])
+max_mz = np.max([np.max(df_query.iloc[:,1]), np.max(df_reference.iloc[:,1])])
+mzs = np.linspace(min_mz,max_mz,(max_mz-min_mz+1))
+
+
+def convert_spec(spec, mzs):
+    # a function to impute intensities of 0 where there is no mass/charge value reported in a given spectrum
+    # input: 
+    # spec: n x 2 dimensional numpy array
+    # mzs: list of entire span of mass/charge values considering both the query and reference libraries
+
+    # output: 
+    # out: m x 2 dimensional numpy array
+
+    ints_tmp = []
+    for i in range(0,len(mzs)):
+        if mzs[i] in spec[:,0]:
+            int_tmp = spec[np.where(spec[:,0] == mzs[i])[0][0],1]
+        else:
+            int_tmp = 0
+        ints_tmp.append(int_tmp)
+    out = np.transpose(np.array([mzs,ints_tmp]))
+    return out
+
+
+
+# for each query spectrum, compute its similarity with all reference spectra 
 all_similarity_scores =  []
-for query_idx in range(0,df_query.shape[0]):
-    q_ints = df_query.iloc[query_idx,1:df_query.shape[1]]
-    q_spec = np.transpose(np.array([mzs,q_ints]))
+for query_idx in range(0,len(unique_query_ids)):
+    q_idxs_tmp = np.where(df_query.iloc[:,0] == unique_query_ids[query_idx])[0]
+    q_spec_tmp = np.asarray(pd.concat([df_query.iloc[q_idxs_tmp,1], df_query.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
+    q_spec_tmp = convert_spec(q_spec_tmp,mzs)
 
     similarity_scores = []
-    for ref_idx in range(0, df_reference.shape[0]):
-        #if ref_idx % 1000 == 0:
-        #    print(f'Query spectrum #{query_idx} has had its similarity with {ref_idx} reference library spectra computed')
-        r_ints = df_reference.iloc[ref_idx,1:df_reference.shape[1]]
-        r_spec = np.transpose(np.array([mzs,r_ints]))
+    for ref_idx in range(0,len(unique_reference_ids)):
+        q_spec = q_spec_tmp
+        if ref_idx % 1000 == 0:
+            print(f'Query spectrum #{query_idx} has had its similarity with {ref_idx} reference library spectra computed')
+        r_idxs_tmp = np.where(df_reference.iloc[:,0] == unique_reference_ids[ref_idx])[0]
+        r_spec_tmp = np.asarray(pd.concat([df_reference.iloc[r_idxs_tmp,1], df_reference.iloc[r_idxs_tmp,2]], axis=1).reset_index(drop=True))
+        r_spec = convert_spec(r_spec_tmp,mzs)
+
 
         # apply spectrum preprocessing transformation in the order specified by user
         for transformation in spectrum_preprocessing_order:
@@ -223,9 +255,10 @@ for query_idx in range(0,df_query.shape[0]):
     all_similarity_scores.append(similarity_scores)
 
 
+
 # create pandas dataframe containing all similarity scores computed with one row for each query spectrum and one column for each reference spectrum
-df_scores = pd.DataFrame(all_similarity_scores, columns = df_reference.iloc[:,0])
-df_scores.index = df_query.iloc[:,0]
+df_scores = pd.DataFrame(all_similarity_scores, columns = unique_reference_ids)
+df_scores.index = unique_query_ids
 df_scores.index.names = ['Query Spectrum ID']
 
 
@@ -262,7 +295,7 @@ for i in range(0,n_top_matches_to_save):
 
 # get pandas dataframe with identifcation results with each row corresponding to a query spectrum, n_top_matches_to_save columns for the top predictions, and n_top_matches_to_save columns for the similarity scores corresponding to the predictions
 df_top_ref_specs = pd.DataFrame(out, columns = [*cnames_preds, *cnames_scores])
-df_top_ref_specs.index = df_query.iloc[:,0]
+df_top_ref_specs.index = unique_query_ids
 df_top_ref_specs.index.names = ['Query Spectrum ID']
 
 # print the identification results if the user desires
@@ -283,6 +316,7 @@ if args.output_similarity_scores is not None:
     df_scores.to_csv(args.output_similarity_scores)
 else:
     df_scores.to_csv(f'{Path.cwd()}/output_gcms_all_similarity_scores.csv')
+
 
 
 

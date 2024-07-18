@@ -43,7 +43,7 @@ args = parser.parse_args()
 if args.query_data is not None:
     df_query = pd.read_csv(args.query_data)
 else:
-    df_query = pd.read_csv(f'{Path.cwd()}/../data_all/gcms_query_library_tmp.csv')
+    df_query = pd.read_csv(f'{Path.cwd()}/../data/gcms_query_library.csv')
     print('No argument passed to query_data; using default GCMS NIST WebBook library')
 
 
@@ -163,28 +163,51 @@ else:
 
 
 
+def convert_spec(spec, mzs):
+    # a function to impute intensities of 0 where there is no mass/charge value reported in a given spectrum
+    # input: 
+    # spec: n x 2 dimensional numpy array
+    # mzs: list of entire span of mass/charge values considering both the query and reference libraries
 
-# get the query and reference spectra
-df_query = df_query.astype(object)
-df_reference = df_reference.astype(object)
+    # output: 
+    # out: m x 2 dimensional numpy array
 
-df_query.iloc[:,0] = df_query.iloc[:,0].astype(str)
-df_reference.iloc[:,0] = df_reference.iloc[:,0].astype(str)
+    ints_tmp = []
+    for i in range(0,len(mzs)):
+        if mzs[i] in spec[:,0]:
+            int_tmp = spec[np.where(spec[:,0] == mzs[i])[0][0],1]
+        else:
+            int_tmp = 0
+        ints_tmp.append(int_tmp)
+    out = np.transpose(np.array([mzs,ints_tmp]))
+    return out
 
-q_idx = np.where(df_query.iloc[:,0] == query_spectrum_ID)[0][0]
-r_idx = np.where(df_reference.iloc[:,0] == reference_spectrum_ID)[0][0]
 
-q_ints = df_query.iloc[q_idx,1:df_query.shape[1]].to_numpy()
-r_ints = df_reference.iloc[r_idx,1:df_reference.shape[1]].to_numpy()
+# get unique query/reference library IDs; each query/reference ID corresponds to exactly one query/reference mass spectrum
+unique_query_ids = df_query.iloc[:,0].unique()
+unique_reference_ids = df_reference.iloc[:,0].unique()
 
-max_mz_tmp = max([np.max(np.nonzero(q_ints)), np.max(np.nonzero(r_ints))])
-mzs = list(map(int,np.linspace(1,max_mz_tmp,max_mz_tmp).tolist()))
-q_ints = q_ints[mzs]
-r_ints = r_ints[mzs]
+# compute the similarity score between each query library spectrum/spectra and all reference library spectra
+min_mz = np.min([np.min(df_query.iloc[:,1]), np.min(df_reference.iloc[:,1])])
+max_mz = np.max([np.max(df_query.iloc[:,1]), np.max(df_reference.iloc[:,1])])
+mzs = np.linspace(min_mz,max_mz,(max_mz-min_mz+1))
 
-q_spec = np.transpose(np.array([mzs, q_ints]))
-r_spec = np.transpose(np.array([mzs, r_ints]))
+q_idxs_tmp = np.where(df_query.iloc[:,0].astype(str) == query_spectrum_ID)[0]
+q_spec = np.asarray(pd.concat([df_query.iloc[q_idxs_tmp,1], df_query.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
+q_spec = convert_spec(q_spec,mzs)
 
+r_idxs_tmp = np.where(df_reference.iloc[:,0].astype(str) == reference_spectrum_ID)[0]
+r_spec = np.asarray(pd.concat([df_reference.iloc[r_idxs_tmp,1], df_reference.iloc[r_idxs_tmp,2]], axis=1).reset_index(drop=True))
+r_spec = convert_spec(r_spec,mzs)
+
+np.set_printoptions(threshold=sys.maxsize)
+
+'''
+print(q_spec)
+print(r_spec)
+print(q_spec.shape)
+print(r_spec.shape)
+'''
 
 
 # create the figure
@@ -199,8 +222,8 @@ if np.max(q_spec[:,1]) == 0 or np.max(r_spec[:,1]) == 0:
     plt.xticks([])
     plt.yticks([])
 else:
-    plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=3, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
-    plt.vlines(x=mzs, ymin=[0]*len(mzs), ymax=-r_spec[:,1]/np.max(r_spec[:,1]), linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
+    plt.vlines(x=q_spec[:,0], ymin=[0]*len(q_spec[:,0]), ymax=q_spec[:,1]/np.max(q_spec[:,1]), linewidth=3, color='blue', label=f'Query Spectrum ID: {query_spectrum_ID}')
+    plt.vlines(x=r_spec[:,0], ymin=[0]*len(r_spec[:,0]), ymax=-r_spec[:,1]/np.max(r_spec[:,1]), linewidth=3, color='red', label=f'Reference Spectrum ID: {reference_spectrum_ID}')
     plt.xlabel('m/z',fontsize=8)
     plt.ylabel('Relative Intensity', fontsize=8)
     plt.xticks(fontsize=8)

@@ -80,10 +80,8 @@ def filter_spec_gcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_m
     #keep points in a given spectrum in a given range of mz values and intensity values
     spec[np.where(spec[:,0] < mz_min)[0],1] = 0
     spec[np.where(spec[:,0] > mz_max)[0],1] = 0
-    #spec = spec[spec[:,0] >= mz_min]
-    #spec = spec[spec[:,0] <= mz_max]
-    spec[spec[:,1] < int_min] = 0
-    spec[spec[:,1] > int_max] = 0
+    spec[np.where(spec[:,1] < int_min)[0],1] = 0
+    spec[np.where(spec[:,1] > int_max)[0],1] = 0
     return(spec)
 
 
