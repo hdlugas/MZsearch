@@ -200,15 +200,6 @@ r_idxs_tmp = np.where(df_reference.iloc[:,0].astype(str) == reference_spectrum_I
 r_spec = np.asarray(pd.concat([df_reference.iloc[r_idxs_tmp,1], df_reference.iloc[r_idxs_tmp,2]], axis=1).reset_index(drop=True))
 r_spec = convert_spec(r_spec,mzs)
 
-np.set_printoptions(threshold=sys.maxsize)
-
-'''
-print(q_spec)
-print(r_spec)
-print(q_spec.shape)
-print(r_spec.shape)
-'''
-
 
 # create the figure
 fig, axes = plt.subplots(nrows=2, ncols=1)
