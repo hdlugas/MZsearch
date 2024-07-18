@@ -376,8 +376,8 @@ To obtain an LC-MS query/reference library from an MGF file, one can
 use:
 
 ```         
-Rscript get_lcms_library_from_mgf.R \
-  --input_path path_to_input_mgf_file \
+Rscript build_library.py \
+  --input_path path_to_input_mgf_or_mzML_or_cdf_file \
   --output_path path_to_output_csv_file 
 ```
 
