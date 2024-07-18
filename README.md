@@ -236,6 +236,7 @@ python build_library.py \
 Parameter descriptions are as follows:
 
 --input_path: Path to input file (must be either mgf, mlMZ, or cdf file). Mandatory argument.
+
 --output_path: Path to output CSV file. Default: current working directory.
 
 Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
