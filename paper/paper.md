@@ -258,6 +258,16 @@ python plot_spectra_gcms.py -h
 
 The GC-MS and LC-MS reference libraries provided in this software are trimmed versions of the reference libraries provided by the Zenodo database [@Kim2024_database]. It is recommended to use the National Institute of Standards and Technology Webook GC-MS and Global Natural Products Social Molecular Networking LC-MS reference libraries provided in the Zenodo database [@Kim2024_database].
 
+## Get query/reference library from mgf, mzML, or cdf file
+
+To obtain a query/reference library in the necessary format for spectral library matching from an mgf, mzML, or cdf file, one can use:
+
+```         
+python build_library.py \
+  --input_path path_to_input_mgf_or_mzML_or_cdf_file \
+  --output_path path_to_output_csv_file 
+```
+
 ## Run spectral library matching
 
 To run spectral library matching on LC-MS/GC-MS data, one can use:
@@ -364,16 +374,6 @@ applied to the LC-MS spectra, and a weight factor tranformation is
 applied to the GC-MS spectra.
 \label{fig:spectra_plot}](spectra_figure.png){width="100%,"
 height="100%"}
-
-## Get query/reference library from mgf, mzML, or cdf file
-
-To obtain a query/reference library in the necessary format for spectral library matching from an mgf, mzML, or cdf file, one can use:
-
-```         
-python build_library.py \
-  --input_path path_to_input_mgf_or_mzML_or_cdf_file \
-  --output_path path_to_output_csv_file 
-```
 
 # Acknowledgements
 
