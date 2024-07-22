@@ -180,7 +180,7 @@ transformations is offered in 'MZsearch':
     remains in $I^{\star}$ and the peak $(a_{i},0)$ is included in
     $J^{\star}$. If there is at least one peak $(b_{j},y_{j})$ with
     $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
-    remains in $I^{\star}$ and the peak $(a_{i},\sum_{j, |a_{i}-b_{j}|\textless w_{matching}}b_{j})$ is
+    remains in $I^{\star}$ and the peak $(a_{i},\sum_{j\text{ such that }|a_{i}-b_{j}|\textless w_{matching}}b_{j})$ is
     included in $J^{\star}$. This procedure is applied when transposing
     the roles of $I$ and $J$ as well.
 
