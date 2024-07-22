@@ -97,9 +97,9 @@ compound identification for both GC-MS and LC-MS data [@Kim2012;
 shown to outperform the Cosine Similarity Measure with respect to
 LC-MS-based compound identification [@Li2021]. A generalization of the
 Shannon Entropy Similarity Measure, the Tsallis Entropy Similarity
-Measure, has recently been developed and performs better than the
+Measure, has recently been developed and slightly outperforms the
 Shannon Entropy Similarity Measure in both GC-MS and LC-MS data
-[@Dlugas2024]. This recent study has further demonstrated that the order
+[@Kim2024_preprint]. This recent study has further demonstrated that the order
 of preprocessing transformations is also critical to achieving higher
 accuracy in compound identification. However, to our knowledge, there is
 no tool that includes the recently-developed, high-performance
@@ -244,24 +244,19 @@ functionality for computing the following similarity measures:
 
 # Usage
 
-This repository has two main capabilities: (i) running spectral library
-matching to identify compounds based on their mass spectrometry data,
-and (ii) plotting a query spectrum vs. a reference spectrum before and
-after preprocessing transformations.
+This repository has three main capabilities: (i) converting the raw data to the necessary format for spectral library matching, (ii) running spectral library matching to identify compounds based on their mass spectrometry data, and (iii) plotting a query spectrum vs. a reference spectrum before and after preprocessing transformations.
 
-These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data
-due to the different spectrum preprocessing transformations required by
-the different format in the m/z ratios in GC-MS vs LC-MS data. To see
-all parameters for any of the four main scripts
-(spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
-plot_spectra_lcms.py, plot_spectra_gcms.py), run:
+These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations required by the different format in the m/z ratios in GC-MS vs LC-MS data. To see all parameters for any of the five main scripts (build_library.py, spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
 
-```         
+```
+python build_library.py -h
 python spec_lib_matching_lcms.py -h
 python spec_lib_matching_lcms.py -h
 python plot_spectra_lcms.py -h
 python plot_spectra_gcms.py -h
 ```
+
+The GC-MS and LC-MS reference libraries provided in this software are trimmed versions of the reference libraries provided by the Zenodo database [@Kim2024_database]. It is recommended to use the National Institute of Standards and Technology Webook GC-MS and Global Natural Products Social Molecular Networking LC-MS reference libraries provided in the Zenodo database [@Kim2024_database].
 
 ## Run spectral library matching
 
