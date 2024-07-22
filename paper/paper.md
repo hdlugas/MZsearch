@@ -67,7 +67,7 @@ spectral library matching for both GC-MS and LC-MS and provides an
 application programming interface (API) for users to define their own
 spectrum preprocessing transformations and similarity measures
 [@Huber2020]. The 'pyOpenMS' tool, which is a Python wrapper of the
-'OpenMS' tool, is for analyzing LC-MS data and provide common spectrum
+'OpenMS' tool, is for analyzing LC-MS data and provides common spectrum
 preprocessing transformations such as filtering based on m/z and
 intensity values [@Rost2014; @Rost2016]. The Python package
 'spectrum_utils' provides functionality for preprocessing and
@@ -93,7 +93,7 @@ addition to these canonical spectrum preprocessing transformations for
 LC-MS data, weight factor transformations and low-entropy
 transformations have been proposed to improve the performance of
 compound identification for both GC-MS and LC-MS data [@Kim2012;
-@Li2021; @Dlugas2024]. The Shannon Entropy Similarity Measure has been
+@Li2021; @Kim2024_preprint]. The Shannon Entropy Similarity Measure has been
 shown to outperform the Cosine Similarity Measure with respect to
 LC-MS-based compound identification [@Li2021]. A generalization of the
 Shannon Entropy Similarity Measure, the Tsallis Entropy Similarity
@@ -103,7 +103,7 @@ Shannon Entropy Similarity Measure in both GC-MS and LC-MS data
 of preprocessing transformations is also critical to achieving higher
 accuracy in compound identification. However, to our knowledge, there is
 no tool that includes the recently-developed, high-performance
-entropy-based similarity measures or considers the order of the
+entropy-based similarity measures or considers the order of the spectrum preprocessing
 transformations, which are important for effective metabolomics studies.
 
 The developed 'MZsearch' is a command-line tool for performing spectral
@@ -115,7 +115,7 @@ entropy-based similarity measure, the Rényi Entropy Similarity Measure,
 enabling users to choose among four similarity measures: the
 commonly-used Cosine Similarity Measure [@Stein1994], the Shannon
 Entropy Similarity Measure [@Li2021], the recently-developed Tsallis
-Entropy Similarity Measure [@Dlugas2024], and the novel Rényi Entropy
+Entropy Similarity Measure [@Kim2024_preprint], and the novel Rényi Entropy
 Similarity Measure.
 
 # Functionality
@@ -141,12 +141,12 @@ transformations is offered in 'MZsearch':
 
 -   Low-Entropy Transformation: Given a user-defined low-entropy
     threshold parameter $T$ and spectrum $I$ with intensities
-    $(x_{1},x_{2},...,x_{n})$, then the transformed spectrum intensities
+    $(x_{1},x_{2},...,x_{n})$ and Shannon entropy $H_{Shannon}(I)=-\sum_{i=1}^{n}x_{i}\cdot ln(p_{i})$, the transformed spectrum intensities
     $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such
     that, for all $i\in\{1,2,...,n\}$, $x_{i}^{\star}=x_{i}$ if
     $H_{Shannon}(I)\geq T$ and
     $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ if
-    $H_{Shannon}(I)\textless T$ with $H_{Shannon}(I)=-\sum_{i=1}^{n}x_{i}\cdot ln(p_{i})$.
+    $H_{Shannon}(I)\textless T$.
 
 -   Centroiding (only applicable to LC-MS data): Given a user-defined
     window-size parameter $w_{centroiding}$ and a spectrum $I$ with m/z
@@ -180,7 +180,7 @@ transformations is offered in 'MZsearch':
     remains in $I^{\star}$ and the peak $(a_{i},0)$ is included in
     $J^{\star}$. If there is at least one peak $(b_{j},y_{j})$ with
     $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
-    remains in $I^{\star}$ and the peak $(a_{i},\sum_{j}b_{j})$ is
+    remains in $I^{\star}$ and the peak $(a_{i},\sum_{j, |a_{i}-b_{j}|\textless w_{matching}}b_{j})$ is
     included in $J^{\star}$. This procedure is applied when transposing
     the roles of $I$ and $J$ as well.
 
@@ -211,7 +211,7 @@ height="100%"}
 Given a pair of processed spectra intensities
 $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$
 with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and
-$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, 'MZsearch' provides
+$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
 functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure: \begin{equation*}
@@ -365,13 +365,12 @@ applied to the GC-MS spectra.
 \label{fig:spectra_plot}](spectra_figure.png){width="100%,"
 height="100%"}
 
-## Get LC-MS library from MGF file
+## Get query/reference library from mgf, mzML, or cdf file
 
-To obtain an LC-MS query/reference library from an MGF file, one can
-use:
+To obtain a query/reference library in the necessary format for spectral library matching from an mgf, mzML, or cdf file, one can use:
 
 ```         
-Rscript build_library.py \
+python build_library.py \
   --input_path path_to_input_mgf_or_mzML_or_cdf_file \
   --output_path path_to_output_csv_file 
 ```
