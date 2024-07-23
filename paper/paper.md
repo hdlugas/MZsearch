@@ -40,7 +40,7 @@ editor_options:
 
 A primary goal in metabolomics, the qualitative and quantitative study
 of metabolites, is to identify chemical compounds in a given sample.
-This often involves identifying and quantifying metabolomic biomarkers
+This often involves identifying and quantifying metabolic biomarkers
 for use in diagnosing, treating, and stratifying the risk of various
 diseases. A central tool for compound identification in metabolomics is
 mass spectrometry, which produces the mass spectrum for a given chemical
