@@ -17,6 +17,7 @@ authors:
     equal-contrib: true
     affiliation: "1, 2"
   - name: Xiang Zhang
+    orcid: 0000-0003-1102-6313
     affiliation: "3"
   - name: Seongho Kim
     equal-contrib: true 
@@ -29,7 +30,7 @@ affiliations:
  - name: Department of Chemistry, University of Louisville, Louisville, KY, USA
    index: 3
 date: 25 June 2024
-bibliography: paper_SK_07222024.bib
+bibliography: paper.bib
 editor_options: 
   markdown: 
     wrap: 72
