@@ -271,11 +271,11 @@ python plot_spectra_gcms.py -h
 ```
 
 The user can use their own libraries, and by default, 'MZsearch'
-provides GC-MS and LC-MS reference libraries that have been trimmed and
-are available at the Zenodo database [@Dlugas2024_database]. The GC-MS
-library was extracted from the National Institute of Standards and
-Technology WebBook, while the LC-MS library was obtained from Global
-Natural Products Social Molecular Networking.
+provides GC-MS and LC-MS reference libraries that have been trimmed. 
+The full GC-MS and LC-MS reference libraries are available at the Zenodo 
+database [@Dlugas2024_database]. The GC-MS library was extracted from 
+the National Institute of Standards and Technology WebBook, while the LC-MS 
+library was obtained from Global Natural Products Social Molecular Networking.
 
 ## Get query/reference library from mgf, mzML, or cdf file
 
