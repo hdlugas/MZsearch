@@ -254,8 +254,7 @@ spectrometry data, and (iii) plotting a query spectrum vs. a reference
 spectrum before and after preprocessing transformations.
 
 These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data
-due to the different spectrum preprocessing transformations required by
-the different format in the m/z ratios in GC-MS vs LC-MS data. To see
+due to the different spectrum preprocessing transformations. To see
 all parameters for any of the five main scripts (build_library.py,
 spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
 plot_spectra_lcms.py, plot_spectra_gcms.py), run:
