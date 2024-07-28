@@ -196,10 +196,9 @@ transformations is offered in 'MZsearch':
     intensities $(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ such
     that $\sum_{i=1}^{n}x_{i}^{\star}=1$, two methods are offered:
 
-  - hellow orld
-    \*\* Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
+    \- Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
 
-    \*\* Softmax:
+    \- Softmax:
     $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where
     $e\approx 2.72$ is Euler's constant.
 
