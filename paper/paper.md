@@ -56,7 +56,7 @@ most similar to that of the unknown compound. We present 'MZsearch', a
 command-line tool written in Python that implements spectral library
 matching. The 'MZsearch' tool offers a range of spectrum preprocessing
 transformations and similarity measures, and it is capable of analyzing
-data generated from both types of mass spectrometry: gas
+data generated from gas
 chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass
 spectrometry (LC-MS).
 
@@ -79,26 +79,24 @@ databases [@Shen2022]. The R Shiny package 'ShinyMetID' provides users
 six similarity measures (Cosine, Weighted Cosine, Stein & Scott,
 Discrete Fourier Transformation, Discrete Wavelet Transformation, and
 Semi-Partial Correlation) and a graphical user interface (GUI) to
-perform spectral library matching to identify chemical compounds based
-on GC-MS data [@Jeong2023].
+perform spectral library matching to identify chemical compounds from GC-MS data [@Jeong2023].
 
 In a GC-MS experiment, the resulting mass spectra typically have m/z
-values as integers for all chemical compounds. In contrast, LC-MS
-experiments produce mass spectra with m/z values that are real numbers,
+values as integers. In contrast, LC-MS
+experiments produce mass spectra with high resolution m/z values,
 often with many decimal places. This necessitates several spectrum
 preprocessing steps unique to LC-MS data analysis, namely centroiding
 (i.e., merging peaks that are 'close' with respect to their m/z values)
-and matching (i.e., aligning the m/z values in such a way that we obtain
-a list of intensities \emph{of the same length} from each spectrum). In
+and matching (i.e., aligning the m/z values so that the query spectrum and reference spectrum have the same length). In
 addition to these canonical spectrum preprocessing transformations for
 LC-MS data, weight factor transformations and low-entropy
 transformations have been proposed to improve the performance of
 compound identification for both GC-MS and LC-MS data [@Kim2012;
 @Li2021; @Dlugas2024_preprint]. The Shannon Entropy Similarity Measure
 has been shown to outperform the Cosine Similarity Measure with respect
-to LC-MS-based compound identification [@Li2021]. A generalization of
+to LC-MS-data [@Li2021]. A generalization of
 the Shannon Entropy Similarity Measure, the Tsallis Entropy Similarity
-Measure, has recently been developed and slightly outperforms the
+Measure, slightly outperforms the
 Shannon Entropy Similarity Measure in both GC-MS and LC-MS data
 [@Dlugas2024_preprint]. This recent study has further demonstrated that
 the order of preprocessing transformations is also critical to achieving
@@ -198,6 +196,7 @@ transformations is offered in 'MZsearch':
     intensities $(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ such
     that $\sum_{i=1}^{n}x_{i}^{\star}=1$, two methods are offered:
 
+  - hellow orld
     \*\* Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
 
     \*\* Softmax:
