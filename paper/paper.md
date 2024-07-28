@@ -201,7 +201,7 @@ transformations is offered in 'MZsearch':
     \- Softmax: $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where $e\approx 2.72$ is Euler's constant.
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of
-MZsearch.
+'MZsearch'.
 
 ![Workflow of
 MZsearch.\label{fig:flowchart}](flowchart.png){width="100%,"
@@ -212,7 +212,7 @@ height="100%"}
 Given a pair of processed spectra intensities
 $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$
 with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and
-$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
+$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, 'MZsearch' provides
 functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure: \begin{equation*}
