@@ -198,9 +198,7 @@ transformations is offered in 'MZsearch':
 
     \- Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
 
-    \- Softmax:
-    $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where
-    $e\approx 2.72$ is Euler's constant.
+    \- Softmax: $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where $e\approx 2.72$ is Euler's constant.
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of
 MZsearch.
