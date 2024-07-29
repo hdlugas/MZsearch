@@ -52,30 +52,29 @@ matching. This process involves computing a measure of similarity
 between the mass spectrum of the unknown chemical compound and each mass
 spectrum in a reference library. The unknown chemical compound is then
 identified as the one from the reference library whose mass spectrum is
-most similar to that of the unknown compound. We present 'MZsearch', a
+most similar to that of the unknown compound. We present MZsearch, a
 command-line tool written in Python that implements spectral library
-matching. The 'MZsearch' tool offers a range of spectrum preprocessing
+matching. The MZsearch tool offers a range of spectrum preprocessing
 transformations and similarity measures, and it is capable of analyzing
-data generated from gas
-chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass
+data generated from gas chromatography-mass spectrometry (GC-MS) and liquid chromatography-mass
 spectrometry (LC-MS).
 
 # Statement of need
 
 There exist several open-source software tools for working with mass
-spectrometry data. The Python package 'matchms' allows one to perform
+spectrometry data. The Python package matchms allows one to perform
 spectral library matching for both GC-MS and LC-MS and provides an
 application programming interface (API) for users to define their own
 spectrum preprocessing transformations and similarity measures
-[@Huber2020]. The 'pyOpenMS' tool, which is a Python wrapper of the
-'OpenMS' tool, is for analyzing LC-MS data and provides common spectrum
+[@Huber2020]. The pyOpenMS tool, which is a Python wrapper of the
+OpenMS tool, is for analyzing LC-MS data and provides common spectrum
 preprocessing transformations such as filtering based on m/z and
 intensity values [@Rost2014; @Rost2016]. The Python package
-'spectrum_utils' provides functionality for preprocessing and
+spectrum_utils provides functionality for preprocessing and
 visualizing mass spectrometry data [@Bittremieux2020]. The R package
-'metID' is a tool for LC-MS-based compound identification with a focus
+metID is a tool for LC-MS-based compound identification with a focus
 on allowing users to combine their in-house database(s) with public
-databases [@Shen2022]. The R Shiny package 'ShinyMetID' provides users
+databases [@Shen2022]. The R Shiny package ShinyMetID provides users
 six similarity measures (Cosine, Weighted Cosine, Stein & Scott,
 Discrete Fourier Transformation, Discrete Wavelet Transformation, and
 Semi-Partial Correlation) and a graphical user interface (GUI) to
@@ -106,11 +105,11 @@ entropy-based similarity measures or considers the order of the spectrum
 preprocessing transformations, which are important for effective
 metabolomics studies.
 
-The developed 'MZsearch' is a command-line tool for performing spectral
+The developed MZsearch is a command-line tool for performing spectral
 library matching on either GC-MS or LC-MS data. It allows users to
 construct their own spectrum preprocessing order using spectrum
 preprocessing transformations such as weight factor and low-entropy
-transformations. Additionally, the 'MZsearch' tool includes a novel
+transformations. Additionally, the MZsearch tool includes a novel
 entropy-based similarity measure, the Rényi Entropy Similarity Measure,
 enabling users to choose among four similarity measures: the
 commonly-used Cosine Similarity Measure [@Stein1994], the Shannon
@@ -123,7 +122,7 @@ Entropy Similarity Measure.
 ## Spectrum Preprocessing Transformations
 
 Functionality implementing the following spectrum preprocessing
-transformations is offered in 'MZsearch':
+transformations is offered in MZsearch:
 
 -   Filtering: Given user-defined parameters (mz_min,mz_max),
     (int_min,int_max) and spectrum $I$ with m/z values
@@ -201,7 +200,7 @@ transformations is offered in 'MZsearch':
     \- Softmax: $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where $e\approx 2.72$ is Euler's constant.
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of
-'MZsearch'.
+MZsearch.
 
 ![Workflow of
 MZsearch.\label{fig:flowchart}](flowchart.png){width="100%,"
@@ -212,7 +211,7 @@ height="100%"}
 Given a pair of processed spectra intensities
 $I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$
 with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and
-$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, 'MZsearch' provides
+$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
 functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure: \begin{equation*}
@@ -245,7 +244,7 @@ functionality for computing the following similarity measures:
 
 # Usage
 
-This 'MZsearch' has three main capabilities: (i) converting the raw data
+This MZsearch has three main capabilities: (i) converting the raw data
 to the necessary format for spectral library matching, (ii) running
 spectral library matching to identify compounds based on their mass
 spectrometry data, and (iii) plotting a query spectrum vs. a reference
@@ -265,7 +264,7 @@ python plot_spectra_lcms.py -h
 python plot_spectra_gcms.py -h
 ```
 
-The user can use their own libraries, and by default, 'MZsearch'
+The user can use their own libraries, and by default, MZsearch
 provides GC-MS and LC-MS reference libraries that have been trimmed. 
 The recommended GC-MS and LC-MS reference libraries are available at the Zenodo 
 database [@Dlugas2024_database]. The GC-MS library was extracted from 
