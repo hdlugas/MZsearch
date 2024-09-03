@@ -1,5 +1,5 @@
 ---
-title: 'MZsearch: A Python-Based Compound Idnetification Tool for GC-MS and LC-MS-Based Metabolomics'
+title: 'MZsearch: A Python-Based Compound Identification Tool for GC-MS and LC-MS-Based Metabolomics'
 tags:
   - Python
   - metabolomics
