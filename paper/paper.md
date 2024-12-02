@@ -124,7 +124,7 @@ recently-developed  Entropy Similarity Measure
 ## Spectrum Preprocessing Transformations
 
 Functionality implementing the following spectrum preprocessing
-transformations is offered in MZsearch (more details found in documentation: <a href="[url](https://github.com/hdlugas/MZsearch)"></a>):
+transformations is offered in MZsearch (more details found in documentation: <a href="[[url](https://github.com/hdlugas/MZsearch)](https://github.com/hdlugas/MZsearch)"></a>):
 
 -   Filtering based on mz-values and intensities.
 
@@ -196,7 +196,7 @@ due to the different spectrum preprocessing transformations. To see all
 parameters for any of the five main scripts (build_library.py,
 spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
 plot_spectra_lcms.py, plot_spectra_gcms.py), see the documentation at 
-<a href="[url](https://github.com/hdlugas/MZsearch)"></a>.
+<a href="[[url](https://github.com/hdlugas/MZsearch)](https://github.com/hdlugas/MZsearch)"></a>.
 
 
 # Acknowledgements
