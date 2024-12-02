@@ -118,11 +118,11 @@ $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
 functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure:
-      $S_{Cosine}(I,J)=\frac{I\circ J}{|I|_{2} * |J|_{2}}$ where multiplication in the numerator refers to $\frac{1}{2}$ the dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$ and $J$ and multiplication in the denominator refers to multiplication of the $L^{2}$-norm of $I$ and $J$, $|I|_{2}=\sqrt{a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2}}, |J|_{2}=\sqrt{b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}}$.
+      $S_{Cosine}(I,J)=\frac{I\cdot J}{|I|_{2}\cdot |J|_{2}}$ where multiplication in the numerator refers to $\frac{1}{2}$ the dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$ and $J$ and multiplication in the denominator refers to multiplication of the $L^{2}$-norm of $I$ and $J$, $|I|_{2}=\sqrt{a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2}}, |J|_{2}=\sqrt{b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}}$.
 
 -   Shannon Entropy Similarity Measure:
-      $S_{Shannon}(I,J) = 1-\frac{2\cdot H_{Shannon}\left(\frac{I+J}{2}\right) - H_{Shannon}(I)-H_{Shannon}(J)}{ln(4)},\\
-      H_{Shannon}(I)=-\sum_{i=1}^{n}a_{i}\cdot ln(a_{i})$
+      $S_{Shannon}(I,J) = 1-\frac{2\cdot H_{Shannon}\left(\frac{I+J}{2}\right) - H_{Shannon}(I)-H_{Shannon}(J)}{ln(4)}$
+      $H_{Shannon}(I)=-\sum_{i=1}^{n}a_{i}\cdot ln(a_{i})$
 
 -    Tsallis Entropy Similarity Measure:
       $S_{Tsallis}(I,J,q)=1-\frac{2\times H_{Tsallis}(I/2+J/2,q)-H_{Tsallis}(I,q)-H_{Tsallis}(J,q)}{N_{Tsallis}(I,J,q)},\\
