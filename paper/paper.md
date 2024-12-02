@@ -158,8 +158,7 @@ functionality for computing the following similarity measures:
 -   Cosine Similarity Measure: \begin{equation*}
     S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
     \end{equation*} where multiplication in the numerator refers to the
-    dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$
-    and $J$ and multiplication in the denominator refers to
+    dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ and multiplication in the denominator refers to
     multiplication of the $L^{2}$-norm of $I$ and $J$,
     $|I|_{2}=\sqrt{a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2}}, |J|_{2}=\sqrt{b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}}$.
 
