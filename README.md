@@ -30,8 +30,7 @@ conda deactivate
 
 <a name="spec-preprocessing-transformations"></a>
 ## 2.1 Spectrum Preprocessing Transformations
-Functionality implementing the following spectrum preprocessing
-transformations is offered in MZsearch:
+The following spectrum preprocessing transformations are offered:
 
 -   Filtering: Given user-defined parameters (mz_min,mz_max),
     (int_min,int_max) and spectrum $I$ with m/z values
