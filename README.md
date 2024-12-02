@@ -3,11 +3,13 @@ Command-line Python tool to perform spectral library matching to identify chemic
 
 ## Table of Contents
 - [1. Create conda environment and install dependencies](#create-conda-env)
-- [2. Usage](#usage)
-   - [2.1 Obtain LC-MS or GC-MS library from MGF, mzML, or cdf file](#process-data)
-   - [2.2 Run spectral library matching](#run-spec-lib-matching)
-   - [2.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations](#plotting)
-- [3. Bugs/Questions?](#bugs-questions)
+- [2. Functionality](#functionality)
+- [2.1 Spectrum Preprocessing Transformations](#spec-preprocessing-transformations)
+- [3. Usage](#usage)
+   - [3.1 Obtain LC-MS or GC-MS library from MGF, mzML, or cdf file](#process-data)
+   - [3.2 Run spectral library matching](#run-spec-lib-matching)
+   - [3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations](#plotting)
+- [4. Bugs/Questions?](#bugs-questions)
 
 <a name="create-conda-env"></a>
 ## 1. Create conda environment and install dependencies
@@ -21,8 +23,24 @@ To return to your base environment, you can deactivate the mzsearch_env environm
 ```
 conda deactivate
 ```
+
+<a name="functionality"></a>
+## 2. Functionality
+
+<a name="spec-preprocessing-transformations"></a>
+## 2.1 Spectrum Preprocessing Transformations
+Functionality implementing the following spectrum preprocessing
+transformations is offered in MZsearch:
+
+-   Filtering: Given user-defined parameters (mz_min,mz_max),
+    (int_min,int_max) and spectrum $I$ with m/z values
+    $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$,
+    the transformed spectrum $I^{\star}$ consists of the peaks
+    $(m_{i},x_{i})$ in $I$ such that mz_min $\leq m_{i}\leq$ mz_max and
+    int_min $\leq x_{i}\leq$ int_max.
+
 <a name="usage"></a>
-## 2. Usage
+## 3. Usage
 This repository has three main capabilities:
 1. converting the raw data to the necessary format for spectral library matching
 2. running spectral library matching to identify compounds based off of their mass spectrometry data
@@ -38,7 +56,7 @@ python plot_spectra_gcms.py -h
 ```
 
 <a name="process-data"></a>
-### 2.1 Obtain LC-MS or GC-MS library from MGF, mzML, or cdf file
+### 3.1 Obtain LC-MS or GC-MS library from MGF, mzML, or cdf file
 To obtain a CSV file of LC-MS spectra in the format necessary for spectral library matching from raw data in the form of an mgf, mzML, or cdf file, one can run:
 ```
 python build_library.py \
@@ -55,7 +73,7 @@ Parameter descriptions are as follows:
 Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
 
 <a name="run-spec-lib-matching"></a>
-### 2.2 Run spectral library matching
+### 3.2 Run spectral library matching
 To run spectral library matching on LC-MS/GC-MS data, one can use:
 ```
 python spec_lib_matching_.py \
@@ -174,7 +192,7 @@ Parameter descriptions are as follows:
 --output_similarity_scores: Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename 'output_lcms_all_similarity_scores'.csv.
 
 <a name="plotting"></a>
-### 2.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
+### 3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
 To plot a query spectrum vs a reference spectrum before and after preprocessing transformations, run:
 ```
 python plot_spectra_lcms.py \
@@ -284,7 +302,7 @@ Parameter descriptions are as follows:
 --save_plots: Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.
 
 <a name="bugs-questions"></a>
-## 3. Bugs/Questions?
+## 4. Bugs/Questions?
 If you notice any bugs in this software or have any questions, don't hesitate to reach out to fy7392@wayne.edu.
 
 
