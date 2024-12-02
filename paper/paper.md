@@ -231,7 +231,7 @@ functionality for computing the following similarity measures:
       H_{Shannon}(I)=-\sum_{i=1}^{n}a_{i}\cdot ln(a_{i})
     \end{gather*}
 
--    Tsallis Entropy Similarity Measure [@Tsallis1988]:
+-    Tsallis Entropy Similarity Measure [@Tsallis1988; @Havrda1967]:
     \begin{gather*}\label{eq:}
       S_{}(I,J,q)=1-\frac{2\times H_{}(I/2+J/2,q)-H_{}(I,q)-H_{}(J,q)}{N_{}(I,J,q)},\\
       N_{}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
