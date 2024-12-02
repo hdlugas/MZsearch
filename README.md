@@ -117,9 +117,9 @@ with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and
 $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
 functionality for computing the following similarity measures:
 
--   Cosine Similarity Measure: \begin{equation*}
+-   Cosine Similarity Measure:
       S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
-    \end{equation*} where multiplication in the numerator refers to the
+    where multiplication in the numerator refers to the
     dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$
     and $J$ and multiplication in the denominator refers to
     multiplication of the $L^{2}$-norm of $I$ and $J$,
