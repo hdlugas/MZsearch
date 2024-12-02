@@ -124,84 +124,21 @@ recently-developed  Entropy Similarity Measure
 ## Spectrum Preprocessing Transformations
 
 Functionality implementing the following spectrum preprocessing
-transformations is offered in MZsearch:
+transformations is offered in MZsearch (more details found in documentation: <a href="[url](https://github.com/hdlugas/MZsearch)"></a>):
 
--   Filtering: Given user-defined parameters (mz_min,mz_max),
-    (int_min,int_max) and spectrum $I$ with m/z values
-    $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$,
-    the transformed spectrum $I^{\star}$ consists of the peaks
-    $(m_{i},x_{i})$ in $I$ such that mz_min $\leq m_{i}\leq$ mz_max and
-    int_min $\leq x_{i}\leq$ int_max.
+-   Filtering based on mz-values and intensities.
 
--   Weight Factor Transformation: Given a pair of user-defined weight
-    factor parameters $(\text{a,b})$ and spectrum $I$ with m/z values
-    $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$,
-    the transformed spectrum $I^{\star}$ has the same m/z values as $I$
-    and has intensities given by
-    $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}})$.
+-   Weight Factor Transformation.
 
--   Low-Entropy Transformation: Given a user-defined low-entropy
-    threshold parameter $T$ and spectrum $I$ with intensities
-    $(x_{1},x_{2},...,x_{n})$, $\sum_{i=1}^nx_i = 1$, and Shannon
-    entropy $H_{Shannon}(I)=-\sum_{i=1}^{n}x_{i}\cdot ln(x_{i})$, the
-    transformed spectrum intensities
-    $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such
-    that, for all $i\in\{1,2,...,n\}$, $x_{i}^{\star}=x_{i}$ if
-    $H_{Shannon}(I)\geq T$ and
-    $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ if
-    $H_{Shannon}(I)\textless T$.
+-   Low-Entropy Transformation.
 
--   Centroiding (only applicable to LC-MS data): Given a user-defined
-    window-size parameter $w_{centroiding}$ and a spectrum $I$ with m/z
-    values $(m_{1},m_{2},...,m_{n})$ and intensities
-    $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$
-    merges adjacent peaks $(m_{i},x_{i}),(m_{i+1},x_{i+1})$ into the
-    peak
-    $(\frac{m_{i}\cdot x_{i}+m_{i+1}\cdot x_{i+1}}{x_{i}+x_{i+1}},x_{i}+x_{i+1})$
-    if $|m_{i}-m_{i+1}|\textless w_{centroiding}$ for
-    $i\in\{1,2,...,n-1\}$. This centroiding procedure generalizes to
-    more than two peaks whose m/z values are within distance
-    $w_{centroiding}$ of each other.
+-   Centroiding (only applicable to LC-MS data).
 
--   Noise Removal: Given a user-defined noise removal parameter $r$ and
-    a spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})$, noise
-    removal removes peaks from $I$ with
-    $x_{j}\textless r\cdot\text{max}(\{x_{1},x_{2},...,x_{n}\})$ for
-    $j\in\{1,2,...,n\}$.
+-   Noise Removal.
 
--   Matching (only applicable to LC-MS data): Given a user-defined
-    window-size parameter $w_{matching}$ and two spectra $I$, $J$ with
-    m/z ratios $(a_{1},a_{2},...,a_{n}), (b_{1},b_{2},...,b_{m})$ and
-    intensities $(x_{1},x_{2},...,x_{n}), (y_{1},y_{2},...,y_{m})$,
-    respectively, of which we would like to measure the similarity
-    between, the matching procedure outputs two spectra
-    $I^{\star},J^{\star}$ containing the same number of peaks with
-    $I^{\star}$ and $J^{\star}$ having transformed intensities and
-    identical m/z ratios. Specifically, for a given peak $(a_{i},x_{i})$
-    of $I$, if there are no peaks $(b_{j},y_{j})$ in $J$ with
-    $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
-    remains in $I^{\star}$ and the peak $(a_{i},0)$ is included in
-    $J^{\star}$. If there is at least one peak $(b_{j},y_{j})$ with
-    $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
-    remains in $I^{\star}$ and the peak
-    $(a_{i},\sum_{j\text{ such that }|a_{i}-b_{j}|\textless w_{matching}}b_{j})$
-    is included in $J^{\star}$. This procedure is applied when
-    transposing the roles of $I$ and $J$ as well.
+-   Matching (only applicable to LC-MS data).
 
--   Normalization: Prior to computing entropy - regardless of whether in
-    the context of performing the low-entropy transformation or
-    computing an entropy-based similarity score - the intensities of
-    each spectrum must be normalized to sum to 1 in order to represent a
-    probability distribution. To normalize a given spectrum $I$ with
-    intensities $(x_{1},x_{2},...,x_{n})$ into spectrum $I^{\star}$ with
-    intensities $(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ such
-    that $\sum_{i=1}^{n}x_{i}^{\star}=1$, two methods are offered:
-
-    \- Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
-
-    \- Softmax:
-    $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where
-    $e\approx 2.72$ is Euler's constant.
+-   Normalization (only applicable to entropy-based similarity measures).
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of
 MZsearch.
@@ -219,7 +156,7 @@ $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
 functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure: \begin{equation*}
-      S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
+    S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
     \end{equation*} where multiplication in the numerator refers to the
     dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$
     and $J$ and multiplication in the denominator refers to
@@ -233,9 +170,9 @@ functionality for computing the following similarity measures:
 
 -    Tsallis Entropy Similarity Measure [@Tsallis1988; @Havrda1967]:
     \begin{gather*}\label{eq:}
-      S_{}(I,J,q)=1-\frac{2\times H_{}(I/2+J/2,q)-H_{}(I,q)-H_{}(J,q)}{N_{}(I,J,q)},\\
-      N_{}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
-      H_{}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
+      S_{Tsallis}(I,J,q)=1-\frac{2\times H_{Tsallis}(I/2+J/2,q)-H_{Tsallis}(I,q)-H_{Tsallis}(J,q)}{N_{Tsallis}(I,J,q)},\\
+      N_{Tsallis}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
+      H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
       q\neq 1, \ q\textgreater 0
     \end{gather*}
 
@@ -259,7 +196,7 @@ due to the different spectrum preprocessing transformations. To see all
 parameters for any of the five main scripts (build_library.py,
 spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
 plot_spectra_lcms.py, plot_spectra_gcms.py), see the documentation at 
-<a href="[url](https://github.com/hdlugas/MZsearch)">[link text](https://github.com/hdlugas/MZsearch)</a>.
+<a href="[url](https://github.com/hdlugas/MZsearch)"></a>.
 
 
 # Acknowledgements
