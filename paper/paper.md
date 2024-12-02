@@ -126,19 +126,19 @@ recently-developed  Entropy Similarity Measure
 Functionality implementing the following spectrum preprocessing
 transformations is offered in MZsearch (more details found in documentation: <a href="[[url](https://github.com/hdlugas/MZsearch)](https://github.com/hdlugas/MZsearch)"></a>):
 
--   Filtering based on mz-values and intensities.
+-   Filtering based on mz-values and intensities
 
--   Weight Factor Transformation.
+-   Weight Factor Transformation
 
--   Low-Entropy Transformation.
+-   Low-Entropy Transformation
 
--   Centroiding (only applicable to LC-MS data).
+-   Noise Removal
 
--   Noise Removal.
+-   Centroiding (only applicable to LC-MS data)
 
--   Matching (only applicable to LC-MS data).
+-   Matching (only applicable to LC-MS data)
 
--   Normalization (only applicable to entropy-based similarity measures).
+-   Normalization (only applicable to entropy-based similarity measures)
 
 The flowchart in \autoref{fig:flowchart} depicts the overall workflow of
 MZsearch.
