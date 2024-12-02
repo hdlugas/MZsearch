@@ -10,7 +10,7 @@ tags:
   - Cosine correlation
   - Shannon entropy
   - Renyi entropy
-  - Tsallis entropy
+  -  entropy
 authors:
   - name: Hunter Dlugas
     orcid: 0000-0002-6819-0045
@@ -116,7 +116,7 @@ MZsearch tool includes a novel entropy-based similarity measure, the
 Rényi Entropy Similarity Measure, enabling users to choose among four
 similarity measures: the commonly-used Cosine Similarity Measure
 [@Stein1994], the Shannon Entropy Similarity Measure [@Li2021], the
-recently-developed Tsallis Entropy Similarity Measure
+recently-developed  Entropy Similarity Measure
 [@Dlugas2024_preprint], and the novel Rényi Entropy Similarity Measure.
 
 # Functionality
@@ -231,11 +231,11 @@ functionality for computing the following similarity measures:
       H_{Shannon}(I)=-\sum_{i=1}^{n}a_{i}\cdot ln(a_{i})
     \end{gather*}
 
--   Tsallis Entropy Similarity Measure:
-    \begin{gather*}\label{eq:tsallis}
-      S_{Tsallis}(I,J,q)=1-\frac{2\times H_{Tsallis}(I/2+J/2,q)-H_{Tsallis}(I,q)-H_{Tsallis}(J,q)}{N_{Tsallis}(I,J,q)},\\
-      N_{Tsallis}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
-      H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
+-    Tsallis Entropy Similarity Measure [@Tsallis1998]:
+    \begin{gather*}\label{eq:}
+      S_{}(I,J,q)=1-\frac{2\times H_{}(I/2+J/2,q)-H_{}(I,q)-H_{}(J,q)}{N_{}(I,J,q)},\\
+      N_{}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
+      H_{}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
       q\neq 1, \ q\textgreater 0
     \end{gather*}
 
