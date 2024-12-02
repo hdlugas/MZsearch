@@ -118,7 +118,7 @@ $\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
 functionality for computing the following similarity measures:
 
 -   Cosine Similarity Measure:
-      S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
+    $S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}$
     where multiplication in the numerator refers to the
     dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$
     and $J$ and multiplication in the denominator refers to
