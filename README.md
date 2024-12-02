@@ -4,7 +4,8 @@ Command-line Python tool to perform spectral library matching to identify chemic
 ## Table of Contents
 - [1. Create conda environment and install dependencies](#create-conda-env)
 - [2. Functionality](#functionality)
-- [2.1 Spectrum Preprocessing Transformations](#spec-preprocessing-transformations)
+   - [2.1 Spectrum Preprocessing Transformations](#spec-preprocessing-transformations)
+   - [2.2 Similarity Measures](#similarity-measures)
 - [3. Usage](#usage)
    - [3.1 Obtain LC-MS or GC-MS library from MGF, mzML, or cdf file](#process-data)
    - [3.2 Run spectral library matching](#run-spec-lib-matching)
@@ -38,6 +39,113 @@ transformations is offered in MZsearch:
     the transformed spectrum $I^{\star}$ consists of the peaks
     $(m_{i},x_{i})$ in $I$ such that mz_min $\leq m_{i}\leq$ mz_max and
     int_min $\leq x_{i}\leq$ int_max.
+    -   Weight Factor Transformation: Given a pair of user-defined weight
+    factor parameters $(\text{a,b})$ and spectrum $I$ with m/z values
+    $(m_{1},m_{2},...,m_{n})$ and intensities $(x_{1},x_{2},...,x_{n})$,
+    the transformed spectrum $I^{\star}$ has the same m/z values as $I$
+    and has intensities given by
+    $I^{\star}:=(m_{1}^{\text{a}}\cdot x_{1}^{\text{b}},m_{2}^{\text{a}}\cdot x_{2}^{\text{b}},...,m_{n}^{\text{a}}\cdot x_{n}^{\text{b}})$.
+
+-   Low-Entropy Transformation: Given a user-defined low-entropy
+    threshold parameter $T$ and spectrum $I$ with intensities
+    $(x_{1},x_{2},...,x_{n})$, $\sum_{i=1}^nx_i = 1$, and Shannon
+    entropy $H_{Shannon}(I)=-\sum_{i=1}^{n}x_{i}\cdot ln(x_{i})$, the
+    transformed spectrum intensities
+    $I^{\star}=(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ are such
+    that, for all $i\in\{1,2,...,n\}$, $x_{i}^{\star}=x_{i}$ if
+    $H_{Shannon}(I)\geq T$ and
+    $x_{i}^{\star}=x_{i}^{\frac{1+H_{Shannon}(I)}{1+T}}$ if
+    $H_{Shannon}(I)\textless T$.
+
+-   Centroiding (only applicable to LC-MS data): Given a user-defined
+    window-size parameter $w_{centroiding}$ and a spectrum $I$ with m/z
+    values $(m_{1},m_{2},...,m_{n})$ and intensities
+    $(x_{1},x_{2},...,x_{n})$, the transformed spectrum $I^{\star}$
+    merges adjacent peaks $(m_{i},x_{i}),(m_{i+1},x_{i+1})$ into the
+    peak
+    $(\frac{m_{i}\cdot x_{i}+m_{i+1}\cdot x_{i+1}}{x_{i}+x_{i+1}},x_{i}+x_{i+1})$
+    if $|m_{i}-m_{i+1}|\textless w_{centroiding}$ for
+    $i\in\{1,2,...,n-1\}$. This centroiding procedure generalizes to
+    more than two peaks whose m/z values are within distance
+    $w_{centroiding}$ of each other.
+
+-   Noise Removal: Given a user-defined noise removal parameter $r$ and
+    a spectrum $I$ with intensities $(x_{1},x_{2},...,x_{n})$, noise
+    removal removes peaks from $I$ with
+    $x_{j}\textless r\cdot\text{max}(\{x_{1},x_{2},...,x_{n}\})$ for
+    $j\in\{1,2,...,n\}$.
+
+-   Matching (only applicable to LC-MS data): Given a user-defined
+    window-size parameter $w_{matching}$ and two spectra $I$, $J$ with
+    m/z ratios $(a_{1},a_{2},...,a_{n}), (b_{1},b_{2},...,b_{m})$ and
+    intensities $(x_{1},x_{2},...,x_{n}), (y_{1},y_{2},...,y_{m})$,
+    respectively, of which we would like to measure the similarity
+    between, the matching procedure outputs two spectra
+    $I^{\star},J^{\star}$ containing the same number of peaks with
+    $I^{\star}$ and $J^{\star}$ having transformed intensities and
+    identical m/z ratios. Specifically, for a given peak $(a_{i},x_{i})$
+    of $I$, if there are no peaks $(b_{j},y_{j})$ in $J$ with
+    $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
+    remains in $I^{\star}$ and the peak $(a_{i},0)$ is included in
+    $J^{\star}$. If there is at least one peak $(b_{j},y_{j})$ with
+    $|a_{i}-b_{j}|\textless w_{matching}$, then the peak $(a_{i},x_{i})$
+    remains in $I^{\star}$ and the peak
+    $(a_{i},\sum_{j\text{ such that }|a_{i}-b_{j}|\textless w_{matching}}b_{j})$
+    is included in $J^{\star}$. This procedure is applied when
+    transposing the roles of $I$ and $J$ as well.
+
+-   Normalization: Prior to computing entropy - regardless of whether in
+    the context of performing the low-entropy transformation or
+    computing an entropy-based similarity score - the intensities of
+    each spectrum must be normalized to sum to 1 in order to represent a
+    probability distribution. To normalize a given spectrum $I$ with
+    intensities $(x_{1},x_{2},...,x_{n})$ into spectrum $I^{\star}$ with
+    intensities $(x_{1}^{\star},x_{2}^{\star},...,x_{n}^{\star})$ such
+    that $\sum_{i=1}^{n}x_{i}^{\star}=1$, two methods are offered:
+
+    \- Standard: $x_{i}^{\star}=\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}$.
+
+    \- Softmax:
+    $x_{i}^{\star}=\frac{e^{x_{i}}}{\sum_{i=1}^{n}e^{x_{i}}}$ where
+    $e\approx 2.72$ is Euler's constant.
+
+<a name="similarity-measures"></a>
+## 2.2 Similarity Measures
+Given a pair of processed spectra intensities
+$I=(a_{1},a_{2},...,a_{n}), J=(b_{1},b_{2},...,b_{n})\in\mathbb{R}^{n}$
+with $0\leq a_{i},b_{i}\leq 1$ for all $i\in\{1,2,...,n\}$ and
+$\sum_{i=1}^{n}a_{i}=\sum_{i=1}^{n}b_{i}=1$, MZsearch provides
+functionality for computing the following similarity measures:
+
+-   Cosine Similarity Measure: \begin{equation*}
+      S_{Cosine}(I,J)= \frac{I\circ J}{|I|_{2}\cdot |J|_{2}}
+    \end{equation*} where multiplication in the numerator refers to the
+    dot product $I\circ J=a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}$ of $I$
+    and $J$ and multiplication in the denominator refers to
+    multiplication of the $L^{2}$-norm of $I$ and $J$,
+    $|I|_{2}=\sqrt{a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2}}, |J|_{2}=\sqrt{b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}}$.
+
+-   Shannon Entropy Similarity Measure: \begin{gather*}
+      S_{Shannon}(I,J) = 1-\frac{2\cdot H_{Shannon}\left(\frac{I+J}{2}\right) - H_{Shannon}(I)-H_{Shannon}(J)}{ln(4)},\\
+      H_{Shannon}(I)=-\sum_{i=1}^{n}a_{i}\cdot ln(a_{i})
+    \end{gather*}
+
+-    Tsallis Entropy Similarity Measure:
+    \begin{gather*}\label{eq:}
+      S_{}(I,J,q)=1-\frac{2\times H_{}(I/2+J/2,q)-H_{}(I,q)-H_{}(J,q)}{N_{}(I,J,q)},\\
+      N_{}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
+      H_{}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
+      q\neq 1, \ q\textgreater 0
+    \end{gather*}
+
+-   Rényi Entropy Similarity Measure: \begin{gather*}\label{eq:renyi}
+      S_{Renyi}(I,J,q)=1-\frac{2\times H_{Renyi}(I/2+J/2,q)-H_{Renyi}(I,q)-H_{Renyi}(J,q)}{N_{Renyi}(I,J,q)},\\
+      N_{Renyi}(I,J,q):=\left(\frac{1}{1-q}\right)\left(2\times ln\left(\sum_{i}(a_{i}/2)^{q}+\sum_{j}(b_{j}/2)^{q}\right)-ln(\sum_{i}a_{i}^{q})-ln(\sum_{i}b_{i}^{q})\right),\\
+      H_{Renyi}(I,q)=\frac{1}{1-q}ln(\sum_{i=1}^{n}a_{i}^{q}),\\
+      q\neq 1, \ q\textgreater 0
+    \end{gather*}
+
+
 
 <a name="usage"></a>
 ## 3. Usage
