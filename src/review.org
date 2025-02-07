@@ -1,11 +1,37 @@
-1. ~../data/likely_gcms_ids.csv~ missin (I likely missed a few others, please double check if all needed files to run the tests are present).
+1. ~../data/likely_gcms_ids.csv~ missing (I likely missed a few
+   others, please double check if all needed files to run the tests
+   are present).
 2. Renamed scripts to src
-3. Moved ~test_similarity_measures.py~ to src to make it work otherwise, it failed to import the required functions.
-4. Edited ~*.sh~ test scripts to reflect the above directory renaming. Also edited to remove unnecessary conda activate commands since it is expected that the environment is setup before testing or during installation. 
+3. Moved ~test_similarity_measures.py~ to src to make it work
+   otherwise, it failed to import the required functions.
+4. Edited ~*.sh~ test scripts to reflect the above directory
+   renaming. Also edited to remove unnecessary conda activate commands
+   since it is expected that the environment is setup before testing
+   or during installation.
 5. Fixed path name to data files in test scripts
-6. Help message output for each command-line options, while exhaustive and helpful, is very wordy. Make them short and provide detailed explanation in a separate ~intro.md~ or similar file
-7. There is a lot of code duplication due to the different GC, LC methods, e.g., library matching is in 2 mostly identical python scripts, plotting these results again are in two nearly identical plotting scripts. Reorganize them as a single python file one for matching and another for plotting, essentially making MS method as a command-line option. This will reduce the size of the code considerably and will help in the further development and testing efforts.
+6. Help message output for each command-line options, while exhaustive
+   and helpful, is very wordy. Make them short and provide detailed
+   explanation in a separate ~intro.md~ or similar file
+7. There is a lot of code duplication due to the different GC, LC
+   methods, e.g., library matching is in 2 mostly identical python
+   scripts, plotting these results again are in two nearly identical
+   plotting scripts. Reorganize them as a single python file one for
+   matching and another for plotting, essentially making MS method as
+   a command-line option. This will reduce the size of the code
+   considerably and will help in the further development and testing
+   efforts.
 8. Added bioconda channel to install pyteomics package dependency
-9. Edited ~\textgreater~ to plain ~>~ to remove LaTeX warnings while converting from pandoc to pdf.
-10. I recommend avoiding conda as a requirement for installation. The size of the project at this point is small enough that the python scripts could be run provided the dependencies are installed correctly (they could still be listed in ~README.md~, but leave it to the user to install them correctly, rather than providing a yml file for conda that may or may not work -- in this case it did not work).
-11. All the shell script tests and the ~test_similarity_measures.py~ script pass and produce PDF outputs. I am yet to review the actual content of the outputs and the text in the paper. But meanwhile, I thought it might be useful for the author to work on fixing the above issues.
+9. Edited ~\textgreater~ to plain ~>~ to remove LaTeX warnings while
+   converting from pandoc to pdf.
+10. I recommend avoiding conda as a requirement for installation. The
+    size of the project at this point is small enough that the python
+    scripts could be run provided the dependencies are installed
+    correctly (they could still be listed in ~README.md~, but leave it
+    to the user to install them correctly, rather than providing a yml
+    file for conda that may or may not work -- in this case it did not
+    work).
+11. All the shell script tests and the ~test_similarity_measures.py~
+    script pass and produce PDF outputs. I am yet to review the actual
+    content of the outputs and the text in the paper. But meanwhile, I
+    thought it might be useful for the author to work on fixing the
+    above issues.
