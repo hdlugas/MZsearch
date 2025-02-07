@@ -1,19 +1,11 @@
 #!/bin/bash
 
-source activate base
-conda activate ezsearch_env
-
-cd /home/hunter/mass_spec/entropies/JOSS/scripts
-
-:<< 'END'
-
-
-END
+cd ../src
 
 echo $'\n\n\n\n\ntest #1'
 python spec_lib_matching_lcms.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --similarity_measure tsallis \
   --wf_mz 2 \
   --wf_intensity 0.5 \
@@ -21,8 +13,8 @@ python spec_lib_matching_lcms.py \
   --entropy_dimension 2 \
   --n_top_matches_to_save 4 \
   --print_id_results True \
-  --output_identification /home/hunter/mass_spec/entropies/JOSS/output_lcms_identification.csv \
-  --output_similarity_scores /home/hunter/mass_spec/entropies/JOSS/output_lcms_all_similarity_scores.csv
+  --output_identification ../output_lcms_identification.csv \
+  --output_similarity_scores ../output_lcms_all_similarity_scores.csv
 
 echo $'\n\n\n\n\ntest #2'
 python spec_lib_matching_lcms.py \
@@ -259,8 +251,4 @@ python spec_lib_matching_lcms.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-
 echo 'Finished Testing'
-
-
-

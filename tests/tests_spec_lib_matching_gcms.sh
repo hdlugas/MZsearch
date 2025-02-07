@@ -1,25 +1,19 @@
 #!/bin/bash
 
-source activate base
-conda activate mzsearch_env
-
-cd /home/hunter/mass_spec/entropies/JOSS/scripts
-
-:<< 'END'
-END
+cd ../src
 
 echo $'\n\n\n\n\ntest #0'
 python spec_lib_matching_gcms.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --similarity_measure cosine \
   --normalization_method standard \
   --print_id_results True \
 
 echo $'\n\n\n\n\ntest #1'
 python spec_lib_matching_gcms.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --similarity_measure tsallis \
   --wf_mz 2 \
   --wf_intensity 0.5 \
@@ -27,8 +21,8 @@ python spec_lib_matching_gcms.py \
   --entropy_dimension 2 \
   --n_top_matches_to_save 4 \
   --print_id_results True \
-  --output_identification /home/hunter/mass_spec/entropies/JOSS/output_gcms_identification.csv \
-  --output_similarity_scores /home/hunter/mass_spec/entropies/JOSS/output_gcms_all_similarity_scores.csv
+  --output_identification ../output_gcms_identification.csv \
+  --output_similarity_scores ../output_gcms_all_similarity_scores.csv
 
 echo $'\n\n\n\n\ntest #2'
 python spec_lib_matching_gcms.py \
@@ -148,7 +142,7 @@ echo $'\n\n\n\n\ntest #16'
 python spec_lib_matching_gcms.py \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
-  --likely_reference_IDs /home/hunter/mass_spec/entropies/JOSS/data/likely_gcms_ids.csv \
+  --likely_reference_IDs ../data/likely_gcms_ids.csv \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
