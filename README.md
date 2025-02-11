@@ -195,7 +195,7 @@ Some example MGF files one can use to build a LC-MS library can be found from th
 ### 3.2 Run spectral library matching
 To run spectral library matching on LC-MS/GC-MS data, one can use:
 ```
-python spec_lib_matching_.py \
+python spec_lib_matching.py \
   --query_data path_to_query__CSV_file \
   --reference_data path_to_reference__CSV_file \
   --chromatography_platform insert_platform
