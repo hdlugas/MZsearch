@@ -167,13 +167,11 @@ This repository has three main capabilities:
 2. running spectral library matching to identify compounds based off of their mass spectrometry data
 3. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the four main scripts (spec_lib_matching_lcms.py, spec_lib_matching_gcms.py, plot_spectra_lcms.py, plot_spectra_gcms.py), run:
+These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the two main scripts (spec_lib_matching.py, plot_spectra.py), run:
 ```
 python build_library.py -h
-python spec_lib_matching_.py -h
-python spec_lib_matching_.py -h
-python plot_spectra_.py -h
-python plot_spectra_gcms.py -h
+python spec_lib_matching.py -h
+python plot_spectra.py -h
 ```
 
 <a name="process-data"></a>
@@ -199,18 +197,16 @@ To run spectral library matching on LC-MS/GC-MS data, one can use:
 ```
 python spec_lib_matching_.py \
   --query_data path_to_query__CSV_file \
-  --reference_data path_to_reference__CSV_file
-
-python spec_lib_matching_gcms.py \
-  --query_data path_to_query_gcms_CSV_file \
-  --reference_data path_to_reference_gcms_CSV_file
+  --reference_data path_to_reference__CSV_file \
+  --chromatography_platform insert_platform
 ```
 
 Example implementations of these scripts with all parameters specified are:
 ```
-python spec_lib_matching_.py \
+python spec_lib_matching.py \
   --query_data path_to_query__CSV_file \
   --reference_data path_to_reference__CSV_file \
+  --chromatography_platform LCMS \
   --likely_reference_IDs None \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
@@ -231,37 +227,19 @@ python spec_lib_matching_.py \
   --print_id_results False \
   --output_identification path_to__identification_results_CSV \
   --output_similarity_scores path_to_CSV_of_all__similarity_scores
-
-python spec_lib_matching_gcms.py \
-  --query_data path_to_query_gcms_CSV_file \
-  --reference_data path_to_reference_gcms_CSV_file \
-  --likely_reference_IDs None \
-  --similarity_measure cosine \
-  --spectrum_preprocessing_order FNLW \
-  --high_quality_reference_library False \
-  --mz_min 0 \
-  --mz_max 999999999999 \
-  --int_min 0 \
-  --int_max 999999999999 \
-  --wf_mz 0 \
-  --wf_intensity 1 \
-  --entropy_dimension 1.1 \
-  --normalization_method standard \
-  --n_top_matches_to_save 1 \
-  --print_id_results False \
-  --output_identification path_to_gcms_identification_results_CSV \
-  --output_similarity_scores path_to_CSV_of_all_gcms_similarity_scores
 ```
 
-To implement an example of spectral library matching, you can navigate to the scripts directory and run the following commands which should produce CSV files of the identification results in your current working directory (i.e. the scripts directory) by default:
+To implement an example of spectral library matching, you can navigate to the scripts directory and run the following commands which should produce CSV files of the identification results in your current working directory:
 ```
-python spec_lib_matching_lcms.py \
+python spec_lib_matching.py \
   --query_data "$PWD"/../data/lcms_query_library.csv \
-  --reference_data "$PWD"/../data/lcms_reference_library.csv
+  --reference_data "$PWD"/../data/lcms_reference_library.csv \
+  --chromatography_platform LCMS
 
-python spec_lib_matching_gcms.py \
+python spec_lib_matching.py \
   --query_data "$PWD"/../data/gcms_query_library.csv \
-  --reference_data "$PWD"/../data/gcms_reference_library.csv
+  --reference_data "$PWD"/../data/gcms_reference_library.csv \
+  --chromatography_platform GCMS
 ```
 
 
@@ -273,7 +251,9 @@ Parameter descriptions are as follows:
 
 --reference_data: same format CSV file as query_data except of reference library spectra.
 
---likely_reference_IDs: CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: None (i.e. default is to use entire reference library)
+--likely_reference_IDs: CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: None (i.e. default is to use entire reference library).
+
+--chromatography_platform: either 'LCMS' or 'GCMS'.
 
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
@@ -316,11 +296,12 @@ Parameter descriptions are as follows:
 ### 3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
 To plot a query spectrum vs a reference spectrum before and after preprocessing transformations, run:
 ```
-python plot_spectra_lcms.py \
+python plot_spectra.py \
   --query_data path_to_query_lcms_CSV_file \
   --reference_data path_to_reference_lcms_CSV_file \
   --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
   --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
+  --chromatography_platform LCMS \
   --similarity_measure cosine \
   --spectrum_preprocessing_order FCNMWL \
   --high_quality_reference_library False \
@@ -337,43 +318,26 @@ python plot_spectra_lcms.py \
   --entropy_dimension 1.1 \
   --normalization_method standard \
   --save_plots path_to_output_PDF_file
-
-python plot_spectra_gcms.py \
-  --query_data path_to_query_gcms_CSV_file \
-  --reference_data path_to_reference_gcms_CSV_file \
-  --query_spectrum_ID insert_single_ID_from_first_column_of_query_data \
-  --reference_spectrum_ID insert_single_ID_from_first_column_of_reference_data \
-  --similarity_measure cosine \
-  --spectrum_preprocessing_order FNLW \
-  --high_quality_reference_library False \
-  --mz_min 0 \
-  --mz_max 999999999999 \
-  --int_min 0 \
-  --int_max 999999999999 \
-  --wf_mz 0 \
-  --wf_intensity 1 \
-  --LET_threshold 0 \
-  --entropy_dimension 1.1 \
-  --normalization_method standard \
-  --save_plots path_to_output_PDF_file
 ```
 
-To implement an example of plotting spectra, you can navigate to the scripts directory and run the following commands which should produce PDF files of the spectra plots in your current working directory (i.e. the scripts directory) by default:
+To implement an example of plotting spectra, you can navigate to the scripts directory and run the following commands which should produce PDF files of the spectra plots in your current working directory:
 ```
-python plot_spectra_lcms.py \
+python plot_spectra.py \
   --query_data "$PWD"/../data/lcms_query_library.csv \
   --reference_data "$PWD"/../data/lcms_reference_library.csv \
   --query_spectrum_ID 100 \
   --reference_spectrum_ID 'Hectochlorin M+H' \
+  --chromatography_platform LCMS \
   --noise_threshold 0.05 \
   --wf_mz 0.5 \
   --wf_int 1.2
 
-python plot_spectra_gcms.py \
+python plot_spectra.py \
   --query_data "$PWD"/../data/gcms_query_library.csv \
   --reference_data "$PWD"/../data/gcms_reference_library.csv \
   --query_spectrum_ID ID_1 \
   --reference_spectrum_ID 616386 \
+  --chromatography_platform GCMS \
   --similarity_measure tsallis
 ```
 
@@ -389,6 +353,8 @@ Parameter descriptions are as follows:
 --query_spectrum_ID: The identifier of the query spectrum to be plotted. Default: first query spectrum in query_data.
 
 --reference_spectrum_ID: The identifier of the reference spectrum to be plotted. Default: first reference spectrum in reference_data.
+
+--chromatography_platform: either 'LCMS' or 'GCMS'.
 
 --similarity_measure: Options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
