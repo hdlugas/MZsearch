@@ -192,9 +192,8 @@ before and after preprocessing transformations.
 
 These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data
 due to the different spectrum preprocessing transformations. To see all
-parameters for any of the five main scripts (build_library.py,
-spec_lib_matching_lcms.py, spec_lib_matching_gcms.py,
-plot_spectra_lcms.py, plot_spectra_gcms.py), see the documentation at 
+parameters for any of the three main scripts (build_library.py,
+spec_lib_matching.py, plot_spectra.py), see the documentation at 
 <a href="[[url](https://github.com/hdlugas/MZsearch)](https://github.com/hdlugas/MZsearch)"></a>.
 
 
