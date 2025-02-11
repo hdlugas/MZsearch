@@ -167,7 +167,7 @@ This repository has three main capabilities:
 2. running spectral library matching to identify compounds based off of their mass spectrometry data
 3. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the two main scripts (spec_lib_matching.py, plot_spectra.py), run:
+These tasks are implemented separately for the cases of (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge ratios in GC-MS vs LC-MS data. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), run:
 ```
 python build_library.py -h
 python spec_lib_matching.py -h
