@@ -2,7 +2,7 @@
 Command-line Python tool to perform spectral library matching to identify chemical compounds with host of preprocessing transformations and similarity measures (Cosine and three entropy-based similarity measures). MZsearch is capable of performing spectral library matching with respect to either gas chromatography - mass spectrometry (GC-MS) or liquid chromatography - mass spectrometry (LC-MS) data.
 
 ## Table of Contents
-- [1. Create conda environment and install dependencies](#create-conda-env)
+- [1. Install dependencies](#create-conda-env)
 - [2. Functionality](#functionality)
    - [2.1 Spectrum Preprocessing Transformations](#spec-preprocessing-transformations)
    - [2.2 Similarity Measures](#similarity-measures)
@@ -14,7 +14,7 @@ Command-line Python tool to perform spectral library matching to identify chemic
 
 <a name="create-conda-env"></a>
 ## 1. Install dependencies
-MZsearch requires the Python dependencies Matplotlib, NumPy, Pandas, and SciPy, Pyteomics, and netCDF4. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, scipy=1.13.1, pyteomics=4.7.2, and nedCDF4=1.6.5, although it may work with other versions of these tools. A user may consider creating a conda environment (see [https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)).
+MZsearch requires the Python dependencies Matplotlib, NumPy, Pandas, and SciPy, Pyteomics, and netCDF4. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, scipy=1.13.1, pyteomics=4.7.2, and nedCDF4=1.6.5, although it may work with other versions of these tools. A user may consider creating a conda environment (see [https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) for getting started with conda if you are unfamiliar).
 
 <a name="functionality"></a>
 ## 2. Functionality
