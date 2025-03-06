@@ -82,7 +82,7 @@ library matching to identify chemical compounds from GC-MS data
 [@Jeong2023].
 
 In many GC-MS experiments, the resulting mass spectra often have m/z values 
-reported as integers due to the use of mass resolution instruments yielding nominal m/z values. 
+reported as integers due to the use of nominal mass resolution instruments.
 In contrast, LC-MS frequently employs high-resolution mass spectrometers that 
 provide m/z values with multiple decimal places. This necessitates 
 several spectrum preprocessing steps unique to LC-MS data
