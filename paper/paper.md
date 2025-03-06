@@ -81,10 +81,11 @@ Correlation) and a graphical user interface (GUI) to perform spectral
 library matching to identify chemical compounds from GC-MS data
 [@Jeong2023].
 
-In a GC-MS experiment, the resulting mass spectra typically have m/z
-values as integers. In contrast, LC-MS experiments produce mass spectra
-with high resolution m/z values, often with many decimal places. This
-necessitates several spectrum preprocessing steps unique to LC-MS data
+In many GC-MS experiments, the resulting mass spectra often have m/z values 
+reported as integers due to the use of mass resolution instruments yielding nominal m/z values. 
+In contrast, LC-MS frequently employs high-resolution mass spectrometers that 
+provide m/z values with multiple decimal places. This necessitates 
+several spectrum preprocessing steps unique to LC-MS data
 analysis, namely centroiding (i.e., merging peaks that are 'close' with
 respect to their m/z values) and matching (i.e., aligning the m/z values
 so that the query spectrum and reference spectrum have the same length).
