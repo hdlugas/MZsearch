@@ -185,7 +185,7 @@ python build_library.py \
 
 Parameter descriptions are as follows:
 
---input_path: Path to input file (must be either mgf, mlMZ, or cdf file). Mandatory argument.
+--input_path: Path to input file (must be either mgf, mzMZ, or cdf file). Mandatory argument.
 
 --output_path: Path to output CSV file. Default: current working directory.
 
