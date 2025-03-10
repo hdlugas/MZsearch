@@ -193,7 +193,9 @@ Parameter descriptions are as follows:
 --is_reference: Boolean flag indicating whether IDs of spectra should be written to output. Only pass True if building a reference library with known compound IDs. Only applicable to MGF files. Options: \'True\', \'False\'. Optional argument. Default: False.
 
 
-Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
+Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML). 
+
+Some GC-MS and LC-MS reference libraries are available at the Zenodo database (Dlugas et al., 2024b). The reference libraries available in MZsearch are shortened versions (because GitHub offers limited storage) of these reference libraries found in the Zenodo database.
 
 <a name="run-spec-lib-matching"></a>
 ### 3.2 Run spectral library matching
