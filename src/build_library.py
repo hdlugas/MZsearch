@@ -80,10 +80,13 @@ if input_file_type == 'mgf' or input_file_type == 'mzML':
     ints = []
     for i in range(0,len(spectra)):
         for j in range(0,len(spectra[i]['m/z array'])):
-            if is_reference == 'False':
+            if input_file_type == 'mzML':
                 ids.append(f'ID_{i+1}')
-            elif is_reference == 'True':
-                ids.append(spectra[i]['params']['name'])
+            else:
+                if is_reference == 'False':
+                    ids.append(f'ID_{i+1}')
+                elif is_reference == 'True':
+                    ids.append(spectra[i]['params']['name'])
             mzs.append(spectra[i]['m/z array'][j])
             ints.append(spectra[i]['intensity array'][j])
 
