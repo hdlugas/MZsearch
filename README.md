@@ -180,7 +180,8 @@ To obtain a CSV file of LC-MS spectra in the format necessary for spectral libra
 ```
 python build_library.py \
   --input_path path_to_input_mgf_or_mzML_or_cdf_file \
-  --output_path path_to_output_csv_file
+  --output_path path_to_output_csv_file \
+  --is_reference False
 ```
 
 Parameter descriptions are as follows:
@@ -188,6 +189,9 @@ Parameter descriptions are as follows:
 --input_path: Path to input file (must be either mgf, mzMZ, or cdf file). Mandatory argument.
 
 --output_path: Path to output CSV file. Default: current working directory.
+
+--is_reference: Boolean flag indicating whether IDs of spectra should be written to output. Only pass True if building a reference library with known compound IDs. Only applicable to MGF files. Options: \'True\', \'False\'. Optional argument. Default: False.
+
 
 Some example MGF files one can use to build a LC-MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML file one can use to build a LC-MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML).
 
