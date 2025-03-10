@@ -124,7 +124,7 @@ recently-developed  Entropy Similarity Measure
 |---------|:------:|:------:|:-----:|:-----:|:------:|:------:|
 | `MZsearch` | Python | command line | yes | yes | cosine <br><br> Shannon <br><br> Rényi <br><br> Tsallis | weight factor <br><br> low-entropy <br><br> filtering on m/z and intensity values <br><br> noise removal |
 | `matchms` [@Huber2020] | Python | Python coding | yes | no | cosine-based <br><br> Dice <br><br> Jaccard <br><br> custom | filtering on m/z and intensity values <br><br> noise removal <br><br> custom |
-| `OpenMS/pyOpenMS` [@Rost2014; @Rost2016] | C++/Python | C++/Python coding | yes | no | cosine | smoothing <br><br> filtering <br><br> other functionality not related to compound identification |
+| `OpenMS` [@Rost2014; @Rost2016] | C++/Python | C++/Python coding | yes | no | cosine | smoothing <br><br> filtering <br><br> other functionality not related to compound identification |
 | `spectrum_utils` [@Bittremieux2020] | Python | Python coding | yes | no | N/A | precursor & noise peak removal <br><br> intensity filtering <br><br> intensity scaling |
 | `metID` [@Shen2022] | R | R coding | yes | no | cosine | noise removal |
 | `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine <br> weighted cosine <br> Stein & Scott <br><br> discrete Fourier transform <br><br> discrete wavelet transform <br><br> semi-partial correlation | weight factor
