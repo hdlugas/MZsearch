@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser()
 # import command-line arguments
 parser.add_argument('--input_path', metavar='\b', help='Path to input file (must be mgf, mlMZ, or cdf file). Mandatory argument.')
 parser.add_argument('--output_path', metavar='\b', help='Path to output CSV file. Default: current working directory.')
+parser.add_argument('--is_reference', metavar='\b', help='Boolean flag indicating whether IDs of spectra should be written to output. Only pass True if building a reference library with known compound IDs. Only applicable to MGF files. Options: \'True\', \'False\'. Optional argument. Default: False.')
 
 # parse the user-input arguments
 args = parser.parse_args()
@@ -33,6 +34,17 @@ if args.output_path is None:
     output_path = f'{Path.cwd()}/built_library.csv'
 else:
     output_path = args.output_path
+
+# import the flag indicating whether 
+if args.is_reference is None:
+    is_reference = False
+else:
+    is_reference = args.is_reference
+
+if is_reference != 'True' and is_reference is not 'False':
+    print(f'ERROR: is_reference must be either \'True\' or \'False\'')
+    sys.exit()
+
 
 # determine whether an mgf or a mzML file was passed to --input_path
 last_three_chars = input_path[(len(input_path)-3):len(input_path)]
@@ -68,7 +80,10 @@ if input_file_type == 'mgf' or input_file_type == 'mzML':
     ints = []
     for i in range(0,len(spectra)):
         for j in range(0,len(spectra[i]['m/z array'])):
-            ids.append(f'ID_{i+1}')
+            if is_reference == 'False':
+                ids.append(f'ID_{i+1}')
+            elif is_reference == 'True':
+                ids.append(spectra[i]['params']['name'])
             mzs.append(spectra[i]['m/z array'][j])
             ints.append(spectra[i]['intensity array'][j])
 
