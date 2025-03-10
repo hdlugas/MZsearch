@@ -127,7 +127,7 @@ recently-developed  Entropy Similarity Measure
 | `OpenMS/pyOpenMS` [@Rost2014; @Rost2016] | C++/Python | C++/Python coding | yes | no | cosine | smoothing |
 | `spectrum_utils` [@Bittremieux2020] | Python | Python coding | yes | no | N/A | precursor & noise peak removal |
 | `metID` [@Shen2022] | R | R coding | yes | no | cosine | noise removal |
-| `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine \n weighted cosine \n Stein & Scott, discrete Fourier transform, discrete wavelet transform, and semi-partial correlation | weight factor
+| `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine <br> weighted cosine <br> Stein & Scott, discrete Fourier transform, discrete wavelet transform, and semi-partial correlation | weight factor
 
 
 # Functionality
