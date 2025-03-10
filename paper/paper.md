@@ -185,17 +185,7 @@ functionality for computing the following similarity measures:
 
 # Usage
 
-MZsearch has three main capabilities: (i) converting the raw data to the
-necessary format for spectral library matching, (ii) running spectral
-library matching to identify compounds based on their mass spectrometry
-data, and (iii) plotting a query spectrum vs. a reference spectrum
-before and after preprocessing transformations.
-
-These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data
-due to the different spectrum preprocessing transformations. To see all
-parameters for any of the three main scripts (build_library.py,
-spec_lib_matching.py, plot_spectra.py), see the documentation at 
-<a href="[[url](https://github.com/hdlugas/MZsearch)](https://github.com/hdlugas/MZsearch)"></a>.
+In a typical metabolomics workflow, noise is reduced, peaks are detected and aligned, peak areas are normalized, and then compound identification is performed, after which a statistical analysis can be performed to identify metabolites differentially abundant amoung groups of interest. MZsearch performs compound identification and has three main capabilities: (i) converting the raw data to the necessary format for spectral library matching, (ii) running spectral library matching to identify compounds based on their mass spectrometry data, and (iii) plotting a query spectrum vs. a reference spectrum before and after preprocessing transformations. These tasks are implemented separately for (i) GC-MS and (ii) LC-MS data due to the different spectrum preprocessing transformations. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), see the documentation at <a href="[[url](https://github.com/hdlugas/MZsearch)] https://github.com/hdlugas/MZsearch)"></a>.
 
 
 # Acknowledgements
