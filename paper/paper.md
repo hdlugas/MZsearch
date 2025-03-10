@@ -120,14 +120,14 @@ similarity measures: the commonly-used Cosine Similarity Measure
 recently-developed  Entropy Similarity Measure
 [@Dlugas2024_preprint], and the novel Rényi Entropy Similarity Measure. Table 1 compares MZsearch with other similar software.
 
-| Package  | Programming language | User interface | MS/MS compatible | MS compatible | Similarity measures | Transformation(s) |
-|--------|:------:|:------:|:------:|:------:|:------:|:------:|
+| Package  | Program language | User interface | MS/MS compatible | MS compatible | Similarity measures | Transformation(s) |
+|---------|:------:|:------:|:-----:|:-----:|:------:|:------:|
 | `MZsearch` | Python | command line | yes | yes | cosine | weight factor
 | `matchms` [@Huber2020] | Python | Python coding | yes | no | cosine-based | filtering on m/z and intensity values |
 | `OpenMS/pyOpenMS` [@Rost2014; @Rost2016] | C++/Python | C++/Python coding | yes | no | cosine | smoothing |
 | `spectrum_utils` [@Bittremieux2020] | Python | Python coding | yes | no | N/A | precursor & noise peak removal |
 | `metID` [@Shen2022] | R | R coding | yes | no | cosine | noise removal |
-| `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine, weighted cosine, Stein & Scott, discrete Fourier transform, discrete wavelet transform, and semi-partial correlation | weight factor
+| `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine\\ weighted cosine\\ Stein & Scott, discrete Fourier transform, discrete wavelet transform, and semi-partial correlation | weight factor
 
 
 # Functionality
