@@ -1,12 +1,12 @@
 #!/bin/bash
 
-cd /home/hunter/mass_spec/entropies/JOSS/scripts/reviewer1
+cd ${PWD}/../src
 
 
 echo $'\n\n\n\n\ntest #1'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
@@ -15,13 +15,13 @@ python spec_lib_matching.py \
   --entropy_dimension 2 \
   --n_top_matches_to_save 4 \
   --print_id_results True \
-  --output_identification /home/hunter/mass_spec/entropies/JOSS/scripts/reviewer1/output_lcms_identification.csv \
-  --output_similarity_scores /home/hunter/mass_spec/entropies/JOSS/scripts/reviewer1/output_lcms_all_similarity_scores.csv
+  --output_identification ../scripts/reviewer1/output_lcms_identification.csv \
+  --output_similarity_scores ../scripts/reviewer1/output_lcms_all_similarity_scores.csv
 
 echo $'\n\n\n\n\ntest #2'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
@@ -33,8 +33,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #3'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure tsallis \
   --normalization_method standard \
@@ -43,8 +43,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #4'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure renyi \
   --normalization_method standard \
@@ -55,8 +55,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #5'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure renyi \
   --normalization_method standard \
@@ -66,8 +66,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #6'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure shannon \
   --normalization_method standard \
@@ -76,8 +76,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #7'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --similarity_measure cosine \
   --n_top_matches_to_save 2 \
@@ -85,8 +85,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #8'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order LFWNCM \
   --similarity_measure cosine \
@@ -96,8 +96,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #9'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order LFWNCM \
   --similarity_measure cosine \
@@ -110,8 +110,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #10'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -121,8 +121,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #11'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -132,8 +132,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #12'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -143,8 +143,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #13'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -154,8 +154,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #14'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -165,8 +165,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #15'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -176,8 +176,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #16'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWCNLM \
   --similarity_measure cosine \
@@ -187,8 +187,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #17'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order WCMNLF \
   --similarity_measure cosine \
@@ -198,8 +198,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #18'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order WCNMLF \
   --similarity_measure cosine \
@@ -212,8 +212,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #19'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order WCNLMF \
   --similarity_measure shannon \
@@ -225,8 +225,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #20'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order WCNLFM \
   --similarity_measure renyi \
@@ -238,8 +238,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #21'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order WCLNMF \
   --similarity_measure tsallis \
@@ -251,8 +251,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #22'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order CMWNLF \
   --similarity_measure tsallis \
@@ -262,8 +262,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #23'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order ML \
   --similarity_measure tsallis \
@@ -273,8 +273,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #24'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order MNL \
   --similarity_measure tsallis \
@@ -285,8 +285,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #25'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order MW \
   --similarity_measure tsallis \
@@ -297,8 +297,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #26'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order FWL \
   --similarity_measure tsallis \
@@ -310,8 +310,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #27'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order MNC \
   --similarity_measure tsallis \
@@ -323,8 +323,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #28'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/lcms_reference_library.csv \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
   --chromatography_platform LCMSMS \
   --spectrum_preprocessing_order WM \
   --similarity_measure tsallis \
@@ -337,8 +337,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #30'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure cosine \
   --normalization_method standard \
@@ -346,8 +346,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #31'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
@@ -356,13 +356,13 @@ python spec_lib_matching.py \
   --entropy_dimension 2 \
   --n_top_matches_to_save 4 \
   --print_id_results True \
-  --output_identification /home/hunter/mass_spec/entropies/JOSS/output_gcms_identification.csv \
-  --output_similarity_scores /home/hunter/mass_spec/entropies/JOSS/output_gcms_all_similarity_scores.csv
+  --output_identification ../output_gcms_identification.csv \
+  --output_similarity_scores ../output_gcms_all_similarity_scores.csv
 
 echo $'\n\n\n\n\ntest #32'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
@@ -374,8 +374,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #33'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure tsallis \
   --normalization_method standard \
@@ -384,8 +384,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #34'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure renyi \
   --normalization_method standard \
@@ -395,8 +395,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #35'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure renyi \
   --normalization_method standard \
@@ -406,8 +406,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #36'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure shannon \
   --normalization_method standard \
@@ -416,8 +416,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #37'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --similarity_measure cosine \
   --n_top_matches_to_save 2 \
@@ -425,8 +425,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #38'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
@@ -436,8 +436,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #39'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
@@ -450,8 +450,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #40'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
@@ -461,8 +461,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #41'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
@@ -472,8 +472,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #42'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
@@ -483,8 +483,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #43'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
@@ -494,8 +494,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #44'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
@@ -505,8 +505,8 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #45'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
@@ -517,19 +517,19 @@ python spec_lib_matching.py \
 
 echo $'\n\n\n\n\ntest #46'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
-  --likely_reference_IDs /home/hunter/mass_spec/entropies/JOSS/data/likely_gcms_ids.csv \
+  --likely_reference_IDs ../data/likely_gcms_ids.csv \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
 echo $'\n\n\n\n\ntest #47'
 python spec_lib_matching.py \
-  --query_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_query_library.csv \
-  --reference_data /home/hunter/mass_spec/entropies/JOSS/data/gcms_reference_library.csv \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
   --chromatography_platform GCMS \
   --spectrum_preprocessing_order LWF \
   --high_quality_reference_library True \

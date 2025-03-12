@@ -1,9 +1,7 @@
 #!/bin/bash
 
-source activate base
-conda activate mzsearch_env
+cd ${PWD}/../src
 
-cd ../scripts
 
 echo $'\n\n\ntest #1'
 python build_library.py \
