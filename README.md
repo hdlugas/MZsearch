@@ -174,6 +174,8 @@ python spec_lib_matching.py -h
 python plot_spectra.py -h
 ```
 
+The file MZsearch/test/example_code_for_python_use.py demonstrates how some of the spectrum preprocessing functionality and similarity measures can be implemented directly in Python without using the command line.
+
 <a name="process-data"></a>
 ### 3.1 Obtain LC-MS/MS or GC-MS library from MGF, mzML, or cdf file
 To obtain a CSV file of LC-MS/MS spectra in the format necessary for spectral library matching from raw data in the form of an mgf, mzML, or cdf file, one can run:
