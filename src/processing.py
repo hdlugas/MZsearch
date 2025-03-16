@@ -37,32 +37,32 @@ def LE_transform(intensity, thresh, normalization_method):
     #1d np array of transformed intensities
 
     intensity_tmp = normalize(intensity, method=normalization_method)
-    S = scipy.stats.entropy(intensity_tmp.astype('float'))
-    if S > 0 and S < thresh:
-        w = (1 + S) / (1 + thresh) 
-        intensity = np.power(intensity_tmp, w)
+    if np.sum(intensity_tmp) > 0:
+        S = scipy.stats.entropy(intensity_tmp.astype('float'))
+        if S > 0 and S < thresh:
+            w = (1 + S) / (1 + thresh) 
+            intensity = np.power(intensity_tmp, w)
+    else:
+        intensity = np.zeros(len(intensity))
     return intensity 
 
 
 def normalize(intensities,method='standard'):
     #Normalizes a given vector to sum to 1 so that it represents a probability distribution
     if np.sum(intensities) > 0:
-        intensities /= np.sum(intensities)
         if method == 'softmax':
-            e_x = np.exp(intensities)
+            intensities2 = np.exp(intensities)
+            if np.isinf(intensities2).sum() == 0:
+                intensities = intensities / np.sum(intensities2)
+            else:
+                intensities /= np.sum(intensities)
+        else:
             intensities /= np.sum(intensities)
     return(intensities)
 
 
 def filter_spec_lcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999, is_matched = False):
     #keep points in a given spectrum in a given range of mz values and intensity values
-
-    '''
-    spec[np.where(spec[:,0] < mz_min)[0],1] = 0
-    spec[np.where(spec[:,0] > mz_max)[0],1] = 0
-    spec[spec[:,1] < int_min] = 0
-    spec[spec[:,1] > int_max] = 0
-    '''
     if is_matched == False:
         spec = spec[spec[:,0] >= mz_min]
         spec = spec[spec[:,0] <= mz_max]
@@ -90,7 +90,17 @@ def remove_noise(spec, nr):
     if spec.shape[0] > 1:
         if nr is not None:
             spec[np.where(spec[:,1] < np.max(spec[:,1]) * nr)[0]] = 0
-            #spec = spec[spec[:,1] >= np.max(spec[:,1]) * nr]
+
+    '''
+        if nr is not None:
+            print('\n')
+            print(type(spec[:,1]))
+            print(nr)
+            if np.isinf(spec[:,1]).sum() == 0:
+                spec[np.where(spec[:,1] < np.max(spec[:,1]) * nr)[0]] = 0
+            else:
+                spec[:,1] = np.zeros(spec.shape[0])
+    '''
     return(spec)
 
 
@@ -184,7 +194,6 @@ def match_peaks_in_spectra(spec_a, spec_b, window_size):
 
     spec_merged = []
     peak_b_int = 0.
-
     while a < spec_a.shape[0] and b < spec_b.shape[0]:
         mass_delta = spec_a[a, 0] - spec_b[b, 0]
         
@@ -220,4 +229,23 @@ def match_peaks_in_spectra(spec_a, spec_b, window_size):
     return spec_merged
 
 
+
+def convert_spec(spec, mzs):
+    # a function to impute intensities of 0 where there is no mass/charge value reported in a given spectrum
+    # input: 
+    # spec: n x 2 dimensional numpy array
+    # mzs: list of entire span of mass/charge values considering both the query and reference libraries
+
+    # output: 
+    # out: m x 2 dimensional numpy array
+
+    ints_tmp = []
+    for i in range(0,len(mzs)):
+        if mzs[i] in spec[:,0]:
+            int_tmp = spec[np.where(spec[:,0] == mzs[i])[0][0],1]
+        else:
+            int_tmp = 0
+        ints_tmp.append(int_tmp)
+    out = np.transpose(np.array([mzs,ints_tmp]))
+    return out
 

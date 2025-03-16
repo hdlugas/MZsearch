@@ -191,6 +191,9 @@ if args.normalization_method is not None:
 else:
     normalization_method = 'standard'
 
+if normalization_method != 'softmax':
+    normalization_method = 'standard'
+
 
 # get the number of most-similar reference library spectra to report for each query spectrum
 if args.n_top_matches_to_save is not None:
@@ -219,19 +222,23 @@ if chromatography_platform == 'LCMSMS':
     for query_idx in range(0,len(unique_query_ids)):
         q_idxs_tmp = np.where(df_query.iloc[:,0] == unique_query_ids[query_idx])[0]
         q_spec_tmp = np.asarray(pd.concat([df_query.iloc[q_idxs_tmp,1], df_query.iloc[q_idxs_tmp,2]], axis=1).reset_index(drop=True))
-        q_spec = q_spec_tmp
 
         # compute the similarity score between the given query spectrum and all spectra in the reference library
         similarity_scores = []
         for ref_idx in range(0,len(unique_reference_ids)):
             #if ref_idx % 100 == 0:
             #    print(f'Query spectrum #{query_idx} has had its similarity with {ref_idx} reference library spectra computed')
+            q_spec = q_spec_tmp
             r_idxs_tmp = np.where(df_reference.iloc[:,0] == unique_reference_ids[ref_idx])[0]
             r_spec = np.asarray(pd.concat([df_reference.iloc[r_idxs_tmp,1], df_reference.iloc[r_idxs_tmp,2]], axis=1).reset_index(drop=True))
 
             # apply spectrum preprocessing transformation in the order specified by user
             is_matched = False
             for transformation in spectrum_preprocessing_order:
+                if np.isinf(q_spec[:,1]).sum() > 0:
+                    q_spec[:,1] = np.zeros(q_spec.shape[0])
+                if np.isinf(r_spec[:,1]).sum() > 0:
+                    r_spec[:,1] = np.zeros(r_spec.shape[0])
                 if transformation == 'C' and q_spec.shape[0] > 1 and r_spec.shape[1] > 1: # centroiding
                     q_spec = centroid_spectrum(q_spec, window_size=window_size_centroiding) 
                     r_spec = centroid_spectrum(r_spec, window_size=window_size_centroiding) 
@@ -285,30 +292,12 @@ elif chromatography_platform == 'GCMS':
     unique_query_ids = df_query.iloc[:,0].unique()
     unique_reference_ids = df_reference.iloc[:,0].unique()
 
-    # compute the similarity score between each query library spectrum/spectra and all reference library spectra
+    # get the range of m/z values
     min_mz = np.min([np.min(df_query.iloc[:,1]), np.min(df_reference.iloc[:,1])])
     max_mz = np.max([np.max(df_query.iloc[:,1]), np.max(df_reference.iloc[:,1])])
     mzs = np.linspace(min_mz,max_mz,(max_mz-min_mz+1))
 
-    def convert_spec(spec, mzs):
-        # a function to impute intensities of 0 where there is no mass/charge value reported in a given spectrum
-        # input: 
-        # spec: n x 2 dimensional numpy array
-        # mzs: list of entire span of mass/charge values considering both the query and reference libraries
-
-        # output: 
-        # out: m x 2 dimensional numpy array
-
-        ints_tmp = []
-        for i in range(0,len(mzs)):
-            if mzs[i] in spec[:,0]:
-                int_tmp = spec[np.where(spec[:,0] == mzs[i])[0][0],1]
-            else:
-                int_tmp = 0
-            ints_tmp.append(int_tmp)
-        out = np.transpose(np.array([mzs,ints_tmp]))
-        return out
-
+    # compute the similarity score between each query library spectrum/spectra and all reference library spectra
     # for each query spectrum, compute its similarity with all reference spectra 
     all_similarity_scores =  []
     for query_idx in range(0,len(unique_query_ids)):
@@ -328,6 +317,10 @@ elif chromatography_platform == 'GCMS':
 
             # apply spectrum preprocessing transformation in the order specified by user
             for transformation in spectrum_preprocessing_order:
+                if np.isinf(q_spec[:,1]).sum() > 0:
+                    q_spec[:,1] = np.zeros(q_spec.shape[0])
+                if np.isinf(r_spec[:,1]).sum() > 0:
+                    r_spec[:,1] = np.zeros(r_spec.shape[0])
                 if transformation == 'W': # weight factor transformation
                     q_spec[:,1] = wf_transform(q_spec[:,0], q_spec[:,1], wf_mz, wf_intensity)
                     r_spec[:,1] = wf_transform(r_spec[:,0], r_spec[:,1], wf_mz, wf_intensity)
@@ -352,6 +345,7 @@ elif chromatography_platform == 'GCMS':
                 if similarity_measure == 'cosine':
                     similarity_score = S_cos(q_ints, r_ints)
                 else:
+                    # normalize intensities of each spectrum so they sum to 1 so that they represent a probability distribution
                     q_ints = normalize(q_ints, method = normalization_method)
                     r_ints = normalize(r_ints, method = normalization_method)
 
