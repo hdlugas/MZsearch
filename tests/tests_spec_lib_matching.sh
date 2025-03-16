@@ -2,6 +2,10 @@
 
 cd ${PWD}/../src
 
+: <<'EOF'
+EOF
+
+
 
 echo $'\n\n\n\n\ntest #1'
 python spec_lib_matching.py \
@@ -15,8 +19,8 @@ python spec_lib_matching.py \
   --entropy_dimension 2 \
   --n_top_matches_to_save 4 \
   --print_id_results True \
-  --output_identification ../scripts/reviewer1/output_lcms_identification.csv \
-  --output_similarity_scores ../scripts/reviewer1/output_lcms_all_similarity_scores.csv
+  --output_identification ./output_lcms_identification.csv \
+  --output_similarity_scores ./output_lcms_all_similarity_scores.csv
 
 echo $'\n\n\n\n\ntest #2'
 python spec_lib_matching.py \
@@ -356,8 +360,8 @@ python spec_lib_matching.py \
   --entropy_dimension 2 \
   --n_top_matches_to_save 4 \
   --print_id_results True \
-  --output_identification ../output_gcms_identification.csv \
-  --output_similarity_scores ../output_gcms_all_similarity_scores.csv
+  --output_identification ./output_gcms_identification.csv \
+  --output_similarity_scores ./output_gcms_all_similarity_scores.csv
 
 echo $'\n\n\n\n\ntest #32'
 python spec_lib_matching.py \
@@ -537,6 +541,19 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
+echo $'\n\n\n\n\ntest #48'
+python spec_lib_matching.py \
+  --query_data ../data/gcms_query_library.csv \
+  --reference_data ../data/gcms_reference_library.csv \
+  --chromatography_platform GCMS \
+  --spectrum_preprocessing_order LWF \
+  --high_quality_reference_library True \
+  --similarity_measure cosine \
+  --normalization_method softmax \
+  --n_top_matches_to_save 2 \
+  --print_id_results True
+
 
 echo -e '\n\nFinished Testing\n'
+
 
