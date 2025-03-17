@@ -9,6 +9,8 @@ Command-line Python tool to perform spectral library matching to identify chemic
 - [3. Usage](#usage)
    - [3.1 Obtain LC-MS/MS or GC-MS library from MGF, mzML, or cdf file](#process-data)
    - [3.2 Run spectral library matching](#run-spec-lib-matching)
+      - [3.3 Command line interface](#run-spec-lib-matching-CLI)
+      - [3.4 Python interface](#run-spec-lib-matching-python)
    - [3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations](#plotting)
 - [4. Bugs/Questions?](#bugs-questions)
 
@@ -174,8 +176,6 @@ python spec_lib_matching.py -h
 python plot_spectra.py -h
 ```
 
-The file MZsearch/test/example_code_for_python_use.py demonstrates how some of the spectrum preprocessing functionality and similarity measures can be implemented directly in Python without using the command line.
-
 <a name="process-data"></a>
 ### 3.1 Obtain LC-MS/MS or GC-MS library from MGF, mzML, or cdf file
 To obtain a CSV file of LC-MS/MS spectra in the format necessary for spectral library matching from raw data in the form of an mgf, mzML, or cdf file, one can run:
@@ -201,6 +201,9 @@ Some GC-MS and LC-MS/MS reference libraries are available at the Zenodo database
 
 <a name="run-spec-lib-matching"></a>
 ### 3.2 Run spectral library matching
+
+<a name="run-spec-lib-matching-CLI"></a>
+#### 3.2.1 Command line interface
 To run spectral library matching on either LC-MS/MS or GC-MS data, one can use:
 ```
 python spec_lib_matching.py \
@@ -299,6 +302,27 @@ Parameter descriptions are as follows:
 --output_identification: Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save identification output in current working directory (i.e. same directory this script is contained in) with filename 'output_lcms_identification.csv'.
 
 --output_similarity_scores: Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename 'output_lcms_all_similarity_scores'.csv.
+
+<a name="run-spec-lib-matching-python"></a>
+#### 3.2.2 Python interface
+The file MZsearch/test/example_code_for_python_use.py demonstrates how some of the spectrum preprocessing functionality and similarity measures can be implemented directly in Python without using the command line. In particular, the available spectrum preprocessing transformations and similarity measures are:
+```
+wf_transform
+LE_transform
+normalize
+filter_spec_lcms
+filter_spec_gcms
+remove_noise
+centroid_spectrum
+match_peaks_in_spectrum
+convert_spec
+S_cos
+S_shannon
+S_renyi
+S_tsallis
+```
+To see descriptions of input parameters, please see the scripts MZsearch/src/processing.py and MZsearch/src/similarity_measures.py.
+
 
 <a name="plotting"></a>
 ### 3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
