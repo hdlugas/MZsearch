@@ -307,21 +307,21 @@ Parameter descriptions are as follows:
 #### 3.2.2 Python interface
 The file MZsearch/test/example_code_for_python_use.py demonstrates how some of the spectrum preprocessing functionality and similarity measures can be implemented directly in Python without using the command line. In particular, the available spectrum preprocessing transformations and similarity measures are:
 ```
-wf_transform
-LE_transform
-normalize
-filter_spec_lcms
-filter_spec_gcms
-remove_noise
-centroid_spectrum
-match_peaks_in_spectrum
-convert_spec
-S_cos
-S_shannon
-S_renyi
-S_tsallis
+wf_transform  # weight factor transformation
+LE_transform  # low-entropy transformation
+normalize  # normalize a spectrum so intensities sum to 1 so that the intensities represent a probability distribution
+filter_spec_lcms  # filter an MS/MS spectrum based on m/z and intensity values
+filter_spec_gcms  # filter an MS spectrum based on m/z and intensity values
+remove_noise  # remove low-intensity ion fragments
+centroid_spectrum  # centroid a spectrum by merging ion fragments that are 'close' with respect to m/z value
+match_peaks_in_spectrum  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
+convert_spec  # set intensity values to 0 where m/z values are missing
+S_cos  # Cosine similarity measure
+S_shannon  # Shannon entropy similarity measure
+S_renyi  # Renyi entropy similarity measure
+S_tsallis  # Tsallis entropy similarity measure
 ```
-To see descriptions of input parameters, please see the scripts MZsearch/src/processing.py and MZsearch/src/similarity_measures.py.
+To see in-depth descriptions of input parameters, please see the scripts MZsearch/src/processing.py and MZsearch/src/similarity_measures.py.
 
 
 <a name="plotting"></a>
