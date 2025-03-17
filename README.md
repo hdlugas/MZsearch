@@ -9,8 +9,8 @@ Command-line Python tool to perform spectral library matching to identify chemic
 - [3. Usage](#usage)
    - [3.1 Obtain LC-MS/MS or GC-MS library from MGF, mzML, or cdf file](#process-data)
    - [3.2 Run spectral library matching](#run-spec-lib-matching)
-      - [3.3 Command line interface](#run-spec-lib-matching-CLI)
-      - [3.4 Python interface](#run-spec-lib-matching-python)
+      - [3.2.1 Command line interface](#run-spec-lib-matching-CLI)
+      - [3.2.2 Python interface](#run-spec-lib-matching-python)
    - [3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations](#plotting)
 - [4. Bugs/Questions?](#bugs-questions)
 
