@@ -1,5 +1,5 @@
 # MZsearch
-Command-line Python tool to perform spectral library matching to identify chemical compounds with host of preprocessing transformations and similarity measures (Cosine and three entropy-based similarity measures). MZsearch is capable of performing spectral library matching with respect to either gas chromatography - mass spectrometry (GC-MS) or liquid chromatography - mass spectrometry (LC-MS/MS) data.
+Command-line Python tool to perform spectral library matching to identify chemical compounds with host of spectrum preprocessing transformations and similarity measures (Cosine and three entropy-based similarity measures). MZsearch is capable of performing spectral library matching with respect to either gas chromatography - mass spectrometry (GC-MS) or liquid chromatography - mass spectrometry (LC-MS/MS) data.
 
 ## Table of Contents
 - [1. Install dependencies](#create-conda-env)
