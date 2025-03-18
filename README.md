@@ -315,23 +315,132 @@ from similarity_measures import *
 In particular, the available spectrum preprocessing transformations and similarity measures are:
 ```
 wf_transform(spec_mzs, spec_ints, wf_mz, wf_int)  # perform weight factor transformation on a spectrum
-#spec_mzs: 1d np array representing mass/charge values 
-#spec_ints: 1d np array representing intensity values 
-#wf_mz: float
-#wf_int: float
+##### input: #####
+# spec_mzs: 1d numpy array representing mass/charge values 
+# spec_ints: 1d numpy array representing intensity values 
+# wf_mz: float
+# wf_int: float
 
-LE_transform  # low-entropy transformation
-normalize  # normalize a spectrum so intensities sum to 1 so that the intensities represent a probability distribution
-filter_spec_lcms  # filter an MS/MS spectrum based on m/z and intensity values
-filter_spec_gcms  # filter an MS spectrum based on m/z and intensity values
-remove_noise  # remove low-intensity ion fragments
-centroid_spectrum  # centroid a spectrum by merging ion fragments that are 'close' with respect to m/z value
-match_peaks_in_spectrum  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
-convert_spec  # set intensity values to 0 where m/z values are missing
-S_cos  # Cosine similarity measure
-S_shannon  # Shannon entropy similarity measure
-S_renyi  # Renyi entropy similarity measure
+##### output: #####
+# 1d numpy array of weight-factor-transformed spectrum intensities
+
+
+LE_transform(intensity, thresh, normalization_method)  # transforms spectrum's intensities if the Shannon entropy of the intensities is below some threshold
+##### input: #####
+# intensity: 1d numpy array
+# thresh: nonnegative float
+# normalization_method: either 'standard' or 'softmax'
+
+##### output: #####
+# 1d numpy array of transformed intensities
+
+
+normalize(intensities, method)  # normalize a spectrum so intensities sum to 1 so that the intensities represent a probability distribution
+##### input: #####
+# intensities: 1d numpy array
+# method: either 'standard' or 'softmax'
+
+##### output: #####
+# 1d numpy array of normalized intensities
+
+
+filter_spec_lcms(spec, mz_min, mz_max, int_min, int_max, is_matched)  # filter an MS/MS spectrum based on m/z and intensity values
+##### input: #####
+# spec: N x 2 numpy array with first column being m/z and second column being intensity
+# mz_min: minimum m/z value
+# mz_max: maximum m/z value
+# int_min: minimum intensity value
+# int_max: maximum intensity value
+# is_matched: flag to indicate whether the given spectrum has already been matched to another spectrum
+
+##### output: #####
+# N x 2 numpy array with intensity of 0 put anywhere outside of the m/z and/or intensity bounds
+
+
+filter_spec_gcms(spec, mz_min, mz_max, int_min, int_max)
+# spec: N x 2 numpy array with first column being m/z and second column being intensity
+# mz_min: minimum m/z value
+# mz_max: maximum m/z value
+# int_min: minimum intensity value
+# int_max: maximum intensity value
+
+##### output: #####
+# N x 2 numpy array with intensity of 0 put anywhere outside of the m/z and/or intensity bounds
+
+
+remove_noise(spec, nr)  # remove low-intensity ion fragments
+##### input: #####
+# spec: N x 2 numpy array with first column being m/z and second column being intensity
+# nr: noise removal parameter; ion fragments with intensity less than max(intensity)*nr have intensity set to 0
+
+##### output: #####
+# N x 2 numpy array
+
+
+centroid_spectrum(spec, window_size)  # centroid a spectrum by merging ion fragments that are 'close' with respect to m/z value
+##### input: #####
+# spec: N x 2 numpy array with first column being mass/charge and second column being intensity
+# window_size: window-size parameter
+
+##### output: #####
+# M x 2 numpy array with M <= N due to peaks being merged
+
+
+match_peaks_in_spectra(spec_a, spec_b, window_size):  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
+##### input: #####
+# spec_a: N x 2 numpy array with first column being mass/charge and second column being intensity
+# spec_b: M x 2 numpy array with first column being mass/charge and second column being intensity
+# window_size: window-size parameter
+
+##### output: #####
+# K x 3 numpy array with first column being mass/charge, second column being matched intensities of spec_a, and third column being matched intensities of spec_b
+
+
+convert_spec(spec, mzs)  # set intensity values to 0 where m/z values are missing
+##### input: #####
+# spec: N x 2 dimensional numpy array
+# mzs: length M list of entire span of mass/charge values considering both the query and reference libraries
+
+##### output: #####
+# M x 2 dimensional numpy array
+
+
+S_cos(ints_a, ints_b)  # Cosine similarity measure
+##### input: #####
+# ints_a: 1d numpy array of intensities of a spectrum
+# ints_b: 1d numpy array of intensities of a spectrum
+
+##### output: #####
+# float between 0 and 1 indicating the similarity of the two spectra
+
+
+S_shannon(ints_a, ints_b)  # Shannon entropy similarity measure
+##### input: #####
+# ints_a: 1d numpy array of intensities of a spectrum
+# ints_b: 1d numpy array of intensities of a spectrum
+
+##### output: #####
+# float between 0 and 1 indicating the similarity of the two spectra
+
+
+S_renyi(ints_a, ints_b, q)  # Renyi entropy similarity measure
+##### input: #####
+# ints_a: 1d numpy array of intensities of a spectrum
+# ints_b: 1d numpy array of intensities of a spectrum
+# q: positive float representing 'entropy dimension'
+
+##### output: #####
+# float between 0 and 1 indicating the similarity of the two spectra
+
+
 S_tsallis  # Tsallis entropy similarity measure
+##### input: #####
+# ints_a: 1d numpy array of intensities of a spectrum
+# ints_b: 1d numpy array of intensities of a spectrum
+# q: positive float representing 'entropy dimension'
+
+##### output: #####
+# float between 0 and 1 indicating the similarity of the two spectra
 ```
 To see in-depth descriptions of input parameters, please see the scripts MZsearch/src/processing.py and MZsearch/src/similarity_measures.py.
 
