@@ -305,9 +305,21 @@ Parameter descriptions are as follows:
 
 <a name="run-spec-lib-matching-python"></a>
 #### 3.2.2 Python interface
-The file MZsearch/test/example_code_for_python_use.py demonstrates how some of the spectrum preprocessing functionality and similarity measures can be implemented directly in Python without using the command line. In particular, the available spectrum preprocessing transformations and similarity measures are:
+The file MZsearch/test/example_code_for_python_use.py demonstrates how some of the spectrum preprocessing functionality and similarity measures can be implemented directly in Python without using the command line. To use MZsearch's spectrum preprocessing functionality and similarity measures, one must import all functionality from the scripts processing.py and similarity_measures.py with:
 ```
-wf_transform  # weight factor transformation
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), '../src'))) # specify the path to the src directory
+from processing import *
+from similarity_measures import *
+```
+
+In particular, the available spectrum preprocessing transformations and similarity measures are:
+```
+wf_transform(spec_mzs, spec_ints, wf_mz, wf_int)  # perform weight factor transformation on a spectrum
+#spec_mzs: 1d np array representing mass/charge values 
+#spec_ints: 1d np array representing intensity values 
+#wf_mz: float
+#wf_int: float
+
 LE_transform  # low-entropy transformation
 normalize  # normalize a spectrum so intensities sum to 1 so that the intensities represent a probability distribution
 filter_spec_lcms  # filter an MS/MS spectrum based on m/z and intensity values
