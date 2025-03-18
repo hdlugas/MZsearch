@@ -386,7 +386,7 @@ centroid_spectrum(spec, window_size)  # centroid a spectrum by merging ion fragm
 # M x 2 numpy array with M <= N due to peaks being merged
 
 
-match_peaks_in_spectra(spec_a, spec_b, window_size):  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
+match_peaks_in_spectra(spec_a, spec_b, window_size)  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
 ##### input: #####
 # spec_a: N x 2 numpy array with first column being mass/charge and second column being intensity
 # spec_b: M x 2 numpy array with first column being mass/charge and second column being intensity
