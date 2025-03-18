@@ -442,8 +442,6 @@ S_tsallis  # Tsallis entropy similarity measure
 ##### output: #####
 # float between 0 and 1 indicating the similarity of the two spectra
 ```
-To see in-depth descriptions of input parameters, please see the scripts MZsearch/src/processing.py and MZsearch/src/similarity_measures.py.
-
 
 <a name="plotting"></a>
 ### 3.3 Plot a query spectrum against a reference spectrum before and after spectrum preprocessing transformations
