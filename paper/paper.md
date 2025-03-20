@@ -10,7 +10,7 @@ tags:
   - Cosine correlation
   - Shannon entropy
   - Renyi entropy
-  -  entropy
+  - entropy
 authors:
   - name: Hunter Dlugas
     orcid: 0000-0002-6819-0045
@@ -19,6 +19,7 @@ authors:
     orcid: 0000-0003-1102-6313
     affiliation: "3"
   - name: Seongho Kim
+    orcid: 0000-0003-1120-073X
     affiliation: "1, 2"
 affiliations:
  - name: Department of Oncology, School of Medicine, Wayne State University, Detroit, MI, USA
@@ -118,14 +119,15 @@ similarity measures: the commonly-used Cosine Similarity Measure
 recently-developed  Entropy Similarity Measure
 [@Dlugas2024_preprint], and the novel Rényi Entropy Similarity Measure. Table 1 compares MZsearch with other similar software.
 
-| Package  | Program language | User interface | MS/MS compatible | MS compatible | Similarity measures | Transformation(s) |
+| Package  | Program language | User interface | LC-MS/MS compatible | GC-MS compatible | Similarity measures | Preprocessing/Transformation(s) |
 |---------|:------:|:------:|:-----:|:-----:|:------:|:------:|
-| `MZsearch` | Python | command line | yes | yes | cosine, <br><br> Shannon, <br><br> Rényi, <br><br> Tsallis, | weight factor, <br><br> low-entropy, <br><br> filtering on m/z and intensity values, <br><br> noise removal |
-| `matchms` [@Huber2020] | Python | Python coding | yes | no | cosine-based, <br><br> Dice, <br><br> Jaccard, <br><br> custom | filtering on m/z and intensity values, <br><br> noise removal, <br><br> custom |
-| `OpenMS` [@Rost2014; @Rost2016] | C++/Python | C++/Python coding | yes | no | cosine | smoothing, <br><br> filtering, <br><br> other functionality not related to compound identification |
-| `spectrum_utils` [@Bittremieux2020] | Python | Python coding | yes | no | N/A | precursor & noise peak removal, <br><br> intensity filtering, <br><br> intensity scaling |
+| `MZsearch` | Python | command line; Python | yes | yes | cosine; <br><br> Shannon; <br><br> Rényi; <br><br> Tsallis | weight factor; <br><br> low-entropy; <br><br> filtering on m/z and intensity values; <br><br> noise removal |
+| `matchms` [@Huber2020] | Python | Python coding | yes | no | cosine-based; <br><br> Dice; <br><br> Jaccard; <br><br> custom | filtering on m/z and intensity values; <br><br> noise removal; <br><br> custom |
+| `OpenMS` [@Rost2014; @Rost2016] | C++/Python | C++/Python coding | yes | no | cosine | smoothing; <br><br> filtering; <br><br> other functionality not related to compound identification |
+| `spectrum_utils` [@Bittremieux2020] | Python | Python coding | yes | no | N/A | precursor & noise peak removal; <br><br> intensity filtering; <br><br> intensity scaling |
 | `metID` [@Shen2022] | R | R coding | yes | no | cosine | noise removal |
-| `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine, <br> weighted cosine, <br> Stein & Scott, <br><br> discrete Fourier transform, <br><br> discrete wavelet transform, <br><br> semi-partial correlation | weight factor
+| `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine; <br> weighted cosine; <br> Stein & Scott; <br><br> discrete Fourier transform; <br><br> discrete wavelet transform; <br><br> semi-partial correlation | weight factor
+**Table 1.** Comparison of MZsearch and existing tools.
 
 
 # Functionality
@@ -193,7 +195,7 @@ functionality for computing the following similarity measures:
 
 # Usage
 
-In a typical metabolomics workflow, noise is reduced, peaks are detected and aligned, peak areas are normalized, and then compound identification is performed, after which a statistical analysis can be performed to identify metabolites differentially abundant amoung groups of interest. MZsearch performs compound identification and has three main capabilities: (i) converting the raw data to the necessary format for spectral library matching, (ii) running spectral library matching to identify compounds based on their mass spectrometry data, and (iii) plotting a query spectrum vs. a reference spectrum before and after preprocessing transformations. These tasks are implemented separately for (i) GC-MS and (ii) LC-MS/MS data due to the different spectrum preprocessing transformations. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), see the documentation at <a href="[[url](https://github.com/hdlugas/MZsearch)] https://github.com/hdlugas/MZsearch)"></a>.
+Compound identification occurs during preprocessing or as an independent procedure. In preprocessing, it follows peak detection and should be performed before cross-sample alignment if based on compound names; otherwise, it can be delayed until before pathway analysis. As an independent procedure, it can be conducted ad hoc or post hoc to confirm or identify specific peaks in single or multiple samples. MZsearch performs compound identification and has three main capabilities: (i) converting the raw data to the necessary format for spectral library matching, (ii) running spectral library matching to identify compounds based on their mass spectrometry data, and (iii) plotting a query spectrum vs. a reference spectrum before and after preprocessing transformations. These tasks are implemented separately for (i) GC-MS and (ii) LC-MS/MS data due to the different spectrum preprocessing transformations. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), see the documentation at <a href="[[url](https://github.com/hdlugas/MZsearch)] https://github.com/hdlugas/MZsearch)"></a>.
 
 
 # Acknowledgements
@@ -207,7 +209,6 @@ High-Performance Computing Grid.
 
 # Author Contributions
 
-S.K. conceived the study and contributed to the overall study design and interpretation. H.D. implemented the initial idea, expanded and improved upon it, and was responsible for coding the developed methods. Both S.K. and H.D. contributed equally to the manuscript preparation, including drafting and revising the paper. Given their significant and complementary contributions to both the conceptual and technical aspects of the study, we consider them equal contributors. X.Z. was involved in preliminary discussions and in editing the manuscript.
-
+S.K. conceived the study and contributed to the overall study design and interpretation. H.D., X.Z., and S.K. collaborated on discussing the design, features, and structures of the developed software package. H.D. implemented the initial idea, further expanded and refined it, and was responsible for coding the developed software package. H.D., X.Z., and S.K. reviewed and edited the manuscript. Both H.D. and S.K. contributed equally to the manuscript preparation, including drafting and revising the manuscript.
 
 # References
