@@ -121,6 +121,7 @@ recently-developed  Entropy Similarity Measure
 
 **Table 1.** Comparison of MZsearch and existing tools.
 
+<div style="font-size:8px;">
 | Package  | Program language | User interface | LC-MS/MS compatible | GC-MS compatible | Similarity measures | Preprocessing/Transformation(s) |
 |---------|:------:|:------:|:-----:|:-----:|:------:|:------:|
 | `MZsearch` | Python | command line; Python coding | yes | yes | cosine; <br><br> Shannon; <br><br> Rényi; <br><br> Tsallis | weight factor; <br><br> low-entropy; <br><br> filtering on m/z and intensity values; <br><br> noise removal |
@@ -129,7 +130,7 @@ recently-developed  Entropy Similarity Measure
 | `spectrum_utils` [@Bittremieux2020] | Python | Python coding | yes | no | N/A | precursor & noise peak removal; <br><br> intensity filtering; <br><br> intensity scaling |
 | `metID` [@Shen2022] | R | R coding | yes | no | cosine | noise removal |
 | `ShinyMetID` [@Jeong2023] | R | R/Shiny GUI | no | yes | cosine; <br> weighted cosine; <br> Stein & Scott; <br><br> discrete Fourier transform; <br><br> discrete wavelet transform; <br><br> semi-partial correlation | weight factor
-
+</div>
 
 # Functionality
 
