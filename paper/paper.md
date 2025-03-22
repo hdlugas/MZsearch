@@ -121,7 +121,7 @@ recently-developed  Entropy Similarity Measure
 
 **Table 1.** Comparison of MZsearch and existing tools.
 
-![\label{fig:table}](table.PNG){width="100%," height="100%"}
+!(table.PNG){width="100%," height="100%"}
 
 # Functionality
 
