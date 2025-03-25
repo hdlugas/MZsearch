@@ -80,21 +80,7 @@ Correlation) and a graphical user interface (GUI) to perform spectral
 library matching to identify chemical compounds from GC-MS data
 [@Jeong2023].
 
-In many GC-MS experiments, the resulting mass spectra often have m/z values 
-reported as integers due to the use of nominal mass resolution instruments.
-In contrast, LC-MS/MS frequently employs high-resolution mass spectrometers that 
-provide m/z values with multiple decimal places. This necessitates 
-several spectrum preprocessing steps unique to LC-MS/MS data
-analysis, namely centroiding (i.e., merging peaks that are 'close' with
-respect to their m/z values) and matching (i.e., aligning the m/z values
-so that the query spectrum and reference spectrum have the same length).
-In addition to these canonical spectrum preprocessing transformations
-for LC-MS/MS data, weight factor transformations and low-entropy
-transformations have been proposed to improve the performance of
-compound identification for both GC-MS and LC-MS/MS data [@Kim2012;
-@Li2021; @Dlugas2024_preprint]. The Shannon Entropy Similarity Measure
-has been shown to outperform the Cosine Similarity Measure with respect
-to LC-MS/MS data [@Li2021]. A generalization of the Shannon Entropy
+In many GC-MS experiments, the resulting mass spectra often have m/z values reported as integers due to the use of nominal mass resolution of mass spectrometers. In contrast, LC-MS/MS frequently employs a high-resolution mass spectrometer that provides m/z values with multiple decimal places. This necessitates several spectrum preprocessing steps unique to high-resolution MS/MS data analysis, namely centroiding (i.e., merging peaks that are 'close' with respect to their m/z values) and matching (i.e., aligning the m/z values so that the query spectrum and reference spectrum have the same length). In addition to these canonical spectrum preprocessing transformations for high-resolution MS/MS data, weight factor transformations and low-entropy transformations have been proposed to improve the performance of compound identification for both GC-MS and LC-MS/MS data [@Kim2012; @Li2021; @Dlugas2024_preprint]. The Shannon Entropy Similarity Measure has been shown to outperform the Cosine Similarity Measure with respect to LC-MS/MS data [@Li2021]. A generalization of the Shannon Entropy
 Similarity Measure, the Tsallis Entropy Similarity Measure, slightly
 outperforms the Shannon Entropy Similarity Measure in both GC-MS and
 LC-MS/MS data [@Dlugas2024_preprint]. This recent study has further
@@ -109,7 +95,7 @@ To address the lack of spectral library matching software that considers
 both the order of spectrum preprocessing steps and novel entropy-based
 similarity measures, MZsearch was developed. The developed MZsearch is a
 command-line tool for performing spectral library matching on either
-GC-MS or LC-MS/MS data. It allows users to construct their own spectrum
+nominal mass resolution data, e.g. GC-MS, or high-resolution MS/MS data, e.g. LC-MS/MS. It allows users to construct their own spectrum
 preprocessing order using spectrum preprocessing transformations such as
 weight factor and low-entropy transformations. Additionally, the
 MZsearch tool includes a novel entropy-based similarity measure, the
@@ -186,7 +172,7 @@ functionality for computing the following similarity measures:
 
 # Usage
 
-Compound identification occurs during preprocessing or as an independent procedure. In preprocessing, it follows peak detection and should be performed before cross-sample alignment if based on compound names; otherwise, it can be delayed until before pathway analysis. As an independent procedure, it can be conducted ad hoc or post hoc to confirm or identify specific peaks in single or multiple samples. MZsearch performs compound identification and has three main capabilities: (i) converting the raw data to the necessary format for spectral library matching, (ii) running spectral library matching to identify compounds based on their mass spectrometry data, and (iii) plotting a query spectrum vs. a reference spectrum before and after preprocessing transformations. These tasks are implemented separately for (i) GC-MS and (ii) LC-MS/MS data due to the different spectrum preprocessing transformations. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), see the documentation at [https://github.com/hdlugas/MZsearch](https://github.com/hdlugas/MZsearch).
+Compound identification occurs during preprocessing or as an independent procedure. In preprocessing, it follows peak detection and should be performed before cross-sample alignment if based on compound names; otherwise, it can be delayed until before pathway analysis. As an independent procedure, it can be conducted ad hoc or post hoc to confirm or identify specific peaks in single or multiple samples. MZsearch performs compound identification and has three main capabilities: (i) converting the raw data to the necessary format for spectral library matching, (ii) running spectral library matching to identify compounds based on their mass spectrometry data, and (iii) plotting a query spectrum vs. a reference spectrum before and after preprocessing transformations. These tasks are implemented separately for (i) nominal mass resolution data such as GC-MS and (ii) high-resolution MS/MS data such as LC-MS/MS data due to the different spectrum preprocessing transformations. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), see the documentation at [https://github.com/hdlugas/MZsearch](https://github.com/hdlugas/MZsearch).
 
 
 # Acknowledgements
