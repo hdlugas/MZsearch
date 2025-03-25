@@ -20,15 +20,15 @@ parser.add_argument('--reference_data', metavar='\b', help='CSV file of the refe
 parser.add_argument('--query_spectrum_ID', metavar='\b', help='The identifier of the query spectrum to be plotted. Default: first query spectrum in query_data.')
 parser.add_argument('--reference_spectrum_ID', metavar='\b', help='The identifier of the reference spectrum to be plotted. Default: first reference spectrum in reference_data.')
 parser.add_argument('--similarity_measure', metavar='\b', help='Similarity measure: options are \'cosine\', \'shannon\', \'renyi\', and \'tsallis\'. Default = cosine.')
-parser.add_argument('--chromatography_platform', metavar='\b', help='Chromatography platform: options are \'LCMSMS\' and \'GCMS\'. Mandatory argument.')
+parser.add_argument('--chromatography_platform', metavar='\b', help='Chromatography platform: options are \'HRMS\' and \'LRMS\'. Mandatory argument.')
 parser.add_argument('--spectrum_preprocessing_order', metavar='\b', help='The LC-MS/MS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-6 characters chosen from C, F, M, N, L, W representing centroiding, filtering based on mass/charge and intensity values, matching, noise removal, low-entropy trannsformation, and weight-factor-transformation, respectively. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then centroiding, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LC-MS/MS data. Furthermore, \'C\' must be performed before matching since centroiding can change the number of ion fragments in a given spectrum. Default: FCNMWL')
 parser.add_argument('--high_quality_reference_library', metavar='\b', help='True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False')
 parser.add_argument('--mz_min', metavar='\b', help='Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0')
 parser.add_argument('--mz_max', metavar='\b', help='Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999')
 parser.add_argument('--int_min', metavar='\b', help='Remove all peaks with intensity less than int_min in each spectrum. Default = 0')
 parser.add_argument('--int_max', metavar='\b', help='Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999')
-parser.add_argument('--window_size_centroiding', metavar='\b', help='Window size parameter used in centroiding a given spectrum. Only for LCMSMS. Default = 0.5')
-parser.add_argument('--window_size_matching', metavar='\b', help='Window size parameter used in matching a query spectrum and a reference library spectrum. Only for LCMSMS. Default = 0.5')
+parser.add_argument('--window_size_centroiding', metavar='\b', help='Window size parameter used in centroiding a given spectrum. Only for HRMS. Default = 0.5')
+parser.add_argument('--window_size_matching', metavar='\b', help='Window size parameter used in matching a query spectrum and a reference library spectrum. Only for HRMS. Default = 0.5')
 parser.add_argument('--noise_threshold', metavar='\b', help='Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0')
 parser.add_argument('--wf_mz', metavar='\b', help='Mass/charge weight factor parameter. Default = 0.')
 parser.add_argument('--wf_intensity', metavar='\b', help='Intensity weight factor parameter. Default = 1.')
@@ -90,7 +90,7 @@ else:
 
 
 # get the spectrum preprocessing order
-if chromatography_platform == 'LCMSMS':
+if chromatography_platform == 'HRMS':
     preprocessing_error_message1 = 'Error: \'M\' must be a character in spectrum_preprocessing_order.'
     preprocessing_error_message2 = 'Error: \'C\' must come before \'M\' in spectrum_preprocessing_order.'
     if args.spectrum_preprocessing_order is not None:
@@ -106,7 +106,7 @@ if chromatography_platform == 'LCMSMS':
         if spectrum_preprocessing_order.index('C') > spectrum_preprocessing_order.index('M'):
             print(f'\n{preprocessing_error_message2}\n')
             sys.exit()
-elif chromatography_platform == 'GCMS':
+elif chromatography_platform == 'LRMS':
     if args.spectrum_preprocessing_order is not None:
         spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
     else:
@@ -228,8 +228,8 @@ def convert_spec(spec, mzs):
 # create the figure
 fig, axes = plt.subplots(nrows=2, ncols=1)
 
-# note the workflow is slightly different for LCMSMS and GCMS data
-if chromatography_platform == 'LCMSMS':
+# note the workflow is slightly different for HRMS and LRMS data
+if chromatography_platform == 'HRMS':
 
     # get unique query/reference library IDs; each query/reference ID corresponds to exactly one query/reference mass spectrum
     unique_query_ids = df_query.iloc[:,0].unique()
@@ -329,7 +329,7 @@ if chromatography_platform == 'LCMSMS':
         plt.yticks([])
 
 
-elif chromatography_platform == 'GCMS':
+elif chromatography_platform == 'LRMS':
 
     # get unique query/reference library IDs; each query/reference ID corresponds to exactly one query/reference mass spectrum
     unique_query_ids = df_query.iloc[:,0].unique()
