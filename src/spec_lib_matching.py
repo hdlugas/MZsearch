@@ -50,7 +50,7 @@ print('\nPerforming spectral library matching')
 if args.query_data is not None:
     df_query = pd.read_csv(args.query_data)
 else:
-    print('Error: No argument passed to query_data. To view usage, run \"python plot_spectra.py -h\".')
+    print('\nError: No argument passed to query_data. To view usage, run \"python plot_spectra.py -h\".')
     sys.exit()
 
 
@@ -58,7 +58,7 @@ else:
 if args.reference_data is not None:
     df_reference = pd.read_csv(args.reference_data)
 else:
-    print('Error: No argument passed to reference_data. To view usage, run \"python plot_spectra.py -h\".')
+    print('\nError: No argument passed to reference_data. To view usage, run \"python plot_spectra.py -h\".')
     sys.exit()
 
 
@@ -75,12 +75,20 @@ if args.similarity_measure is not None:
 else:
     similarity_measure = 'cosine'
 
+if similarity_measure not in ['cosine','shannon','renyi','tsallis']:
+    print('\nError: similarity_measure must be either \'cosine\', \'shannon\', \'tsallis\'')
+    sys.exit()
+
 
 # specify the chromatography platform
 if args.chromatography_platform is not None:
     chromatography_platform = args.chromatography_platform
 else:
-    print('Error: No argument passed to chromatography_platform. To view usage, run \"python plot_spectra.py -h\".')
+    print('\nError: No argument passed to chromatography_platform. To view usage, run \"python plot_spectra.py -h\".')
+    sys.exit()
+
+if chromatography_platform not in ['HRMS','LRMS']:
+    print('\nError: chromatography_platform must be either \'HRMS\' or \'LRMS\'')
     sys.exit()
 
 
@@ -88,6 +96,8 @@ else:
 if chromatography_platform == 'HRMS':
     preprocessing_error_message1 = 'Error: \'M\' must be a character in spectrum_preprocessing_order.'
     preprocessing_error_message2 = 'Error: \'C\' must come before \'M\' in spectrum_preprocessing_order.'
+    preprocessing_error_message3 = 'Error: spectrum_preprocessing_order must contain only \'C\', \'F\', \'M\', \'N\', \'L\', \'W\' for HRMS'
+
     if args.spectrum_preprocessing_order is not None:
         spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
     else:
@@ -101,11 +111,21 @@ if chromatography_platform == 'HRMS':
         if spectrum_preprocessing_order.index('C') > spectrum_preprocessing_order.index('M'):
             print(f'\n{preprocessing_error_message2}\n')
             sys.exit()
+
+    if set(spectrum_preprocessing_order) - {'F','C','N','M','W','L'}:
+        print(f'\n{preprocessing_error_message3}')
+        sys.exit()
+
 elif chromatography_platform == 'LRMS':
+    preprocessing_error_message3 = 'Error: spectrum_preprocessing_order must contain only \'F\', \'N\', \'L\', \'W\' for LRMS'
     if args.spectrum_preprocessing_order is not None:
         spectrum_preprocessing_order = list(args.spectrum_preprocessing_order)
     else:
         spectrum_preprocessing_order = ['F', 'N', 'L', 'W']
+
+    if set(spectrum_preprocessing_order) - {'F','N','W','L'}:
+        print(f'\n{preprocessing_error_message3}')
+        sys.exit()
 
 
 # load the flag indicating whether the reference library is considered to be of high quality
@@ -117,62 +137,102 @@ else:
 
 # load the filtering parameters
 if args.mz_min is not None:
-    mz_min = float(args.mz_min)
+    try:
+        mz_min = int(args.mz_min)
+    except ValueError:
+        print('\nError: mz_min should be a non-negative integer')
+        sys.exit()
 else: 
     mz_min = 0
 
 if args.mz_max is not None:
-    mz_max = float(args.mz_max)
+    try:
+        mz_max = int(args.mz_max)
+    except ValueError:
+        print('\nError: mz_max should be a positive integer')
+        sys.exit()
 else: 
     mz_max = 999999999999
 
 if args.int_min is not None:
-    int_min = float(args.int_min)
+    try:
+        int_min = float(args.int_min)
+    except ValueError:
+        print('\nError: int_min should be a non-negative float or integer')
+        sys.exit()
 else: 
     int_min = 0
 
 if args.int_max is not None:
-    int_max = float(args.int_max)
+    try:
+        int_max = float(args.int_max)
+    except ValueError:
+        print('\nError: int_max should be a non-negative float or integer')
+        sys.exit()
 else: 
     int_max = 999999999999
 
 
 # load the centroiding window size parameter
 if args.window_size_centroiding is not None:
-    window_size_centroiding = float(args.window_size_centroiding)
+    try:
+        window_size_centroiding = float(args.window_size_centroiding)
+    except ValueError:
+        print('\nError: window_size_centroiding should be a positive float')
+        sys.exit()
 else:
     window_size_centroiding = 0.5
 
 
 # load the matching window size parameter
 if args.window_size_matching is not None:
-    window_size_matching = float(args.window_size_matching)
+    try:
+        window_size_matching = float(args.window_size_matching)
+    except ValueError:
+        print('\nError: window_size_matching should be a positive float')
+        sys.exit()
 else:
     window_size_matching = 0.5
 
 
 # load the noise removal parameter
 if args.noise_threshold is not None:
-    noise_threshold = float(args.noise_threshold)
+    try:
+        noise_threshold = float(args.noise_threshold)
+    except ValueError:
+        print('\nError: noise_threshold should be a positive float')
+        sys.exit()
 else:
     noise_threshold = 0
 
 
 # load the weight factor parameters
 if args.wf_mz is not None:
-    wf_mz = float(args.wf_mz)
+    try:
+        wf_mz = float(args.wf_mz)
+    except ValueError:
+        print('\nError: wf_mz should be a float')
+        sys.exit()
 else:
     wf_mz = 0
 
 if args.wf_intensity is not None:
-    wf_intensity = float(args.wf_intensity)
+    try:
+        wf_intensity = float(args.wf_intensity)
+    except ValueError:
+        print('\nError: wf_intensity should be a float')
+        sys.exit()
 else:
     wf_intensity = 1
 
 
 # load the low-entropy transformation threshold
 if args.LET_threshold is not None: 
-    LET_threshold = float(args.LET_threshold)
+    try:
+        LET_threshold = float(args.LET_threshold)
+    except ValueError:
+        print('\nError: LET_threshold should be a float')
+        sys.exit()
 else:
     LET_threshold = 0
 
@@ -180,7 +240,14 @@ else:
 # load the entropy dimension parameter (if applicable)
 if args.similarity_measure == 'renyi' or args.similarity_measure == 'tsallis':
     if args.entropy_dimension is not None:
-        q = float(args.entropy_dimension)
+        try:
+            q = float(args.entropy_dimension)
+        except ValueError:
+            print('\nError: entropy_dimension should be a positive float')
+            sys.exit()
+        if q <= 0:
+            print('\nError: entropy_dimension should be a positive float')
+            sys.exit()
     else:
         q = 1.1
 
@@ -191,13 +258,18 @@ if args.normalization_method is not None:
 else:
     normalization_method = 'standard'
 
-if normalization_method != 'softmax':
-    normalization_method = 'standard'
+if normalization_method not in ['softmax','standard']:
+    print('\nError: normalization_method must be either \'softmax\' or \'standard\'')
+    sys.exit()
 
 
 # get the number of most-similar reference library spectra to report for each query spectrum
 if args.n_top_matches_to_save is not None:
-    n_top_matches_to_save = int(args.n_top_matches_to_save)
+    try:
+        n_top_matches_to_save = int(args.n_top_matches_to_save)
+    except ValueError:
+        print('\nError: n_top_matches_to_save should be a positive integer')
+        sys.exit()
 else:
     n_top_matches_to_save = 1
 
@@ -205,9 +277,11 @@ else:
 # get the flag to determine whether or not to print identification results
 if args.print_id_results is not None:
     print_id_results = str(args.print_id_results)
-else:
-    print_id_results = 'False'
-
+    if print_id_results not in ['True','False']:
+        print('\nError: print_id_results must be either \'True\' or \'False\'')
+        sys.exit()
+    else:
+        print_id_results = 'True'
 
 
 # consider the cases of HRMS and LRMS separately

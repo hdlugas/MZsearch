@@ -1,40 +1,44 @@
 
-#This script contains the functions used to transform spectra prior to computing similarity scores
+# This script contains the functions used to transform spectra prior to computing similarity scores
 
 import scipy.stats
 import numpy as np
 
 def wf_transform(spec_mzs, spec_ints, wf_mz, wf_int):
-    #This function performs a weight factor transformation on a spectrum
+    '''
+    This function performs a weight factor transformation on a spectrum
     
-    #input:
-    #wf_int: float
-    #wf_mz: float
-    #spec_mzs: 1d np array representing mass/charge values 
-    #spec_ints: 1d np array representing intensity values 
+    input:
+    wf_int: float
+    wf_mz: float
+    spec_mzs: 1d np array representing mass/charge values 
+    spec_ints: 1d np array representing intensity values 
 
-    #spec_mzs and spec_ints must be of the same length N
+    spec_mzs and spec_ints must be of the same length N
 
-    #output:
-    #spec_ints: 1d np array of weight-factor-transformed spectrum intensities
+    output:
+    spec_ints: 1d np array of weight-factor-transformed spectrum intensities
+    '''
 
     spec_ints = np.power(spec_mzs, wf_mz) * np.power(spec_ints, wf_int)
     return(spec_ints)
 
 
 def LE_transform(intensity, thresh, normalization_method):
-    #This transformation was presented by: 
-    #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
-    #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
-    #Nature Methods 2021, 18, 1524–1531
+    '''
+    This transformation was presented by: 
+    Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
+    Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
+    Nature Methods 2021, 18, 1524–1531
     
-    #input:
-    #intensity: 1d np array
-    #thresh: nonnegative float
-    #normalization_method: either 'standard' or 'softmax'
+    input:
+    intensity: 1d np array
+    thresh: nonnegative float
+    normalization_method: either 'standard' or 'softmax'
     
-    #output:
-    #1d np array of transformed intensities
+    output:
+    1d np array of transformed intensities
+    '''
 
     intensity_tmp = normalize(intensity, method=normalization_method)
     if np.sum(intensity_tmp) > 0:
@@ -48,7 +52,17 @@ def LE_transform(intensity, thresh, normalization_method):
 
 
 def normalize(intensities,method='standard'):
-    #Normalizes a given vector to sum to 1 so that it represents a probability distribution
+    '''
+    Normalizes a given vector to sum to 1 so that it represents a probability distribution
+
+    input:
+    intensities: 1d np array
+    method: normalization method; either 'standard' or 'softmax'
+
+    output:
+    1d np array of normalized intensities
+    '''
+
     if np.sum(intensities) > 0:
         if method == 'softmax':
             intensities2 = np.exp(intensities)
@@ -62,7 +76,20 @@ def normalize(intensities,method='standard'):
 
 
 def filter_spec_lcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999, is_matched = False):
-    #keep points in a given spectrum in a given range of mz values and intensity values
+    '''
+    keep points in a given spectrum in a given range of mz values and intensity values
+
+    input:
+    spec: Nx2 np array representing a mass spectrum with each row representing a peak, the first column representing mass/charge ratio, and the second column representing intensity
+    mz_min: remove peaks with mass/charge value smaller than mz_min
+    mz_max: remove peaks with mass/charge value larger than mz_max
+    int_min: remove peaks with intensity value smaller than int_min
+    int_max: remove peaks with intensity value larger than int_max
+
+    output:
+    Mx2 np array representing a mass spectrum with M <= N
+    '''
+
     if is_matched == False:
         spec = spec[spec[:,0] >= mz_min]
         spec = spec[spec[:,0] <= mz_max]
@@ -77,7 +104,20 @@ def filter_spec_lcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_m
 
 
 def filter_spec_gcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_max = 999999999999):
-    #keep points in a given spectrum in a given range of mz values and intensity values
+    '''
+    keep points in a given spectrum in a given range of mz values and intensity values
+
+    input:
+    spec: 1d np array representing the intensities of a low-resolution mass spectrum
+    mz_min: remove peaks with mass/charge value smaller than mz_min
+    mz_max: remove peaks with mass/charge value larger than mz_max
+    int_min: remove peaks with intensity value smaller than int_min
+    int_max: remove peaks with intensity value larger than int_max
+
+    output:
+    spec: 1d np array representing the intensities of a low-resolution mass spectrum post-filtering
+    '''
+
     spec[np.where(spec[:,0] < mz_min)[0],1] = 0
     spec[np.where(spec[:,0] > mz_max)[0],1] = 0
     spec[np.where(spec[:,1] < int_min)[0],1] = 0
@@ -86,36 +126,38 @@ def filter_spec_gcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_m
 
 
 def remove_noise(spec, nr):
-    #removes points with intensity less than max(intensities)*nr
+    '''
+    removes points with intensity less than max(intensities)*nr
+
+    input:
+    spec: Nx2 np array representing a mass spectrum with each row representing a peak, the first column representing mass/charge ratio, and the second column representing intensity
+    nr: positive float
+
+    output:
+    Nx2 np array representing a mass spectrum with low-intensity peaks assigned intensity of 0
+    '''
+
     if spec.shape[0] > 1:
         if nr is not None:
             spec[np.where(spec[:,1] < np.max(spec[:,1]) * nr)[0]] = 0
 
-    '''
-        if nr is not None:
-            print('\n')
-            print(type(spec[:,1]))
-            print(nr)
-            if np.isinf(spec[:,1]).sum() == 0:
-                spec[np.where(spec[:,1] < np.max(spec[:,1]) * nr)[0]] = 0
-            else:
-                spec[:,1] = np.zeros(spec.shape[0])
-    '''
     return(spec)
 
 
 def centroid_spectrum(spec, window_size):
-    #This function was presented by: 
-    #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
-    #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
-    #Nature Methods 2021, 18, 1524–1531
+    '''
+    This function was presented by: 
+    Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
+    Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
+    Nature Methods 2021, 18, 1524–1531
 
-    #input:
-    #spectrum: nx2 np array with first column being mass/charge and second column being intensity
-    #window_size: window-size parameter
+    input:
+    spectrum: Nx2 np array with first column being mass/charge and second column being intensity
+    window_size: window-size parameter
 
-    #output:
-    #centroided spectrum
+    output:
+    Mx2 np array representing the centroided spectrum with M <= N
+    '''
 
     spec = spec[np.argsort(spec[:,0])]
 
@@ -161,7 +203,7 @@ def centroid_spectrum(spec, window_size):
                 spec[i_left:i_right, 1] = 0
 
         spec_new = np.array(spec_new)
-        #spec_new = spec_new[np.argsort(spec_new[:, 0])]
+        spec_new = spec_new[np.argsort(spec_new[:, 0])]
         if spec_new.shape[0] > 1:
             spec_new = spec_new[np.argsort(spec_new[:, 0])]
             return spec_new
@@ -173,21 +215,23 @@ def centroid_spectrum(spec, window_size):
 
 
 def match_peaks_in_spectra(spec_a, spec_b, window_size):
-    #This function was presented by: 
-    #Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
-    #Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
-    #Nature Methods 2021, 18, 1524–1531
+    '''
+    This function was presented by: 
+    Li, Y.; Kind, T.; Folz, J.; Vaniya, A.; Mehta, S. S.; Fiehn, O.
+    Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. 
+    Nature Methods 2021, 18, 1524–1531
 
-    #This function matches two spectra to find common peaks in order
-    #to obtain two lists of intensities of the same length
+    This function matches two spectra to find common peaks in order
+    to obtain two lists of intensities of the same length
 
-    #input:
-    #spec_a: nx2 np array with first column being mass/charge and second column being intensity
-    #spec_b: mx2 np array with first column being mass/charge and second column being intensity
-    #window_size: window-size parameter
+    input:
+    spec_a: Nx2 np array with first column being mass/charge and second column being intensity
+    spec_b: Mx2 np array with first column being mass/charge and second column being intensity
+    window_size: window-size parameter
 
-    #output:
-    #kx3 np array with first column being mass/charge, second column being matched intensities of spec_a, and third column being matched intensities of spec_b
+    output:
+    Kx3 np array with first column being mass/charge, second column being matched intensities of spec_a, and third column being matched intensities of spec_b
+    '''
 
     a = 0
     b = 0
@@ -231,13 +275,15 @@ def match_peaks_in_spectra(spec_a, spec_b, window_size):
 
 
 def convert_spec(spec, mzs):
-    # a function to impute intensities of 0 where there is no mass/charge value reported in a given spectrum
-    # input: 
-    # spec: n x 2 dimensional numpy array
-    # mzs: list of entire span of mass/charge values considering both the query and reference libraries
+    '''
+    imputes intensities of 0 where there is no mass/charge value reported in a given spectrum
+    input: 
+    spec: Nx2 numpy array
+    mzs: list of entire span of mass/charge values considering both the query and reference libraries
 
-    # output: 
-    # out: m x 2 dimensional numpy array
+    output: 
+    Nx2 numpy array
+    '''
 
     ints_tmp = []
     for i in range(0,len(mzs)):
@@ -248,4 +294,5 @@ def convert_spec(spec, mzs):
         ints_tmp.append(int_tmp)
     out = np.transpose(np.array([mzs,ints_tmp]))
     return out
+
 

@@ -5,9 +5,95 @@ cd ${PWD}/../src
 : <<'EOF'
 EOF
 
+echo $'\n\n\n\n\ntest #0'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --similarity_measure hello
 
 
 echo $'\n\n\n\n\ntest #1'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform GCMS
+
+
+echo $'\n\n\n\n\ntest #2'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --spectrum_preprocessing_order MAB
+
+
+echo $'\n\n\n\n\ntest #3'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform LRMS \
+  --spectrum_preprocessing_order MF
+
+
+echo $'\n\n\n\n\ntest #4'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --window_size_centroiding small
+
+
+echo $'\n\n\n\n\ntest #5'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --mz_min hello
+
+
+echo $'\n\n\n\n\ntest #6'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --window_size_matching large
+
+
+echo $'\n\n\n\n\ntest #7'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --noise_threshold world
+
+
+echo $'\n\n\n\n\ntest #8'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --wf_intensity a
+
+
+echo $'\n\n\n\n\ntest #9'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --similarity_measure tsallis \
+  --entropy_dimension -1
+
+
+echo $'\n\n\n\n\ntest #10'
+python spec_lib_matching.py \
+  --query_data ../data/lcms_query_library.csv \
+  --reference_data ../data/lcms_reference_library.csv \
+  --chromatography_platform HRMS \
+  --normalization_method tanh
+
+
+echo $'\n\n\n\n\ntest #11'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -22,7 +108,7 @@ python spec_lib_matching.py \
   --output_identification ./output_lcms_identification.csv \
   --output_similarity_scores ./output_lcms_all_similarity_scores.csv
 
-echo $'\n\n\n\n\ntest #2'
+echo $'\n\n\n\n\ntest #12'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -35,7 +121,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True \
 
-echo $'\n\n\n\n\ntest #3'
+echo $'\n\n\n\n\ntest #13'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -45,7 +131,7 @@ python spec_lib_matching.py \
   --entropy_dimension 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #4'
+echo $'\n\n\n\n\ntest #14'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -57,7 +143,7 @@ python spec_lib_matching.py \
   --print_id_results True
 
 
-echo $'\n\n\n\n\ntest #5'
+echo $'\n\n\n\n\ntest #15'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -68,7 +154,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #6'
+echo $'\n\n\n\n\ntest #16'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -78,7 +164,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #7'
+echo $'\n\n\n\n\ntest #17'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -87,7 +173,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #8'
+echo $'\n\n\n\n\ntest #18'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -98,7 +184,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #9'
+echo $'\n\n\n\n\ntest #19'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -112,7 +198,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #10'
+echo $'\n\n\n\n\ntest #20'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -123,7 +209,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #11'
+echo $'\n\n\n\n\ntest #21'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -134,7 +220,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #12'
+echo $'\n\n\n\n\ntest #22'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -145,7 +231,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #13'
+echo $'\n\n\n\n\ntest #23'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -156,7 +242,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #14'
+echo $'\n\n\n\n\ntest #24'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -167,7 +253,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #15'
+echo $'\n\n\n\n\ntest #25'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -178,7 +264,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #16'
+echo $'\n\n\n\n\ntest #26'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -189,7 +275,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #17'
+echo $'\n\n\n\n\ntest #27'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -200,7 +286,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #18'
+echo $'\n\n\n\n\ntest #28'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -214,7 +300,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #19'
+echo $'\n\n\n\n\ntest #29'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -227,7 +313,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #20'
+echo $'\n\n\n\n\ntest #30'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -240,7 +326,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #21'
+echo $'\n\n\n\n\ntest #31'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -253,7 +339,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #22'
+echo $'\n\n\n\n\ntest #32'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -264,7 +350,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #23'
+echo $'\n\n\n\n\ntest #33'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -275,7 +361,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #24'
+echo $'\n\n\n\n\ntest #34'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -287,7 +373,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #25'
+echo $'\n\n\n\n\ntest #35'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -299,7 +385,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #26'
+echo $'\n\n\n\n\ntest #36'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -312,7 +398,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #27'
+echo $'\n\n\n\n\ntest #37'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -325,7 +411,7 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 1 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #28'
+echo $'\n\n\n\n\ntest #38'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
@@ -339,7 +425,7 @@ python spec_lib_matching.py \
   --print_id_results True
 
 
-echo $'\n\n\n\n\ntest #30'
+echo $'\n\n\n\n\ntest #39'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -348,7 +434,8 @@ python spec_lib_matching.py \
   --normalization_method standard \
   --print_id_results True \
 
-echo $'\n\n\n\n\ntest #31'
+
+echo $'\n\n\n\n\ntest #40'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -363,7 +450,8 @@ python spec_lib_matching.py \
   --output_identification ./output_gcms_identification.csv \
   --output_similarity_scores ./output_gcms_all_similarity_scores.csv
 
-echo $'\n\n\n\n\ntest #32'
+
+echo $'\n\n\n\n\ntest #41'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -376,7 +464,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True \
 
-echo $'\n\n\n\n\ntest #33'
+
+echo $'\n\n\n\n\ntest #42'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -386,7 +475,8 @@ python spec_lib_matching.py \
   --entropy_dimension 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #34'
+
+echo $'\n\n\n\n\ntest #43'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -397,7 +487,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #35'
+
+echo $'\n\n\n\n\ntest #44'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -408,7 +499,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #36'
+
+echo $'\n\n\n\n\ntest #45'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -418,7 +510,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #37'
+
+echo $'\n\n\n\n\ntest #46'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -427,7 +520,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #38'
+
+echo $'\n\n\n\n\ntest #47'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -438,7 +532,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #39'
+
+echo $'\n\n\n\n\ntest #48'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -452,7 +547,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #40'
+
+echo $'\n\n\n\n\ntest #49'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -463,7 +559,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #41'
+
+echo $'\n\n\n\n\ntest #50'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -474,7 +571,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #42'
+
+echo $'\n\n\n\n\ntest #51'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -485,7 +583,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #43'
+
+echo $'\n\n\n\n\ntest #52'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -496,7 +595,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #44'
+
+echo $'\n\n\n\n\ntest #53'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -507,7 +607,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #45'
+
+echo $'\n\n\n\n\ntest #54'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -519,7 +620,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #46'
+
+echo $'\n\n\n\n\ntest #55'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -530,7 +632,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #47'
+
+echo $'\n\n\n\n\ntest #56'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
@@ -541,7 +644,8 @@ python spec_lib_matching.py \
   --n_top_matches_to_save 2 \
   --print_id_results True
 
-echo $'\n\n\n\n\ntest #48'
+
+echo $'\n\n\n\n\ntest #57'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
