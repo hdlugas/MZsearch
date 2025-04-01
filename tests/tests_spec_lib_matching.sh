@@ -1,9 +1,7 @@
 #!/bin/bash
 
-cd ${PWD}/../src
 
-: <<'EOF'
-EOF
+cd ${PWD}/../src
 
 echo $'\n\n\n\n\ntest #0'
 python spec_lib_matching.py \
@@ -307,8 +305,8 @@ python spec_lib_matching.py \
   --chromatography_platform HRMS \
   --spectrum_preprocessing_order WCNLMF \
   --similarity_measure shannon \
-  --wf_mz 0.5 \
-  --wf_int 1.3 \
+  --wf_mz 0.9 \
+  --wf_int 1.1 \
   --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
@@ -320,8 +318,8 @@ python spec_lib_matching.py \
   --chromatography_platform HRMS \
   --spectrum_preprocessing_order WCNLFM \
   --similarity_measure renyi \
-  --wf_mz 0.5 \
-  --wf_int 1.3 \
+  --wf_mz 0.9 \
+  --wf_int 1.1 \
   --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True
@@ -333,8 +331,8 @@ python spec_lib_matching.py \
   --chromatography_platform HRMS \
   --spectrum_preprocessing_order WCLNMF \
   --similarity_measure tsallis \
-  --wf_mz 0.5 \
-  --wf_int 1.3 \
+  --wf_mz 0.9 \
+  --wf_int 1.1 \
   --LET_threshold 3 \
   --n_top_matches_to_save 2 \
   --print_id_results True

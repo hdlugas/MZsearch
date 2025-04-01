@@ -14,29 +14,29 @@ import sys
 parser = argparse.ArgumentParser()
 
 # import optional command-line arguments
-parser.add_argument('--query_data', metavar='\b', help='CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns should correspond to a single mass/charge ratio. Mandatory argument.')
-parser.add_argument('--reference_data', metavar='\b', help='CSV file of the reference mass spectra. Each row should correspond to a mass spectrum, the left-most column should contain in identifier (i.e. the CAS registry number or the compound name), and the remaining column should correspond to a single mass/charge ratio. Mandatory argument.')
-parser.add_argument('--likely_reference_IDs', metavar='\b', help='CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: none (i.e. default is to use entire reference library)')
-parser.add_argument('--similarity_measure', metavar='\b', help='Similarity measure: options are \'cosine\', \'shannon\', \'renyi\', and \'tsallis\'. Default = cosine.')
-parser.add_argument('--chromatography_platform', metavar='\b', help='Chromatography platform: options are \'HRMS\' and \'LRMS\'. Mandatory argument.')
-parser.add_argument('--spectrum_preprocessing_order', metavar='\b', help='The LC-MS/MS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-6 characters chosen from C, F, M, N, L, W representing centroiding, filtering based on mass/charge and intensity values, matching, noise removal, low-entropy trannsformation, and weight-factor-transformation, respectively. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then centroiding, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LC-MS/MS data. Furthermore, \'C\' must be performed before matching since centroiding can change the number of ion fragments in a given spectrum. Default: FCNMWL')
-parser.add_argument('--high_quality_reference_library', metavar='\b', help='True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False')
-parser.add_argument('--mz_min', metavar='\b', help='Remove all peaks with mass/charge less than mz_min in each spectrum. Default = 0')
-parser.add_argument('--mz_max', metavar='\b', help='Remove all peaks with mass/charge greater than mz_max in each spectrum. Default = 999999999999')
-parser.add_argument('--int_min', metavar='\b', help='Remove all peaks with intensity less than int_min in each spectrum. Default = 0')
-parser.add_argument('--int_max', metavar='\b', help='Remove all peaks with intensity greater than int_max in each spectrum. Default = 999999999999')
-parser.add_argument('--window_size_centroiding', metavar='\b', help='Window size parameter used in centroiding a given spectrum. Only for HRMS. Default = 0.5')
-parser.add_argument('--window_size_matching', metavar='\b', help='Window size parameter used in matching a query spectrum and a reference library spectrum. Only for HRMS. Default = 0.5')
-parser.add_argument('--noise_threshold', metavar='\b', help='Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0')
-parser.add_argument('--wf_mz', metavar='\b', help='Mass/charge weight factor parameter. Default = 0.')
-parser.add_argument('--wf_intensity', metavar='\b', help='Intensity weight factor parameter. Default = 1.')
-parser.add_argument('--LET_threshold', metavar='\b', help='Low-entropy transformation threshold parameter. Spectra with Shannon entropy less than LET_threshold are transformed according to intensitiesNew=intensitiesOriginal^{(1+S)/(1+LET_threshold)}. Default = 0.')
-parser.add_argument('--entropy_dimension', metavar='\b', help='Entropy dimension parameter. Must have positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similarity measure cosine or shannon is chosen. Default = 1.1.')
-parser.add_argument('--normalization_method', metavar='\b', help='Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: \'standard\' and \'softmax\'. Default = standard.')
-parser.add_argument('--n_top_matches_to_save', metavar='\b', help='The number of top matches to report. For example, if n_top_matches_to_save=5, then for each query spectrum, the five reference spectra with the largest similarity with the given query spectrum will be reported. Default = 1.')
-parser.add_argument('--print_id_results', metavar='\b', help='Flag that prints identification results if True. Default: False')
-parser.add_argument('--output_identification', metavar='\b', help='Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save identification output in current working directory (i.e. same directory this script is contained in) with filename \'output_identification.csv\'.')
-parser.add_argument('--output_similarity_scores', metavar='\b', help='Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename \'output_all_similarity_scores\'.csv.')
+parser.add_argument('--query_data', type=str, metavar='\b', help='CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns should correspond to a single mass/charge ratio. Mandatory argument.')
+parser.add_argument('--reference_data', type=str, metavar='\b', help='CSV file of the reference mass spectra. Each row should correspond to a mass spectrum, the left-most column should contain in identifier (i.e. the CAS registry number or the compound name), and the remaining column should correspond to a single mass/charge ratio. Mandatory argument.')
+parser.add_argument('--likely_reference_IDs', type=str, metavar='\b', help='CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: none (i.e. default is to use entire reference library)')
+parser.add_argument('--similarity_measure', type=str, default='cosine', metavar='\b', help='Similarity measure: options are \'cosine\', \'shannon\', \'renyi\', and \'tsallis\'. Default: cosine.')
+parser.add_argument('--chromatography_platform', type=str, metavar='\b', help='Chromatography platform: options are \'HRMS\' and \'LRMS\'. Mandatory argument.')
+parser.add_argument('--spectrum_preprocessing_order', type=str, metavar='\b', help='The LC-MS/MS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-6 characters chosen from C, F, M, N, L, W representing centroiding, filtering based on mass/charge and intensity values, matching, noise removal, low-entropy trannsformation, and weight-factor-transformation, respectively. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then centroiding, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of LC-MS/MS data. Furthermore, \'C\' must be performed before matching since centroiding can change the number of ion fragments in a given spectrum. Default: FCNMWL for HRMS, FNLW for LRMS')
+parser.add_argument('--high_quality_reference_library', type=str, default='False', metavar='\b', help='True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False')
+parser.add_argument('--mz_min', type=int, default=0, metavar='\b', help='Remove all peaks with mass/charge less than mz_min in each spectrum. Default: 0')
+parser.add_argument('--mz_max', type=int, default=999999999999, metavar='\b', help='Remove all peaks with mass/charge greater than mz_max in each spectrum. Default: 999999999999')
+parser.add_argument('--int_min', type=float, default=0, metavar='\b', help='Remove all peaks with intensity less than int_min in each spectrum. Default: 0')
+parser.add_argument('--int_max', type=float, default=999999999999, metavar='\b', help='Remove all peaks with intensity greater than int_max in each spectrum. Default: 999999999999')
+parser.add_argument('--window_size_centroiding', type=float, default=0.5, metavar='\b', help='Window size parameter used in centroiding a given spectrum. Only for HRMS. Default: 0.5')
+parser.add_argument('--window_size_matching', type=float, default=0.5, metavar='\b', help='Window size parameter used in matching a query spectrum and a reference library spectrum. Only for HRMS. Default: 0.5')
+parser.add_argument('--noise_threshold', type=float, default=0, metavar='\b', help='Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default: 0')
+parser.add_argument('--wf_mz', type=float, default=0, metavar='\b', help='Mass/charge weight factor parameter. Default: 0.')
+parser.add_argument('--wf_intensity', type=float, default=1, metavar='\b', help='Intensity weight factor parameter. Default: 1.')
+parser.add_argument('--LET_threshold', type=float, default=0, metavar='\b', help='Low-entropy transformation threshold parameter. Spectra with Shannon entropy less than LET_threshold are transformed according to intensitiesNew=intensitiesOriginal^{(1+S)/(1+LET_threshold)}. Default: 0.')
+parser.add_argument('--entropy_dimension', type=float, default=1.1, metavar='\b', help='Entropy dimension parameter. Must have positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similarity measure cosine or shannon is chosen. Default: 1.1.')
+parser.add_argument('--normalization_method', type=str, default='standard', metavar='\b', help='Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: \'standard\' and \'softmax\'. Default: standard.')
+parser.add_argument('--n_top_matches_to_save', type=int, default=1, metavar='\b', help='The number of top matches to report. For example, if n_top_matches_to_save=5, then for each query spectrum, the five reference spectra with the largest similarity with the given query spectrum will be reported. Default: 1.')
+parser.add_argument('--print_id_results', type=str, default='False', metavar='\b', help='Flag that prints identification results if True. Default: False')
+parser.add_argument('--output_identification', type=str, default=f'{Path.cwd()}/output_identification.csv', metavar='\b', help='Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save identification output in current working directory (i.e. same directory this script is contained in) with filename \'output_identification.csv\'.')
+parser.add_argument('--output_similarity_scores', type=str, default=f'{Path.cwd()}/output_all_similarity_scores.csv', metavar='\b', help='Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename \'output_all_similarity_scores\'.csv.')
 
 
 # parse the user-input arguments
@@ -69,12 +69,8 @@ if args.likely_reference_IDs is not None:
         df_reference = df_reference.loc[df_reference.iloc[:,0].isin(likely_reference_IDs.iloc[:,0].tolist())]
 
 
-# specify the similarity measure to use
-if args.similarity_measure is not None:
-    similarity_measure = args.similarity_measure
-else:
-    similarity_measure = 'cosine'
-
+# throw error if similarity measure is not one of the available similarity measures
+similarity_measure = args.similarity_measure
 if similarity_measure not in ['cosine','shannon','renyi','tsallis']:
     print('\nError: similarity_measure must be either \'cosine\', \'shannon\', \'tsallis\'')
     sys.exit()
@@ -129,48 +125,29 @@ elif chromatography_platform == 'LRMS':
 
 
 # load the flag indicating whether the reference library is considered to be of high quality
-if args.high_quality_reference_library is not None:
-    high_quality_reference_library = args.high_quality_reference_library
-else:
-    high_quality_reference_library = False
+high_quality_reference_library = args.high_quality_reference_library
 
 
 # load the filtering parameters
-if args.mz_min is not None:
-    try:
-        mz_min = int(args.mz_min)
-    except ValueError:
-        print('\nError: mz_min should be a non-negative integer')
-        sys.exit()
-else: 
-    mz_min = 0
+mz_min = int(args.mz_min)
+if mz_min < 0:
+    print('\nError: mz_min should be a non-negative integer')
+    sys.exit()
 
-if args.mz_max is not None:
-    try:
-        mz_max = int(args.mz_max)
-    except ValueError:
-        print('\nError: mz_max should be a positive integer')
-        sys.exit()
-else: 
-    mz_max = 999999999999
+mz_max = int(args.mz_max)
+if mz_max <= 0:
+    print('\nError: mz_max should be a positive integer')
+    sys.exit()
 
-if args.int_min is not None:
-    try:
-        int_min = float(args.int_min)
-    except ValueError:
-        print('\nError: int_min should be a non-negative float or integer')
-        sys.exit()
-else: 
-    int_min = 0
+int_min = float(args.int_min)
+if int_min < 0:
+    print('\nError: int_min should be a non-negative float')
+    sys.exit()
 
-if args.int_max is not None:
-    try:
-        int_max = float(args.int_max)
-    except ValueError:
-        print('\nError: int_max should be a non-negative float or integer')
-        sys.exit()
-else: 
-    int_max = 999999999999
+int_max = float(args.int_max)
+if int_max <= 0:
+    print('\nError: int_max should be a positive float')
+    sys.exit()
 
 
 # load the centroiding window size parameter
@@ -227,61 +204,36 @@ else:
 
 
 # load the low-entropy transformation threshold
-if args.LET_threshold is not None: 
-    try:
-        LET_threshold = float(args.LET_threshold)
-    except ValueError:
-        print('\nError: LET_threshold should be a float')
-        sys.exit()
-else:
-    LET_threshold = 0
+LET_threshold = float(args.LET_threshold)
 
 
 # load the entropy dimension parameter (if applicable)
 if args.similarity_measure == 'renyi' or args.similarity_measure == 'tsallis':
-    if args.entropy_dimension is not None:
-        try:
-            q = float(args.entropy_dimension)
-        except ValueError:
-            print('\nError: entropy_dimension should be a positive float')
-            sys.exit()
-        if q <= 0:
-            print('\nError: entropy_dimension should be a positive float')
-            sys.exit()
-    else:
-        q = 1.1
+    q = float(args.entropy_dimension)
+    if q <= 0:
+        print('\nError: entropy_dimension should be a positive float')
+        sys.exit()
 
 
-# set the normalization method
-if args.normalization_method is not None:
-    normalization_method = args.normalization_method
-else:
-    normalization_method = 'standard'
-
+# load the normalization method
+normalization_method = args.normalization_method
 if normalization_method not in ['softmax','standard']:
     print('\nError: normalization_method must be either \'softmax\' or \'standard\'')
     sys.exit()
 
 
 # get the number of most-similar reference library spectra to report for each query spectrum
-if args.n_top_matches_to_save is not None:
-    try:
-        n_top_matches_to_save = int(args.n_top_matches_to_save)
-    except ValueError:
-        print('\nError: n_top_matches_to_save should be a positive integer')
-        sys.exit()
-else:
-    n_top_matches_to_save = 1
+n_top_matches_to_save = int(args.n_top_matches_to_save)
+if n_top_matches_to_save <= 0:
+    print('\nError: n_top_matches_to_save should be a positive integer')
+    sys.exit()
 
 
 # get the flag to determine whether or not to print identification results
-if args.print_id_results is not None:
-    print_id_results = str(args.print_id_results)
-    if print_id_results not in ['True','False']:
-        print('\nError: print_id_results must be either \'True\' or \'False\'')
-        sys.exit()
-    else:
-        print_id_results = 'True'
+print_id_results = str(args.print_id_results)
+if print_id_results not in ['True','False']:
+    print('\nError: print_id_results must be either \'True\' or \'False\'')
+    sys.exit()
 
 
 # consider the cases of HRMS and LRMS separately
@@ -487,19 +439,10 @@ if print_id_results == 'True':
 
 
 # write spectral library matching results to disk
-if args.output_identification is not None:
-    df_top_ref_specs.to_csv(args.output_identification)
-else:
-    df_top_ref_specs.to_csv(f'{Path.cwd()}/output_identification.csv')
+df_top_ref_specs.to_csv(args.output_identification)
 
 
 # write all similarity scores to disk
 df_scores.columns = ['Reference Spectrum ID: ' + col for col in  list(map(str,df_scores.columns.tolist()))]
-if args.output_similarity_scores is not None:
-    df_scores.to_csv(args.output_similarity_scores)
-else:
-    df_scores.to_csv(f'{Path.cwd()}/output_all_similarity_scores.csv')
-
-
-
+df_scores.to_csv(args.output_similarity_scores)
 
