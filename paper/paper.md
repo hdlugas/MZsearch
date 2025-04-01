@@ -105,7 +105,7 @@ similarity measures: the commonly-used Cosine Similarity Measure
 recently-developed  Entropy Similarity Measure
 [@Dlugas2024_preprint], and the novel Rényi Entropy Similarity Measure. Table 1 compares MZsearch with other similar software.
 
-![Comparison of MZsearch and existing tools.(table.PNG){width="100%," height="100%"}
+![Comparison of MZsearch and existing tools.\label{fig:comparison}](table.PNG){width="100%," height="100%"}
 
 # Functionality
 
