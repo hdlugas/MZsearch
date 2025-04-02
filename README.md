@@ -314,16 +314,17 @@ from similarity_measures import *
 
 In particular, the available spectrum preprocessing transformations and similarity measures are:
 ```
-wf_transform(spec_mzs, spec_ints, wf_mz, wf_int)  # perform weight factor transformation on a spectrum
-##### input: #####
-# spec_mzs: 1d numpy array representing mass/charge values 
-# spec_ints: 1d numpy array representing intensity values 
-# wf_mz: float
-# wf_int: float
-
-##### output: #####
-# 1d numpy array of weight-factor-transformed spectrum intensities
-
+wf_transform(spec_mzs, spec_ints, wf_mz, wf_int)
+"""
+Perform weight factor transformation on a spectrum
+Args:
+   spec_mzs: 1d numpy array representing mass/charge values 
+   spec_ints: 1d numpy array representing intensity values 
+   wf_mz: float
+   wf_int: float
+Returns:
+   np.ndarray: 1d numpy array of weight-factor-transformed spectrum intensities
+"""
 
 LE_transform(intensity, thresh, normalization_method)  # transforms spectrum's intensities if the Shannon entropy of the intensities is below some threshold
 ##### input: #####
