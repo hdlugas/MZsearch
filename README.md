@@ -1,5 +1,5 @@
 # MZsearch
-Command-line Python tool to perform spectral library matching to identify chemical compounds with host of spectrum preprocessing transformations and similarity measures (Cosine and three entropy-based similarity measures). MZsearch is capable of performing spectral library matching with respect to either nominal resolution mass spectrometry (NRMS) data (e.g., GC-MS) or high resolution mass spectrometry (HRMS) data (e.g., LC-MS/MS).
+A Python-based tool for spectral library matching, MZsearch is available in two versions: a command-line interface and Python modules for integration into customer code. It performs spectral library matching to identify chemical compounds, offering a range of spectrum preprocessing transformations and similarity measures, including Cosine and three entropy-based similarity measures. MZsearch supports both high-resolution mass spectrometry (HRMS) data (e.g., LC-MS/MS) and nominal-resolution mass spectrometry (NRMS) data (e.g., GC-MS).
 
 ## Table of Contents
 - [1. Install dependencies](#create-conda-env)
@@ -16,7 +16,7 @@ Command-line Python tool to perform spectral library matching to identify chemic
 
 <a name="create-conda-env"></a>
 ## 1. Install dependencies
-MZsearch requires the Python dependencies Matplotlib, NumPy, Pandas, and SciPy, Pyteomics, and netCDF4. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, scipy=1.13.1, pyteomics=4.7.2, and netCDF4=1.6.5, although it may work with other versions of these tools. A user may consider creating a conda environment (see [https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) for guidance on getting started with conda if you are unfamiliar).
+MZsearch requires the Python dependencies Matplotlib, NumPy, Pandas, SciPy, Pyteomics, and netCDF4. Specifically, this software was validated with python=3.12.4, matplotlib=3.8.4, numpy=1.26.4, pandas=2.2.2, scipy=1.13.1, pyteomics=4.7.2, and netCDF4=1.6.5, although it may work with other versions of these tools. A user may consider creating a conda environment (see [https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) for guidance on getting started with conda if you are unfamiliar).
 
 <a name="functionality"></a>
 ## 2. Functionality
@@ -58,7 +58,7 @@ The following spectrum preprocessing transformations are offered:
     $(\frac{m_{i}\cdot x_{i}+m_{i+1}\cdot x_{i+1}}{x_{i}+x_{i+1}},x_{i}+x_{i+1})$
     if $|m_{i}-m_{i+1}|\textless w_{centroiding}$ for
     $i\in\{1,2,...,n-1\}$. This centroiding procedure generalizes to
-    more than two peaks whose m/z values are within distance
+    more than two peaks whose m/z values are within a distance
     $w_{centroiding}$ of each other.
 
 -   Noise Removal: Given a user-defined noise removal parameter $r$ and
@@ -165,11 +165,11 @@ q\neq 1, \ q\textgreater 0
 <a name="usage"></a>
 ## 3. Usage
 This repository has three main capabilities:
-1. converting the raw data to the necessary format for spectral library matching
-2. running spectral library matching to identify compounds based off of their mass spectrometry data
-3. plotting a query spectrum vs a reference spectrum before and after preprocessing transformations.
+1. Converting raw data to the necessary format for spectral library matching
+2. Running spectral library matching to identify compounds based on their mass spectrometry data
+3. Plotting a query spectrum vs. a reference spectrum, before and after preprocessing transformations.
 
-These tasks are implemented separately for the cases of (i) NRMS and (ii) HRMS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge ratios in L=NRMS vs HRMS data. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), run:
+These tasks are implemented separately for the cases of (i) NRMS and (ii) HRMS data due to the different spectrum preprocessing transformations stemming from a different format in the mass to charge (m/z) ratios in L=NRMS vs HRMS data. To see all parameters for any of the three main scripts (build_library.py, spec_lib_matching.py, plot_spectra.py), run:
 ```
 python build_library.py -h
 python spec_lib_matching.py -h
@@ -195,16 +195,16 @@ Parameter descriptions are as follows:
 --is_reference: Boolean flag indicating whether IDs of spectra should be written to output. Only pass True if building a reference library with known compound IDs. Only applicable to MGF files. Options: \'True\', \'False\'. Optional argument. Default: False.
 
 
-Some example MGF files one can use to build an LC-MS/MS library can be found from the Global Natural Products Social Molecular Networking databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML files one can use to build an LC-MS/MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML). 
+Some example MGF files one can use to build an LC-MS/MS library can be found from the Global Natural Products Social Molecular Networking (GNPS) databases here: [https://external.gnps2.org/gnpslibrary](https://external.gnps2.org/gnpslibrary). Some example mzML files one can use to build an LC-MS/MS library can be found in this repository: [https://github.com/HUPO-PSI/mzML](https://github.com/HUPO-PSI/mzML). 
 
-GC-MS and LC-MS/MS reference libraries are available at the Zenodo database ([https://zenodo.org/records/12786324](https://zenodo.org/records/12786324)). The reference libraries available in MZsearch are shortened versions of these reference libraries due to GitHub's limited storage.
+LC-MS/MS and GC-MS reference libraries are available at the Zenodo database ([https://zenodo.org/records/12786324](https://zenodo.org/records/12786324)). The reference libraries available in MZsearch are shortened versions of these reference libraries due to GitHub's limited storage.
 
 <a name="run-spec-lib-matching"></a>
 ### 3.2 Run spectral library matching
 
 <a name="run-spec-lib-matching-CLI"></a>
 #### 3.2.1 Command line interface
-To run spectral library matching on either high-resolution mass spectrometry (HRMS, e.g. LC/MS-MS) or nominal-resolution mass spectrometry (NRMS, e.g. GC-MS) data, one can use:
+To run spectral library matching on either high-resolution mass spectrometry (HRMS, e.g., LC/MS-MS) or nominal-resolution mass spectrometry (NRMS, e.g., GC-MS) data, one can use:
 ```
 python spec_lib_matching.py \
   --query_data path_to_query__CSV_file \
@@ -240,7 +240,7 @@ python spec_lib_matching.py \
   --output_similarity_scores path_to_CSV_of_all__similarity_scores
 ```
 
-To implement an example of spectral library matching, you can navigate to the scripts directory and run the following commands which should produce CSV files of the identification results in your current working directory:
+To implement an example of spectral library matching, you can navigate to the scripts directory and run the following commands, which should produce CSV files of the identification results in your current working directory:
 ```
 python spec_lib_matching.py \
   --query_data "$PWD"/../data/lcms_query_library.csv \
@@ -257,18 +257,18 @@ python spec_lib_matching.py \
 Parameter descriptions are as follows:
 
 --query_data: 
-  * HRMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass to charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: small LC-MS/MS GNPS library.
-  * NRMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass to charge ratio. Default: small GC-MS NIST WebBook library
+  * HRMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond to the mass to charge (m/z) ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: small LC-MS/MS GNPS library.
+  * NRMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single m/z ratio. Default: small GC-MS NIST WebBook library
 
 --reference_data: same format CSV file as query_data except of reference library spectra.
 
---likely_reference_IDs: CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: None (i.e. default is to use entire reference library).
+--likely_reference_IDs: CSV file with one column containing the IDs of a subset of all compounds in the reference_data to be used in spectral library matching. Each ID in this file must be an ID in the reference library. Default: None (i.e. default is to use the entire reference library).
 
 --chromatography_platform: either 'HRMS' or 'NRMS'.
 
 --similarity_measure: options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order: The spectrum preprocessing transformations and the order in which they are to be applied. These transformations are applied prior to computing similarity scores. Format must be a string with 2-6 (HRMS) or 2-4 (NRMS) characters chosen from F, N, W, C, M, L representing filtering, noise removal, weight-factor-transformation, centroiding, matching, and low-entropy tranformation, respectively. Matching (M) and centroiding (C) are applicable only to HRMS data. For example, if \'WCM\' is passed, then each (HRMS) spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of  data. Default: FCNMWL for HRMS and FNLW for NRMS.
+--spectrum_preprocessing_order: The spectrum preprocessing transformations and the order in which they are to be applied. These transformations are applied prior to computing similarity scores. Format must be a string with 2-6 (HRMS) or 2-4 (NRMS) characters chosen from F, N, W, C, M, L representing filtering, noise removal, weight-factor-transformation, centroiding, matching, and low-entropy transformation, respectively. Matching (M) and centroiding (C) are applicable only to HRMS data. For example, if \'WCM\' is passed, then each (HRMS) spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of  data. Default: FCNMWL for HRMS and FNLW for NRMS.
 
 --high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
@@ -284,7 +284,7 @@ Parameter descriptions are as follows:
 
 --window_size_matching (HRMS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
 
---noise_threshold: Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
+--noise_threshold: Ion fragments (i.e., points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
 --wf_mz: Mass to charge weight factor parameter. Default = 0.
 
@@ -292,16 +292,16 @@ Parameter descriptions are as follows:
 
 --LET_threshold: Low-entropy transformation threshold parameter. Spectra with Shannon entropy H less than LET_threshold are transformed according to $\text{intensitiesNew}=\text{intensitiesOriginal}^{\frac{1+S}{1+\text{LETthreshold}}}$. Default = 0.
 
---entropy_dimension: Entropy dimension parameter. Must have positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similarity measure cosine or shannon is chosen. Default = 1.1.
+--entropy_dimension: Entropy dimension parameter. Must have a positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the Rényi and Tsallis similarity measures. This parameter will be ignored if the similarity measure cosine or Shannon is chosen. Default = 1.1.
 
---normalization_method: Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: 'standard' and 'softmax'. Default = standard.
+--normalization_method: Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the object's entropy quantifies the uncertainty of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: 'standard' and 'softmax'. Default = standard.
 
 --n_top_matches_to_save: The number of top matches to report. For example, if n_top_matches_to_save=5, then for each query spectrum, the five reference spectra with the largest similarity with the given query spectrum will be reported. Default = 1.
 
 --print_id_results: Flag indicating whether to print the identification results interactively. Regardless of this flag, the results are saved according to the parameter 'output_identification'. Default = False.
---output_identification: Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save identification output in current working directory (i.e. same directory this script is contained in) with filename 'output_lcms_identification.csv'.
+--output_identification: Output CSV file containing the most-similar reference spectra for each query spectrum along with the corresponding similarity scores. Default is to save the identification output in the current working directory (i.e., same directory this script is contained in) with the filename 'output_lcms_identification.csv'.
 
---output_similarity_scores: Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining column contain the similarity scores with respect to all reference library spectra. If no argument passed, then this CSV file is written to the current working directory with filename 'output_lcms_all_similarity_scores'.csv.
+--output_similarity_scores: Output CSV file containing similarity scores between all query spectrum/spectra and all reference spectra. Each row corresponds to a query spectrum, the left-most column contains the query spectrum/spectra identifier, and the remaining columns contain the similarity scores with respect to all reference library spectra. If no argument is passed, then this CSV file is written to the current working directory with the filename 'output_lcms_all_similarity_scores'.csv.
 
 <a name="run-spec-lib-matching-python"></a>
 #### 3.2.2 Python interface
@@ -379,7 +379,7 @@ remove_noise(spec, nr)  # remove low-intensity ion fragments
 
 centroid_spectrum(spec, window_size)  # centroid a spectrum by merging ion fragments that are 'close' with respect to m/z value
 ##### input: #####
-# spec: N x 2 numpy array with first column being mass/charge and second column being intensity
+# spec: N x 2 numpy array with the first column being mass/charge and the second column being intensity
 # window_size: window-size parameter
 
 ##### output: #####
@@ -388,8 +388,8 @@ centroid_spectrum(spec, window_size)  # centroid a spectrum by merging ion fragm
 
 match_peaks_in_spectra(spec_a, spec_b, window_size)  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
 ##### input: #####
-# spec_a: N x 2 numpy array with first column being mass/charge and second column being intensity
-# spec_b: M x 2 numpy array with first column being mass/charge and second column being intensity
+# spec_a: N x 2 numpy array with the first column being mass/charge and the second column being intensity
+# spec_b: M x 2 numpy array with the first column being mass/charge and the second column being intensity
 # window_size: window-size parameter
 
 ##### output: #####
@@ -471,7 +471,7 @@ python plot_spectra.py \
   --save_plots path_to_output_PDF_file
 ```
 
-To implement an example of plotting spectra, you can navigate to the scripts directory and run the following commands which should produce PDF files of the spectra plots in your current working directory:
+To implement an example of plotting spectra, you can navigate to the scripts directory and run the following commands, which should produce PDF files of the spectra plots in your current working directory:
 ```
 python plot_spectra.py \
   --query_data "$PWD"/../data/lcms_query_library.csv \
@@ -496,8 +496,8 @@ python plot_spectra.py \
 Parameter descriptions are as follows:
 
 --query_data: 
-  * HRMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond the mass to charge ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS/MS GNPS library.
-  * NRMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single mass to charge ratio. Default: GC-MS NIST WebBook library
+  * HRMS case: 3-column CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a single ion fragment of a mass spectrum, the left-most column should contain an identifier, the middle columns should correspond to the mass to charge (m/z) ratios, and the right-most column should contain the intensities. For example, if spectrum A has 3 ion fragments, then there would be three rows in this CSV file corresponding to spectrum A. Default: LC-MS/MS GNPS library.
+  * NRMS case: CSV file of query mass spectrum/spectra to be identified. Each row should correspond to a mass spectrum, the left-most column should contain an identifier, and each of the other columns contains the intensity with respect to a single m/z ratio. Default: GC-MS NIST WebBook library
 
 --reference_data: Same format CSV file as query_data except of reference library spectra.
 
@@ -509,7 +509,7 @@ Parameter descriptions are as follows:
 
 --similarity_measure: Options are 'cosine', 'shannon', 'renyi', and 'tsallis'.
 
---spectrum_preprocessing_order: The HRMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, L representing weight-factor-transformation, cleaning (i.e. centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of HRMS data. Default: FCNMWL for HRMS and FNLW for NRMS .
+--spectrum_preprocessing_order: The HRMS spectrum preprocessing transformations and the order in which they are to be applied. Note that these transformations are applied prior to computing similarity scores. Format must be a string with 2-4 characters chosen from W, C, M, and L representing weight-factor-transformation, cleaning (i.e., centroiding and noise removal), matching, and low-entropy transformation. For example, if \'WCM\' is passed, then each spectrum will undergo a weight factor transformation, then cleaning, and then matching. Note that if an argument is passed, then \'M\' must be contained in the argument, since matching is a required preprocessing step in spectral library matching of HRMS data. Default: FCNMWL for HRMS and FNLW for NRMS.
 
 --high_quality_reference_library: True/False flag indicating whether the reference library is considered to be of high quality. If True, then the spectrum preprocessing transformations of filtering and noise removal are performed only on the query spectrum/spectra. If False, all spectrum preprocessing transformations specified will be applied to both the query and reference spectra. Default: False.
 
@@ -525,7 +525,7 @@ Parameter descriptions are as follows:
 
 --window_size_matching (HRMS only): Window size parameter used in matching a query spectrum and a reference library spectrum. Default = 0.5.
 
---noise_threshold: Ion fragments (i.e. points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
+--noise_threshold: Ion fragments (i.e., points in a given mass spectrum) with intensity less than max(intensities)*noise_threshold are removed. Default = 0.
 
 --wf_mz: Mass to charge weight factor parameter. Default = 0.
 
@@ -533,9 +533,9 @@ Parameter descriptions are as follows:
 
 --LET_threshold: Low-entropy transformation threshold parameter. Spectra with Shannon entropy H less than LET_threshold are transformed according to $\text{intensitiesNew}=\text{intensitiesOriginal}^{\frac{1+S}{1+\text{LETthreshold}}}$. Default = 0.
 
---entropy_dimension: Entropy dimension parameter. Must have positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the renyi and tsallis similarity measures. This parameter will be ignored if similarity measure cosine or shannon is chosen. Default = 1.1.
+--entropy_dimension: Entropy dimension parameter. Must have a positive value other than 1. When the entropy dimension is 1, then Renyi and Tsallis entropy are equivalent to Shannon entropy. Therefore, this parameter only applies to the Rényi and Tsallis similarity measures. This parameter will be ignored if the similarity measure cosine or Shannon is chosen. Default = 1.1.
 
---normalization_method: Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the objects entropy quantifies the uncertainy of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: 'standard' and 'softmax'. Default = standard.
+--normalization_method: Method used to normalize the intensities of each spectrum so that the intensities sum to 1. Since the object's entropy quantifies the uncertainty of must be probability distributions, the intensities of a given spectrum must sum to 1 prior to computing the entropy of the given spectrum intensities. Options: 'standard' and 'softmax'. Default = standard.
 
 --save_plots: Output PDF file containing the plots of the query and reference spectra before and after preprocessing transformations. If no argument is passed, then the plots will be saved to the PDF ./query_spec_{query_spectrum_ID}\_reference_spec_{reference_spectrum_ID}_plot.pdf in the current working directory.
 
