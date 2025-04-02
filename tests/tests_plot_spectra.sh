@@ -358,7 +358,7 @@ echo $'\n\n\n\n\ntest #32'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure cosine \
   --normalization_method standard \
   --save_plots ../tests/test32.pdf
@@ -367,7 +367,7 @@ echo $'\n\n\n\n\ntest #33'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
   --wf_intensity 0.5 \
@@ -379,7 +379,7 @@ echo $'\n\n\n\n\ntest #34'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
   --wf_intensity 0.5 \
@@ -391,7 +391,7 @@ echo $'\n\n\n\n\ntest #35'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure tsallis \
   --normalization_method standard \
   --entropy_dimension 2 \
@@ -401,7 +401,7 @@ echo $'\n\n\n\n\ntest #36'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure renyi \
   --normalization_method standard \
   --entropy_dimension 1.1 \
@@ -411,7 +411,7 @@ echo $'\n\n\n\n\ntest #37'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure renyi \
   --normalization_method standard \
   --entropy_dimension 0.9 \
@@ -421,7 +421,7 @@ echo $'\n\n\n\n\ntest #38'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure shannon \
   --normalization_method standard \
   --save_plots ../tests/test38.pdf
@@ -430,7 +430,7 @@ echo $'\n\n\n\n\ntest #39'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure cosine \
   --save_plots ../tests/test39.pdf
 
@@ -438,7 +438,7 @@ echo $'\n\n\n\n\ntest #40'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
   --wf_mz 0.5 \
@@ -448,7 +448,7 @@ echo $'\n\n\n\n\ntest #41'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNW\
   --similarity_measure cosine \
   --mz_min 10 \
@@ -461,7 +461,7 @@ echo $'\n\n\n\n\ntest #42'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
   --mz_max 100 \
@@ -471,7 +471,7 @@ echo $'\n\n\n\n\ntest #43'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
   --int_max 300 \
@@ -482,7 +482,7 @@ echo $'\n\n\n\n\ntest #44'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure cosine \
   --int_min 100 \
   --save_plots ../tests/test44.pdf
@@ -491,7 +491,7 @@ echo $'\n\n\n\n\ntest #45'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
   --noise_threshold 0.1 \
@@ -501,7 +501,7 @@ echo $'\n\n\n\n\ntest #46'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
   --noise_threshold 0.4 \
@@ -511,7 +511,7 @@ echo $'\n\n\n\n\ntest #47'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
   --LET_threshold 2 \
@@ -521,7 +521,7 @@ echo $'\n\n\n\n\ntest #48'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
   --LET_threshold 2 \
@@ -531,7 +531,7 @@ echo $'\n\n\n\n\ntest #49'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
   --LET_threshold 1.5 \
@@ -542,7 +542,7 @@ python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
   --query_spectrum_ID ID_2 \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
   --LET_threshold 1.5 \
@@ -552,7 +552,7 @@ echo $'\n\n\n\n\ntest #51'
 python plot_spectra.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --reference_spectrum_ID 463514 \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \

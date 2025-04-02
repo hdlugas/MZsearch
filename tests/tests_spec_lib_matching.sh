@@ -3,6 +3,7 @@
 
 cd ${PWD}/../src
 
+
 echo $'\n\n\n\n\ntest #0'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
@@ -30,7 +31,7 @@ echo $'\n\n\n\n\ntest #3'
 python spec_lib_matching.py \
   --query_data ../data/lcms_query_library.csv \
   --reference_data ../data/lcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order MF
 
 
@@ -427,7 +428,7 @@ echo $'\n\n\n\n\ntest #39'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure cosine \
   --normalization_method standard \
   --print_id_results True \
@@ -437,7 +438,7 @@ echo $'\n\n\n\n\ntest #40'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
   --wf_intensity 0.5 \
@@ -453,7 +454,7 @@ echo $'\n\n\n\n\ntest #41'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure tsallis \
   --wf_mz 2 \
   --wf_intensity 0.5 \
@@ -467,7 +468,7 @@ echo $'\n\n\n\n\ntest #42'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure tsallis \
   --normalization_method standard \
   --entropy_dimension 2 \
@@ -478,7 +479,7 @@ echo $'\n\n\n\n\ntest #43'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure renyi \
   --normalization_method standard \
   --entropy_dimension 1.1 \
@@ -490,7 +491,7 @@ echo $'\n\n\n\n\ntest #44'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure renyi \
   --normalization_method standard \
   --entropy_dimension 0.9 \
@@ -502,7 +503,7 @@ echo $'\n\n\n\n\ntest #45'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure shannon \
   --normalization_method standard \
   --n_top_matches_to_save 2 \
@@ -513,7 +514,7 @@ echo $'\n\n\n\n\ntest #46'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --similarity_measure cosine \
   --n_top_matches_to_save 2 \
   --print_id_results True
@@ -523,7 +524,7 @@ echo $'\n\n\n\n\ntest #47'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
   --wf_mz 0.5 \
@@ -535,7 +536,7 @@ echo $'\n\n\n\n\ntest #48'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
   --mz_min 200 \
@@ -550,7 +551,7 @@ echo $'\n\n\n\n\ntest #49'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW\
   --similarity_measure cosine \
   --mz_max 100 \
@@ -562,7 +563,7 @@ echo $'\n\n\n\n\ntest #50'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
   --int_max 300 \
@@ -574,7 +575,7 @@ echo $'\n\n\n\n\ntest #51'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
   --noise_threshold 0.1 \
@@ -586,7 +587,7 @@ echo $'\n\n\n\n\ntest #52'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order NFLW \
   --similarity_measure cosine \
   --noise_threshold 0.4 \
@@ -598,7 +599,7 @@ echo $'\n\n\n\n\ntest #53'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order FNLW \
   --similarity_measure cosine \
   --LET_threshold 3 \
@@ -610,7 +611,7 @@ echo $'\n\n\n\n\ntest #54'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
   --wf_int 1.2 \
@@ -623,7 +624,7 @@ echo $'\n\n\n\n\ntest #55'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order LWF \
   --similarity_measure cosine \
   --likely_reference_IDs ../data/likely_gcms_ids.csv \
@@ -635,7 +636,7 @@ echo $'\n\n\n\n\ntest #56'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
+  --chromatography_platform NRMS \
   --spectrum_preprocessing_order LWF \
   --high_quality_reference_library True \
   --similarity_measure cosine \
@@ -647,10 +648,10 @@ echo $'\n\n\n\n\ntest #57'
 python spec_lib_matching.py \
   --query_data ../data/gcms_query_library.csv \
   --reference_data ../data/gcms_reference_library.csv \
-  --chromatography_platform LRMS \
-  --spectrum_preprocessing_order LWF \
+  --chromatography_platform NRMS \
+  --spectrum_preprocessing_order WF \
   --high_quality_reference_library True \
-  --similarity_measure cosine \
+  --similarity_measure tsallis \
   --normalization_method softmax \
   --n_top_matches_to_save 2 \
   --print_id_results True
