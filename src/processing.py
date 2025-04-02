@@ -65,12 +65,14 @@ def normalize(intensities,method='standard'):
 
     if np.sum(intensities) > 0:
         if method == 'softmax':
-            intensities2 = np.exp(intensities)
-            if np.isinf(intensities2).sum() == 0:
-                intensities = intensities / np.sum(intensities2)
-            else:
+            if np.any(intensities > 700):
+                print("Warning: some intensities are too large to exponentiate. Applying standard normalization.")
                 intensities /= np.sum(intensities)
-        else:
+            else:
+                intensities2 = np.exp(intensities)
+                if np.isinf(intensities2).sum() == 0:
+                    intensities = intensities / np.sum(intensities2)
+        elif method == 'standard':
             intensities /= np.sum(intensities)
     return(intensities)
 
@@ -108,14 +110,14 @@ def filter_spec_gcms(spec, mz_min = 0, mz_max = 999999999999, int_min = 0, int_m
     keep points in a given spectrum in a given range of mz values and intensity values
 
     input:
-    spec: 1d np array representing the intensities of a low-resolution mass spectrum
+    spec: 1d np array representing the intensities of a nominal-resolution mass spectrum
     mz_min: remove peaks with mass/charge value smaller than mz_min
     mz_max: remove peaks with mass/charge value larger than mz_max
     int_min: remove peaks with intensity value smaller than int_min
     int_max: remove peaks with intensity value larger than int_max
 
     output:
-    spec: 1d np array representing the intensities of a low-resolution mass spectrum post-filtering
+    spec: 1d np array representing the intensities of a nominal-resolution mass spectrum post-filtering
     '''
 
     spec[np.where(spec[:,0] < mz_min)[0],1] = 0
