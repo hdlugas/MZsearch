@@ -314,6 +314,7 @@ from similarity_measures import *
 
 In particular, the available spectrum preprocessing transformations and similarity measures are:
 ```
+# Weight factor transformation
 wf_transform(spec_mzs, spec_ints, wf_mz, wf_int)
 """
 Perform weight factor transformation on a spectrum
@@ -326,122 +327,148 @@ Returns:
    np.ndarray: 1d numpy array of weight-factor-transformed spectrum intensities
 """
 
-LE_transform(intensity, thresh, normalization_method)  # transforms spectrum's intensities if the Shannon entropy of the intensities is below some threshold
-##### input: #####
-# intensity: 1d numpy array
-# thresh: nonnegative float
-# normalization_method: either 'standard' or 'softmax'
+# Low-entropy transformation
+LE_transform(intensity, thresh, normalization_method)
+"""
+Transforms spectrum's intensities if the Shannon entropy of the intensities is below some threshold
+Args:
+   intensity: 1d numpy array
+   thresh: nonnegative float
+   normalization_method: either 'standard' or 'softmax'
+Returns:
+   np.ndarray: 1d numpy array of transformed intensities
+"""
 
-##### output: #####
-# 1d numpy array of transformed intensities
+# Normalize intensities to sum to 1
+normalize(intensities, method)
+"""
+Normalize a spectrum so intensities sum to 1 so that the intensities represent a probability distribution
+Args:
+   intensities: 1d numpy array
+   method: either 'standard' or 'softmax'
+Returns:
+   np.ndarray: 1d numpy array of normalized intensities
+"""
 
+# Filter HR-MS such as LC-MS/MS spectrum
+filter_spec_lcms(spec, mz_min, mz_max, int_min, int_max, is_matched)
+"""
+Filter an MS/MS spectrum based on m/z and intensity values
+Args:
+   spec: N x 2 numpy array with first column being m/z and second column being intensity
+   mz_min: minimum m/z value
+   mz_max: maximum m/z value
+   int_min: minimum intensity value
+   int_max: maximum intensity value
+   is_matched: flag to indicate whether the given spectrum has already been matched to another spectrum
+Returns:
+   np.ndarray: N x 2 numpy array with intensity of 0 put anywhere outside of the m/z and/or intensity bounds
+"""
 
-normalize(intensities, method)  # normalize a spectrum so intensities sum to 1 so that the intensities represent a probability distribution
-##### input: #####
-# intensities: 1d numpy array
-# method: either 'standard' or 'softmax'
-
-##### output: #####
-# 1d numpy array of normalized intensities
-
-
-filter_spec_lcms(spec, mz_min, mz_max, int_min, int_max, is_matched)  # filter an MS/MS spectrum based on m/z and intensity values
-##### input: #####
-# spec: N x 2 numpy array with first column being m/z and second column being intensity
-# mz_min: minimum m/z value
-# mz_max: maximum m/z value
-# int_min: minimum intensity value
-# int_max: maximum intensity value
-# is_matched: flag to indicate whether the given spectrum has already been matched to another spectrum
-
-##### output: #####
-# N x 2 numpy array with intensity of 0 put anywhere outside of the m/z and/or intensity bounds
-
-
+# Filter NR-MS such as GC-MS spectrum
 filter_spec_gcms(spec, mz_min, mz_max, int_min, int_max)
-# spec: N x 2 numpy array with first column being m/z and second column being intensity
-# mz_min: minimum m/z value
-# mz_max: maximum m/z value
-# int_min: minimum intensity value
-# int_max: maximum intensity value
+"""
+Filter an MS spectrum based on m/z and intensity values
+Args:
+   spec: N x 2 numpy array with first column being m/z and second column being intensity
+   mz_min: minimum m/z value
+   mz_max: maximum m/z value
+   int_min: minimum intensity value
+   int_max: maximum intensity value
+Returns:
+   np.ndarray: N x 2 numpy array with intensity of 0 put anywhere outside of the m/z and/or intensity bounds
+"""
 
-##### output: #####
-# N x 2 numpy array with intensity of 0 put anywhere outside of the m/z and/or intensity bounds
+# Remove low-intensity noise
+remove_noise(spec, nr)
+"""
+Remove low-intensity ion fragments
+Args:
+   spec: N x 2 numpy array with first column being m/z and second column being intensity
+   nr: noise removal parameter; ion fragments with intensity less than max(intensity)*nr have intensity set to 0
+Returns:
+   np.ndarray: N x 2 numpy array
+"""
 
+# Cntroid spectrum by merging close m/z peaks
+centroid_spectrum(spec, window_size)
+"""
+Centroid a spectrum by merging ion fragments that are 'close' with respect to m/z value
+Args:
+   spec: N x 2 numpy array with the first column being mass/charge and the second column being intensity
+   window_size: window-size parameter
+Returns:
+   np.ndarray: M x 2 numpy array with M <= N due to peaks being merged
+"""
 
-remove_noise(spec, nr)  # remove low-intensity ion fragments
-##### input: #####
-# spec: N x 2 numpy array with first column being m/z and second column being intensity
-# nr: noise removal parameter; ion fragments with intensity less than max(intensity)*nr have intensity set to 0
+# Match peaks between two spectra
+match_peaks_in_spectra(spec_a, spec_b, window_size)
+"""
+Align two spectra so that we obtain a list of intensity values from each spectrum of the same length
+Args:
+   spec_a: N x 2 numpy array with the first column being mass/charge and the second column being intensity
+   spec_b: M x 2 numpy array with the first column being mass/charge and the second column being intensity
+   window_size: window-size parameter
+Returns:
+   np.ndarray: K x 3 numpy array with first column being mass/charge, second column being matched intensities of spec_a, and third column being matched intensities of spec_b
+"""
 
-##### output: #####
-# N x 2 numpy array
+# Assign 0 to the intensities without m/z values
+convert_spec(spec, mzs)
+"""
+Set intensity values to 0 where m/z values are missing
+Args:
+   spec: N x 2 dimensional numpy array
+   mzs: length M list of entire span of mass/charge values considering both the query and reference libraries
+Returns:
+   np.ndarray: M x 2 dimensional numpy array
+"""
 
+# Cosine similarity
+S_cos(ints_a, ints_b)
+"""
+Cosine similarity measure
+Args:
+   ints_a: 1d numpy array of intensities of a spectrum
+   ints_b: 1d numpy array of intensities of a spectrum
+Returns:
+   float: float between 0 and 1 indicating the similarity of the two spectra
+"""
 
-centroid_spectrum(spec, window_size)  # centroid a spectrum by merging ion fragments that are 'close' with respect to m/z value
-##### input: #####
-# spec: N x 2 numpy array with the first column being mass/charge and the second column being intensity
-# window_size: window-size parameter
+# Shnnon entropy similarity
+S_shannon(ints_a, ints_b)
+"""
+Shannon entropy similarity measure
+Args:
+   ints_a: 1d numpy array of intensities of a spectrum
+   ints_b: 1d numpy array of intensities of a spectrum
+Returns:
+   float: float between 0 and 1 indicating the similarity of the two spectra
+"""
 
-##### output: #####
-# M x 2 numpy array with M <= N due to peaks being merged
+# Renyi entropy similarity
+S_renyi(ints_a, ints_b, q)
+"""
+Renyi entropy similarity measure
+Args:
+   ints_a: 1d numpy array of intensities of a spectrum
+   ints_b: 1d numpy array of intensities of a spectrum
+   q: positive float representing 'entropy dimension'
+Returns:
+   float: float between 0 and 1 indicating the similarity of the two spectra
+"""
 
-
-match_peaks_in_spectra(spec_a, spec_b, window_size)  # align two spectra so that we obtain a list of intensity values from each spectrum of the same length
-##### input: #####
-# spec_a: N x 2 numpy array with the first column being mass/charge and the second column being intensity
-# spec_b: M x 2 numpy array with the first column being mass/charge and the second column being intensity
-# window_size: window-size parameter
-
-##### output: #####
-# K x 3 numpy array with first column being mass/charge, second column being matched intensities of spec_a, and third column being matched intensities of spec_b
-
-
-convert_spec(spec, mzs)  # set intensity values to 0 where m/z values are missing
-##### input: #####
-# spec: N x 2 dimensional numpy array
-# mzs: length M list of entire span of mass/charge values considering both the query and reference libraries
-
-##### output: #####
-# M x 2 dimensional numpy array
-
-
-S_cos(ints_a, ints_b)  # Cosine similarity measure
-##### input: #####
-# ints_a: 1d numpy array of intensities of a spectrum
-# ints_b: 1d numpy array of intensities of a spectrum
-
-##### output: #####
-# float between 0 and 1 indicating the similarity of the two spectra
-
-
-S_shannon(ints_a, ints_b)  # Shannon entropy similarity measure
-##### input: #####
-# ints_a: 1d numpy array of intensities of a spectrum
-# ints_b: 1d numpy array of intensities of a spectrum
-
-##### output: #####
-# float between 0 and 1 indicating the similarity of the two spectra
-
-
-S_renyi(ints_a, ints_b, q)  # Renyi entropy similarity measure
-##### input: #####
-# ints_a: 1d numpy array of intensities of a spectrum
-# ints_b: 1d numpy array of intensities of a spectrum
-# q: positive float representing 'entropy dimension'
-
-##### output: #####
-# float between 0 and 1 indicating the similarity of the two spectra
-
-
-S_tsallis  # Tsallis entropy similarity measure
-##### input: #####
-# ints_a: 1d numpy array of intensities of a spectrum
-# ints_b: 1d numpy array of intensities of a spectrum
-# q: positive float representing 'entropy dimension'
-
-##### output: #####
-# float between 0 and 1 indicating the similarity of the two spectra
+# Tsallis entropy similarity
+S_tsallis(ints_a, ints_b, q)
+"""
+Tsallis entropy similarity measure
+Args:
+   ints_a: 1d numpy array of intensities of a spectrum
+   ints_b: 1d numpy array of intensities of a spectrum
+   q: positive float representing 'entropy dimension'
+Returns:
+   float: float between 0 and 1 indicating the similarity of the two spectra
+"""
 ```
 
 <a name="plotting"></a>
