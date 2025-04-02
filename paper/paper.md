@@ -47,7 +47,7 @@ To address the lack of spectral library matching software that considers both th
 
 **Table  1.** Comparison of MZsearch and existing tools.
 
-!(table.PNG){width="100%," height="100%"}
+![\label{comparison}](table.PNG){width="100%," height="100%"}
 
 # Functionality
 
