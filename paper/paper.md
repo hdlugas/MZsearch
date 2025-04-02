@@ -46,6 +46,7 @@ In many GC-MS experiments, the resulting mass spectra often have m/z values repo
 To address the lack of spectral library matching software that considers both the order of spectrum preprocessing steps and novel entropy-based similarity measures, MZsearch was developed. The developed MZsearch is a Python-based tool for performing spectral library matching on both nominal-resolution mass spectrometry (NR-MS) data (e.g. GC-MS) and high-resolution mass spectrometry  (HR-MS) data (e.g., LC-MS/MS). It is available in two versions: a command-line interface and Python modules for integration into custom code. Users can customize their own spectrum preprocessing order using spectrum preprocessing transformations such as weight factor and low-entropy transformations. Additionally, MZsearch includes a novel entropy-based similarity measure, the Rényi Entropy Similarity Measure, enabling users to choose among four similarity measures: the commonly-used Cosine Similarity Measure [@Stein1994], the Shannon Entropy Similarity Measure [@Li2021], the recently-developed Tsallis Entropy Similarity Measure [@Dlugas2024_preprint], and the novel Rényi Entropy Similarity Measure. **Table 1** compares MZsearch with other similar software.
 
 <p align="center"> **Table  1.** Comparison of MZsearch and existing tools. </p>
+<center> **Table  1.** Comparison of MZsearch and existing tools. </center>
 
 ![\label{comparison}](table.PNG){width="100%," height="100%"}\
 
